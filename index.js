@@ -1,3 +1,4 @@
+
 class SimpleBarChart {
     constructor(name) {
         this.svg_container = null;
@@ -14,6 +15,7 @@ class SimpleBarChart {
         this.graph_height = this.total_height - this.margin.top - this.margin.bottom;
         // construct the svg object container
     }
+
 
     import_data(self = this) {
         d3.csv("sales.csv", function (error, data) {
@@ -73,27 +75,22 @@ class SimpleBarChart {
             .call(d3.axisLeft(y));
     }
 
-    add_effect(effect) {
-    }
+    // add_effect(effect) {
+    // }
 
-    get_elements_to_target(self = this) {
-        return ["svg_container", "bars", "x_axis", "y_axis"];
-    }
+    // get_elements_to_target(self = this) {
+    //     return ["svg_container", "bars", "x_axis", "y_axis"];
+    // }
 
-    get svg_container(self = this) {
-        return self.svg_container;
-    }
+    // get svg_container() {
+    //     return this.svg_container;
+    // }
 
-    get bars(self = this) {
-        return self.svg_container.selectAll("." + self.name + "_bar");
-    }
+    // get bars() {
+    //     return this.svg_container.selectAll("." + self.name + "_bar");
+    // }
 
 }
-
-const chart = new SimpleBarChart("barChart");
-chart.construct_svg();
-chart.import_data();
-// setTimeout(() => (chart.add_effect()), 500);
 
 
 class AnimationEffect {
@@ -108,9 +105,37 @@ class AnimationEffect {
     constructor(name, parent_actor, duration, targeted_element, exclusive = true) {
         this.name = name;
         this.actor = parent_actor;
-        t5his.duration = duration;
+        this.duration = duration;
         this.targeted_element = targeted_element;
         this.exclusive = exclusive;
+    }
+}
+
+
+class ResizeEffect extends AnimationEffect {
+    constructor(name, actor, duration) {
+        super(name, actor, duration, "svg_container", true);
+    }
+    play() {
+
+    }
+    executeEffect(self = this) {
+        const actor_svg_container = self.actor.svg_container;
+        // console.log(actor_svg_container);
+        // actor_svg_container
+        //     .attr("opacity", 0)
+        //     .transition()
+        //     .duration(self.duration)
+        //     .attr("opacity", 1)
+        const FadeinDummy = {}
+        d3.select(FadeinDummy).transition()
+            .duration(self.duration)
+            .tween("", function () {
+                var i = d3.interpolate(500, 200);
+                return function (t) {
+                    d3.select("#barChart").attr("width", i(t));
+                }
+            });
     }
 }
 
@@ -119,19 +144,28 @@ class FadeinEffect extends AnimationEffect {
     constructor(name, actor, duration) {
         super(name, actor, duration, "svg_container", true);
     }
+    play() {
 
-
-    effect(self = this) {
+    }
+    executeEffect(self = this) {
         const actor_svg_container = self.actor.svg_container;
-        console.log(actor_svg_container);
-        actor_svg_container
-            .attr("opacity", 0)
-            .transition()
+        const FadeinDummy = {}
+        d3.select(FadeinDummy).transition()
             .duration(self.duration)
-            .attr("opacity", 1)
+            .tween("", function () {
+                var i = d3.interpolate(1, 0.2);
+                return function (t) {
+                    actor_svg_container.attr("opacity", i(t));
+                }
+            });
     }
 }
 
-const effect = new AnimationEffect("fade", chart);
-effect.effect();
-console.log(chart);
+const chart = new SimpleBarChart("barChart");
+chart.construct_svg();
+chart.import_data();
+const FadeInEffect = new FadeinEffect("FadeIn", chart, 1000);
+const resize = new ResizeEffect("Resize", chart, 1000);
+FadeInEffect.executeEffect();
+resize.executeEffect();
+console.log(FadeInEffect);
