@@ -114,11 +114,12 @@ class AnimationEffect {
     }
 }
 
-class FadeinEffect extends AnimationEffect {
 
-    constructor(name, actor, duration, targeted_element, exclusive) {
-        super(name, actor, duration, targeted_element, exclusive);
+class FadeinEffect extends AnimationEffect {
+    constructor(name, actor, duration) {
+        super(name, actor, duration, "svg_container", true);
     }
+
 
     effect(self = this) {
         const actor_svg_container = self.actor.svg_container;
@@ -129,9 +130,6 @@ class FadeinEffect extends AnimationEffect {
             .duration(self.duration)
             .attr("opacity", 1)
     }
-}
-
-
 }
 
 const effect = new AnimationEffect("fade", chart);
