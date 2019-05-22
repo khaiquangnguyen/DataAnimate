@@ -106,9 +106,6 @@ class EffectStack {
                         effect.execute();
                     }, self.start_time - play_time);
                 }
-                else {
-                    effect.execute_halfway(self.start_time + duration - play_time);
-                }
             }
         });
     }

@@ -139,23 +139,6 @@ class FadeInEffect extends AnimationEffect {
         super("Fade In", actor, 'svg_container', false);
     }
 
-    execute_halfway(self = this, time_left) {
-        const targetable_components = self.get_targetable_components();
-        const target_component_selector = targetable_components[self.target_component];
-        target_component_selector._groups[0].forEach(e => {
-            const effect_dummy = {};
-            d3.select(effect_dummy).transition()
-                .duration(time_left)
-                .tween("attr:opacity", function () {
-                    const element = d3.select(e);
-                    var i = d3.interpolateNumber(time_left / self.duration, 1);
-                    return function (t) {
-                        element.attr("transform", i(t));
-                    }
-                });
-        });
-    }
-
     execute(self = this) {
         const targetable_components = self.get_targetable_components();
         const target_component_selector = targetable_components[self.target_component];

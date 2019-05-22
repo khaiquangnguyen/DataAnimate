@@ -11,14 +11,14 @@ fadein = new FadeInEffect(bar_chart, effect_stack);
 second_effect_stack = new EffectStack(bar_chart, 1500, 500)
 fadeout = new FadeOutEffect(bar_chart, second_effect_stack);
 effect_stack.add_effect(fadein);
-second_effect_stack.add_effect(fadeout);
 
+// second_effect_stack.add_effect(fadeout);
 bar_chart.track.add_effect_stack(effect_stack);
-bar_chart.track.add_effect_stack(second_effect_stack);
+// bar_chart.track.add_effect_stack(second_effect_stack);
 
 console.log(fadeout);
 setTimeout(() => {
-    bar_chart.track.play(0);
+    bar_chart.track.play(500);
 }, 100);
 console.log(bar_chart.track);
 
