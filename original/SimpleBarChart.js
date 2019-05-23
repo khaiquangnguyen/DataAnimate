@@ -151,8 +151,6 @@ class SimpleBarChart extends GraphicalObject {
             .attr("class", "x_axis")
             .attr("transform", "translate(0," + self.graph_height + ")")
             .call(d3.axisBottom(self.graph_x));
-
-
     }
 
     construct_y_axis(self = this) {
@@ -188,6 +186,7 @@ class SimpleBarChart extends GraphicalObject {
         }
     }
 
+    
     get_parameters(self = this) {
         return {
             "x_axis_scale": {
