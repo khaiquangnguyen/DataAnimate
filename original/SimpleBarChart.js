@@ -1,105 +1,4 @@
 
-class GraphicalObject {
-    constructor(width, height, name) {
-        this.name = name;
-        this.total_width = width;
-        this.total_height = height;
-        this.x = 0;
-        this.y = 0;
-        this.opacity = 0;
-        this.margin = { top: 20, right: 20, bottom: 20, left: 20 };
-        this.track = new Track(this);
-        this.data = null;
-        this.svg_container = null;
-    }
-
-    get_default_parameters(self = this) {
-        return {
-            "width": {
-                "type": "int",
-                "range": [0, 2000]
-            },
-            "height": {
-                "type": "int",
-                "range": [0, 2000]
-            },
-            "x": {
-                "type": "int",
-                "range": [0, 2000]
-            },
-            "y": {
-                "type": "int",
-                "range": [0, 2000]
-            },
-            "opacity": {
-                "type": "float",
-                "range": [0, 1]
-            },
-            "margin_top": {
-                "type": "int",
-                "range": [0, 2000]
-            },
-            "margin_right": {
-                "type": "int",
-                "range": [0, 2000]
-            }
-            ,
-            "margin_left": {
-                "type": "int",
-                "range": [0, 2000]
-            },
-            "margin_bottom": {
-                "type": "int",
-                "range": [0, 2000]
-            },
-            "data": {
-                "type": "selector",
-                "range": null
-            }
-        }
-    }
-
-    set_width(width) {
-        this.total_width = width;
-    }
-
-    set_height(height) {
-        this.total_height = height;
-    }
-
-    set_x(x) {
-        this.x = x;
-    }
-
-    set_y(y) {
-        this.y = y;
-    }
-    set_opacity(opacity) {
-        this.opacity = opacity;
-    }
-
-    set_margin_top(i) {
-        this.margin.top = i;
-    }
-    set_margin_left(i) {
-        this.margin.left = i;
-    }
-    set_margin_right(i) {
-        this.margin.right = i;
-    }
-    set_margin_bottom(i) {
-        this.margin.bottom = i;
-    }
-
-    set_data(data_file) {
-        this.data = data_file;
-    }
-
-    update_graph(self = this) {
-        // remove the current svg container, and replace it with a new one with the new attributes
-    }
-
-}
 
 class SimpleBarChart extends GraphicalObject {
     constructor(width = 500, height = 500) {
@@ -127,12 +26,8 @@ class SimpleBarChart extends GraphicalObject {
             self.columns = Object.keys(self.data[0]);
         });
     }
-
-    construct_svg(self = this) {
-        self.svg_container = d3.select("body").append("svg")
-            .attr("width", self.total_width)
-            .attr("height", self.total_height)
-            .attr("id", self.name)
+   
+    construct_inner_graph(self = this) {
         self.inner_graph = self.svg_container
             .append("g")
             .attr("class", "inner_graph")

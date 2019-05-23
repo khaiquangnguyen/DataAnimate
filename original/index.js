@@ -37,7 +37,8 @@ setTimeout(() => {
     console.log(bar_chart);
     bar_chart.set_x_data('salesperson')
     bar_chart.set_y_data('sales')
-    bar_chart.construct_svg();
+    bar_chart.construct_svg_container();
+    bar_chart.construct_inner_graph();
     bar_chart.construct_x_axis();
     bar_chart.construct_y_axis();
     bar_chart.construct_graph();
