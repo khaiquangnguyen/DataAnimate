@@ -136,7 +136,7 @@ class FadeOutEffect extends AnimationEffect {
 
 class FadeInEffect extends AnimationEffect {
     constructor(actor) {
-        super("Fade In", actor, 'svg_container', false);
+        super("Fade In", actor, 'bars', false);
     }
 
     execute(self = this) {

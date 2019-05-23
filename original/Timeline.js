@@ -16,7 +16,6 @@ class Scene {
             }
         }
     }
-
 }
 
 
@@ -49,7 +48,6 @@ class Track {
             effect_stack.play(play_time);
         });
     }
-
 }
 
 class EffectStack {

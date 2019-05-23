@@ -23,10 +23,11 @@ class SimpleBarChart extends Actor {
         this.data = null;
         this.graph_width = this.total_width - this.margin.left - this.margin.right;
         this.graph_height = this.total_height - this.margin.top - this.margin.bottom;
-        this.x_axis_params = { scale: "", domain: "", range: "" }
-        this.y_axis_params = { scale: "", domain: "", range: "" }
+        this.x_axis_params = { scale: "", domain: "" }
+        this.y_axis_params = { scale: "", domain: "" }
         // construct the svg object container
     }
+
 
 
     import_data(self = this) {
@@ -37,6 +38,13 @@ class SimpleBarChart extends Actor {
         });
     }
 
+    select_x_domain(self = this, domain) {
+        this.x_axis_params.domain = domain;
+    }
+
+    select_y_domain(self = this, domain) {
+        this.y_axis_params.domain = domain;
+    }
     construct_svg(self = this) {
         self.svg_container = d3.select("body").append("svg")
             .attr("width", self.total_width)
@@ -49,12 +57,29 @@ class SimpleBarChart extends Actor {
                 "translate(" + self.margin.left + "," + self.margin.top + ")");
     }
 
-    construct_graph(self = this) {
+
+    construct_x_axis(self = this) {
+        // add the x Axis
         var x = d3.scaleBand()
             .range([0, self.graph_width])
             .padding(0.1);
+        this.x_axis = self.inner_graph.append("g")
+            .attr("class", "x_axis")
+            .attr("transform", "translate(0," + self.graph_height + ")")
+            .call(d3.axisBottom(x));
+
+    }
+
+    construct_y_axis(self = this) {
         var y = d3.scaleLinear()
             .range([self.graph_height, 0]);
+        // add the y Axis
+        this.y_axis = self.inner_graph.append("g")
+            .attr("class", "y_axis")
+            .call(d3.axisLeft(y));
+    }
+    construct_graph(self = this) {
+
         // Scale the range of the data in the domains
         x.domain(self.data.map(function (d) { return d.salesperson; }));
         y.domain([0, d3.max(self.data, function (d) { return d.sales; })]);
@@ -68,16 +93,8 @@ class SimpleBarChart extends Actor {
             .attr("y", function (d) { return y(d.sales); })
             .attr("fill", "blue")
             .attr("height", function (d) { return self.graph_height - y(d.sales); });
-        // add the x Axis
-        this.x_axis = self.inner_graph.append("g")
-            .attr("class", "x_axis")
-            .attr("transform", "translate(0," + self.graph_height + ")")
-            .call(d3.axisBottom(x));
 
-        // add the y Axis
-        this.y_axis = self.inner_graph.append("g")
-            .attr("class", "y_axis")
-            .call(d3.axisLeft(y));
+
     }
 
     get_targetable_components(self = this) {
