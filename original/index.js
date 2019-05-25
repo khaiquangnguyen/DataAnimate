@@ -35,7 +35,6 @@ bar_chart.set_data("sales.csv");
 bar_chart.import_data();
 setTimeout(() => {
     console.log(bar_chart.get_parameters());
-    console.log(bar_chart);
     bar_chart.set_x_data('salesperson')
     bar_chart.set_y_data('sales')
     bar_chart.construct_svg_container();
