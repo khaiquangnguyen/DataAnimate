@@ -176,13 +176,7 @@ class GraphicalObject {
 
         var target = SVG.adopt(document.getElementById(self.name));
         target.click(function () {
-            setTimeout(() => {
-                self.bounding_box.show();
-            }, 100);
+            self.bounding_box.show();
         })
-        drawing.click(function () {
-            console.log('drawing');
-            self.bounding_box.hide();
-        });
     }
 }
