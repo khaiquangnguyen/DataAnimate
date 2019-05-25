@@ -79,7 +79,6 @@ class SimpleBarChart extends GraphicalObject {
         }
     }
 
-
     get_parameters(self = this) {
         return {
             "x_axis_scale": {

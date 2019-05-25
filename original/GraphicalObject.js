@@ -23,6 +23,7 @@ class GraphicalObject {
         this.unique_id = null;
         this.graph_width = this.total_width - this.margin.left - this.margin.right;
         this.graph_height = this.total_height - this.margin.top - this.margin.bottom;
+        this.bounding_box = null;
     }
 
     get_default_parameters(self = this) {
@@ -121,9 +122,6 @@ class GraphicalObject {
         this.name = name;
     }
 
-    update_graph(self = this) {
-        // remove the current svg container, and replace it with a new one with the new attributes
-    }
 
     resize(x, y, width, height, self = this) {
         // set the new attributes
@@ -155,22 +153,22 @@ class GraphicalObject {
         self.svg_container.attr('viewBox', `0 0 ${this.total_width} ${this.total_height}`)
             .attr('preserveAspectRatio', 'none')
 
-
+    }
+    construct_bounding_box(self = this) {
         var drawing = SVG.adopt(document.getElementById('canvas'));
-        var rect = drawing.rect(this.total_width, this.total_height);
-        rect.x(this.x);
-        rect.y(this.y);
-        rect.opacity(0.2);
-        rect.selectize().draggable().resize();
-        rect.on('resizing', function (event) {
+        this.bounding_box = drawing.rect(this.total_width, this.total_height);
+        this.bounding_box.x(this.x);
+        this.bounding_box.y(this.y);
+        this.bounding_box.opacity(0.2);
+        this.bounding_box.selectize().draggable().resize();
+        this.bounding_box.on('resizing', function (event) {
             console.log("resizing");
             self.resize(rect.attr('x'), rect.attr('y'), rect.attr('width'), rect.attr('height'));
         });
 
-        rect.on('dragmove', function (event) {
+        this.bounding_box.on('dragmove', function (event) {
             console.log("moving");
             self.resize(rect.attr('x'), rect.attr('y'), rect.attr('width'), rect.attr('height'));
         });
     }
-
 }
