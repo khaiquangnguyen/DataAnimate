@@ -7,8 +7,6 @@ class SimpleBarChart extends GraphicalObject {
         this.x_axis = null;
         this.y_axis = null;
         this.bars = null;
-        this.graph_width = this.total_width - this.margin.left - this.margin.right;
-        this.graph_height = this.total_height - this.margin.top - this.margin.bottom;
         this.x_scale = null;
         this.y_scale = null;
         this.x_data = null;
@@ -26,7 +24,7 @@ class SimpleBarChart extends GraphicalObject {
             self.columns = Object.keys(self.data[0]);
         });
     }
-   
+
     construct_inner_graph(self = this) {
         self.inner_graph = self.svg_container
             .append("g")
@@ -56,8 +54,8 @@ class SimpleBarChart extends GraphicalObject {
         this.y_axis = self.inner_graph.append("g")
             .attr("class", "y_axis")
             .call(d3.axisLeft(self.graph_y));
-
     }
+
     construct_graph(self = this) {
         // append the rectangles for the bar chart
         self.bars = self.inner_graph.selectAll("." + self.name + "_bar")
@@ -81,7 +79,7 @@ class SimpleBarChart extends GraphicalObject {
         }
     }
 
-    
+
     get_parameters(self = this) {
         return {
             "x_axis_scale": {

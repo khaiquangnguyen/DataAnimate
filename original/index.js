@@ -30,6 +30,7 @@
 // }, 500);
 
 bar_chart = new SimpleBarChart(500, 500);
+bar_chart.name = "SimpleBar";
 bar_chart.set_data("sales.csv");
 bar_chart.import_data();
 setTimeout(() => {
