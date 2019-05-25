@@ -7,8 +7,6 @@ const input_types = {
     BOOLEAN:"boolean"
 }
 
-
-
 class GraphicalObject {
     constructor(width, height, type) {
         this.type = type;
@@ -29,7 +27,10 @@ class GraphicalObject {
         return {
             "name": {
                 "type": input_types.STRING,
-                "range": ""
+                "range": "",
+                "tooltips":"The name of the graphical object",
+                "setter":
+                "getter":
             },
             "width": {
                 "type": input_types.INT,
