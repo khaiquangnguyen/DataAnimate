@@ -43,6 +43,8 @@ setTimeout(() => {
     bar_chart.construct_x_axis();
     bar_chart.construct_y_axis();
     bar_chart.construct_graph();
+    bar_chart.construct_bounding_box();
+
 
 }, 100);
 

@@ -156,19 +156,33 @@ class GraphicalObject {
     }
     construct_bounding_box(self = this) {
         var drawing = SVG.adopt(document.getElementById('canvas'));
-        this.bounding_box = drawing.rect(this.total_width, this.total_height);
-        this.bounding_box.x(this.x);
-        this.bounding_box.y(this.y);
-        this.bounding_box.opacity(0.2);
-        this.bounding_box.selectize().draggable().resize();
-        this.bounding_box.on('resizing', function (event) {
+        self.bounding_box = drawing.rect(self.total_width, self.total_height);
+        self.bounding_box.x(self.x);
+        self.bounding_box.y(self.y);
+        self.bounding_box.opacity(0.2);
+        self.bounding_box.selectize().draggable().resize();
+        self.bounding_box.hide();
+        self.bounding_box.on('resizing', function (event) {
             console.log("resizing");
-            self.resize(rect.attr('x'), rect.attr('y'), rect.attr('width'), rect.attr('height'));
+            self.resize(self.bounding_box.attr('x'), self.bounding_box.attr('y'), self.bounding_box.attr('width'), self.bounding_box.attr('height'));
         });
+
+
 
         this.bounding_box.on('dragmove', function (event) {
             console.log("moving");
-            self.resize(rect.attr('x'), rect.attr('y'), rect.attr('width'), rect.attr('height'));
+            self.resize(self.bounding_box.attr('x'), self.bounding_box.attr('y'), self.bounding_box.attr('width'), self.bounding_box.attr('height'));
+        });
+
+        var target = SVG.adopt(document.getElementById(self.name));
+        target.click(function () {
+            setTimeout(() => {
+                self.bounding_box.show();
+            }, 100);
+        })
+        drawing.click(function () {
+            console.log('drawing');
+            self.bounding_box.hide();
         });
     }
 }
