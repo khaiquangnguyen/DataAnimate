@@ -1,3 +1,8 @@
 .svg_select_boundingRect{
     fill: none;
 }
+
+line{
+    stroke: black;
+    stroke-width: 2;
+}

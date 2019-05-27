@@ -18,34 +18,7 @@ class GraphicalObject {
         this.opacity = 1;
         this.track = new Track(this);
         this.data = null;
-        this.svg_container = null;
-        this.bounding_box = null;
         this.SVG_reference = null;
-    }
-
-    construct_bounding_box(self = this) {
-        var drawing = SVG.adopt(document.getElementById('canvas'));
-        self.bounding_box = drawing.rect(self.total_width, self.total_height);
-        self.bounding_box.x(self.x);
-        self.bounding_box.y(self.y);
-        self.bounding_box.opacity(0.2);
-        self.bounding_box.selectize().draggable().resize();
-        self.bounding_box.on('resizing', function (event) {
-            console.log("resizing");
-            var x = self.bounding_box.attr('x');
-            var y = self.bounding_box.attr('y');
-            var width = self.bounding_box.attr('width');
-            var height = self.bounding_box.attr('height');
-            self.update_defaults(x, y, width, height);
-        });
-        this.bounding_box.on('dragmove', function (event) {
-            console.log("moving");
-            var x = self.bounding_box.attr('x');
-            var y = self.bounding_box.attr('y');
-            var width = self.bounding_box.attr('width');
-            var height = self.bounding_box.attr('height');
-            self.update_defaults(x, y, width, height);
-        });
     }
 
     get_default_parameters(self = this) {

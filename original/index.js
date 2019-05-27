@@ -48,9 +48,8 @@
 
 
 var drawing = SVG.adopt(document.getElementById('canvas'));
-// drawing.rect().draw();
-// var drawing = SVG("rect");
 
+// rect = drawing.rect();
 // drawing.on('mousedown', function (e) {
 //     rect.draw(e);
 // }, false);
@@ -68,21 +67,27 @@ var drawing = SVG.adopt(document.getElementById('canvas'));
 //     rect_object = new RectObject(x, y, width, height, "test_rectangle", this);
 // });
 
-var circle = drawing.circle();
+// var circle = drawing.circle();
 
-drawing.on('mousedown', function (e) {
-    circle.draw(e);
-}, false);
+// drawing.on('mousedown', function (e) {
+//     circle.draw(e);
+// }, false);
 
-drawing.on('mouseup', function (e) {
-    circle.draw('stop', e);
-}, false);
+// drawing.on('mouseup', function (e) {
+//     circle.draw('stop', e);
+// }, false);
 
-circle.on('drawstop', function () {
-    var cx = circle.attr("cx")
-    var cy = circle.attr("cy")
-    var r = circle.attr('r');
-    console.log(circle);
-    console.log(cx, cy, r);
-    rect_object = new CircleObject(cx, cy, r, "test_circle", this);
-});
+// circle.on('drawstop', function () {
+//     var cx = circle.attr("cx")
+//     var cy = circle.attr("cy")
+//     var r = circle.attr('r');
+//     console.log(circle);
+//     console.log(cx, cy, r);
+//     rect_object = new CircleObject(cx, cy, r, "test_circle", this);
+// });
+
+// var line = drawing.line().draw();
+// line.selectize().draggable().resize();
+
+
+const text_object = new TextObject(50, 20, 100, 100, "trial_text", "This is kind of lovely")
