@@ -29,21 +29,60 @@
 //     resize.executeEffect();
 // }, 500);
 
-bar_chart = new SimpleBarChart(500, 500);
-bar_chart.name = "SimpleBar";
-bar_chart.set_data("sales.csv");
-bar_chart.import_data();
-setTimeout(() => {
-    console.log(bar_chart.get_parameters());
-    bar_chart.set_x_data('salesperson')
-    bar_chart.set_y_data('sales')
-    bar_chart.construct_svg_container();
-    bar_chart.construct_inner_graph();
-    bar_chart.construct_x_axis();
-    bar_chart.construct_y_axis();
-    bar_chart.construct_graph();
-    bar_chart.construct_bounding_box();
+// bar_chart = new SimpleBarChart(500, 500);
+// bar_chart.name = "SimpleBar";
+// bar_chart.set_data("sales.csv");
+// bar_chart.import_data();
+// setTimeout(() => {
+//     // console.log(bar_chart.get_parameters());
+//     // bar_chart.set_x_data('salesperson')
+//     // bar_chart.set_y_data('sales')
+//     // bar_chart.construct_svg_container();
+//     // bar_chart.construct_inner_graph();
+//     // bar_chart.construct_x_axis();
+//     // bar_chart.construct_y_axis();
+//     // bar_chart.construct_graph();
+//     // bar_chart.construct_bounding_box();
+
+// }, 100);
 
 
-}, 100);
+var drawing = SVG.adopt(document.getElementById('canvas'));
+// drawing.rect().draw();
+// var drawing = SVG("rect");
 
+// drawing.on('mousedown', function (e) {
+//     rect.draw(e);
+// }, false);
+
+// drawing.on('mouseup', function (e) {
+//     rect.draw('stop', e);
+// }, false);
+
+// rect.on('drawstop', function () {
+//     var x = rect.x();
+//     var y = rect.y();
+//     var width = rect.attr('width');
+//     var height = rect.attr('height');
+//     console.log(x, y, width, height);
+//     rect_object = new RectObject(x, y, width, height, "test_rectangle", this);
+// });
+
+var circle = drawing.circle();
+
+drawing.on('mousedown', function (e) {
+    circle.draw(e);
+}, false);
+
+drawing.on('mouseup', function (e) {
+    circle.draw('stop', e);
+}, false);
+
+circle.on('drawstop', function () {
+    var cx = circle.attr("cx")
+    var cy = circle.attr("cy")
+    var r = circle.attr('r');
+    console.log(circle);
+    console.log(cx, cy, r);
+    rect_object = new CircleObject(cx, cy, r, "test_circle", this);
+});

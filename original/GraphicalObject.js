@@ -8,34 +8,21 @@ const input_types = {
 }
 
 class GraphicalObject {
-    constructor(width, height, type) {
+    constructor(x, y, width, height, type, name) {
         this.type = type;
-        this.name = null;
+        this.name = name;
         this.total_width = width;
         this.total_height = height;
-        this.x = 100;
-        this.y = 50;
+        this.x = x;
+        this.y = y;
         this.opacity = 1;
         this.track = new Track(this);
         this.data = null;
         this.svg_container = null;
         this.bounding_box = null;
+        this.SVG_reference = null;
     }
 
-    construct_svg_container(self = this) {
-        // create svg container
-        self.svg_container = d3.select("#canvas")
-            .append("svg")
-            .attr("width", this.total_width)
-            .attr("height", this.total_height)
-            .attr("x", this.x)
-            .attr("y", this.y)
-            .attr("opacity", this.opacity)
-            .attr("id", self.name);
-        self.svg_container.attr('viewBox', `0 0 ${this.total_width} ${this.total_height}`)
-            .attr('preserveAspectRatio', 'none')
-
-    }
     construct_bounding_box(self = this) {
         var drawing = SVG.adopt(document.getElementById('canvas'));
         self.bounding_box = drawing.rect(self.total_width, self.total_height);
@@ -43,8 +30,6 @@ class GraphicalObject {
         self.bounding_box.y(self.y);
         self.bounding_box.opacity(0.2);
         self.bounding_box.selectize().draggable().resize();
-        self.bounding_box.hide();
-
         self.bounding_box.on('resizing', function (event) {
             console.log("resizing");
             var x = self.bounding_box.attr('x');
@@ -61,11 +46,6 @@ class GraphicalObject {
             var height = self.bounding_box.attr('height');
             self.update_defaults(x, y, width, height);
         });
-
-        var target = SVG.adopt(document.getElementById(self.name));
-        target.click(function () {
-            self.bounding_box.show();
-        })
     }
 
     get_default_parameters(self = this) {
@@ -109,20 +89,4 @@ class GraphicalObject {
             linked_object: this
         }
     }
-
-    update_defaults(x = this.x, y = this.y, width = this.total_width, height = this.total_height, name = this.name, opacity = this.opacity) {
-        this.x = x;
-        this.y = y;
-        this.total_width = width;
-        this.total_height = height;
-        this.name = name;
-        this.opacity = opacity;
-        this.svg_container
-            .attr("x", this.x)
-            .attr("y", this.y)
-            .attr("width", this.total_width)
-            .attr("height", this.total_height)
-            .attr("opacity", this.opacity)
-    }
-
 }
