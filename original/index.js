@@ -46,48 +46,87 @@
 
 // }, 100);
 
-
-var drawing = SVG.adopt(document.getElementById('canvas'));
-
-// rect = drawing.rect();
-// drawing.on('mousedown', function (e) {
-//     rect.draw(e);
-// }, false);
-
-// drawing.on('mouseup', function (e) {
-//     rect.draw('stop', e);
-// }, false);
-
-// rect.on('drawstop', function () {
-//     var x = rect.x();
-//     var y = rect.y();
-//     var width = rect.attr('width');
-//     var height = rect.attr('height');
-//     console.log(x, y, width, height);
-//     rect_object = new RectObject(x, y, width, height, "test_rectangle", this);
-// });
-
-// var circle = drawing.circle();
-
-// drawing.on('mousedown', function (e) {
-//     circle.draw(e);
-// }, false);
-
-// drawing.on('mouseup', function (e) {
-//     circle.draw('stop', e);
-// }, false);
-
-// circle.on('drawstop', function () {
-//     var cx = circle.attr("cx")
-//     var cy = circle.attr("cy")
-//     var r = circle.attr('r');
-//     console.log(circle);
-//     console.log(cx, cy, r);
-//     rect_object = new CircleObject(cx, cy, r, "test_circle", this);
-// });
-
 // var line = drawing.line().draw();
 // line.selectize().draggable().resize();
 
 
-const text_object = new TextObject(50, 20, 100, 100, "trial_text", "This is kind of lovely")
+
+var current_focus_object = null;
+
+function create_rectangle() {
+    var drawing = SVG.adopt(document.getElementById('canvas'));
+    rect = drawing.rect();
+    drawing.on('mousedown', function (e) {
+        rect.draw(e);
+    }, false);
+
+    drawing.on('mouseup', function (e) {
+        rect.draw('stop', e);
+    }, false);
+
+    rect.on('drawstop', function () {
+        var x = rect.x();
+        var y = rect.y();
+        var width = rect.attr('width');
+        var height = rect.attr('height');
+        current_focus_object = new RectObject(x, y, width, height, "test_rectangle", this);
+    });
+}
+
+function create_circle() {
+    var drawing = SVG.adopt(document.getElementById('canvas'));
+    var circle = drawing.circle();
+    drawing.on('mousedown', function (e) {
+        circle.draw(e);
+    }, false);
+
+    drawing.on('mouseup', function (e) {
+        circle.draw('stop', e);
+    }, false);
+
+    circle.on('drawstop', function () {
+        var cx = circle.attr("cx")
+        var cy = circle.attr("cy")
+        var r = circle.attr('r');
+        current_focus_object = new CircleObject(cx, cy, r, "test_circle", this);
+    });
+}
+
+function create_text() {
+    current_focus_object = new TextObject(0, 0, 200, 100, 'test_text', 'this is a good text');
+}
+
+document.addEventListener("keypress", function onEvent(event) {
+    if (event.key === "1") {
+        create_text();
+    }
+    else if (event.key === "2") {
+        create_circle();
+    }
+    else if (event.key === "3") {
+        create_rectangle();
+    }
+    else if (event.key === "a") {
+        current_focus_object.track.pause();
+    }
+    else if (event.key === "s") {
+        current_focus_object.track.resume();
+    }
+
+});
+
+
+
+setTimeout(() => {
+    console.log(current_focus_object);
+    track = current_focus_object.track;
+    console.log(track);
+    const first_effect_stack = new EffectStack(current_focus_object, 2000, 5000);
+    const second_effect_stack = new EffectStack(current_focus_object, 4000, 5000);
+    const move_effect = new SVG_Move(first_effect_stack);
+    move_effect.set_attributes(50, 50, 400, 400);
+    first_effect_stack.add_effect(move_effect);
+    track.add_effect_stack(second_effect_stack);
+    track.add_effect_stack(first_effect_stack);
+    track.play();
+}, 1000);

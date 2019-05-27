@@ -7,12 +7,13 @@ class AnimationEffect {
     * @param {*} target_component the component of the actor to target. targetable components can be access from the actor 
     * @param {*} exclusive true if when this effect is active, no other effect can be active. False otherwise
     */
-    constructor(name, parent_actor, target_component = "svg_container", exclusive = true) {
+    constructor(name, effect_stack, exclusive = true) {
+        this.effect_stack = effect_stack;
         this.name = name;
-        this.actor = parent_actor;
-        this.duration = 0;
-        this.effect_stack = null;
-        this.target_component = target_component;
+        this.actor = effect_stack.actor;;
+        this.duration = effect_stack.duration;
+        // must be a list of pure DOM 3elements
+        this.target_components = [document.getElementById(this.actor.name)];
         this.exclusive = exclusive;
         this.enabled = true;
     }
@@ -28,6 +29,9 @@ class AnimationEffect {
         }
     }
 
+    set_actor(actor) {
+        this.actor = actor;
+    }
     set_exclusiveness(exclusive) {
         this.exclusive = exclusive;
     }
@@ -49,12 +53,63 @@ class AnimationEffect {
     disable(self = this) {
         self.disable = true;
     }
+
+    static get_name() {
+        return this.name;
+    }
+}
+
+class SVG_Move extends AnimationEffect {
+    constructor(effect_stack, ) {
+        super("MoveTo", effect_stack, true);
+        this.start_x = this.actor.x;
+        this.start_y = this.actor.y;
+        this.end_x = this.actor.x;
+        this.end_y = this.actor.y;
+    }
+
+    play(start_timestamp = 0, self = this) {
+        this.target_components.forEach(e => {
+            var svg_e = SVG.adopt(e);
+            // get current position based on start_timestamp
+            console.log((self.end_x - self.start_x) * start_timestamp / self.duration);
+            const start_x = self.start_x + (self.end_x - self.start_x) * start_timestamp / self.duration;
+            const start_y = self.start_y + (self.end_y - self.start_y) * start_timestamp / self.duration;
+            console.log(start_x);
+            console.log(start_y);
+            svg_e.x(start_x);
+            svg_e.y(start_y);
+            svg_e.animate(self.duration - start_timestamp).move(self.end_x, self.end_y);
+        });
+    }
+
+    pause(self = this) {
+        this.target_components.forEach(e => {
+            var svg_e = SVG.adopt(e);
+            svg_e.pause();
+        });
+    }
+
+    resume(self = this) {
+        this.target_components.forEach(e => {
+            var svg_e = SVG.adopt(e);
+            svg_e.play();
+        });
+    }
+
+    set_attributes(begin_x = this.start_x, begin_y = this.start_y, end_x = this.end_x, end_y = this.end_y) {
+        this.start_x = begin_x;
+        this.start_y = begin_y;
+        this.end_x = end_x;
+        this.end_y = end_y;
+    }
+
 }
 
 
 class ResizeEffect extends AnimationEffect {
-    constructor(actor, duration, target_component = "svg_container") {
-        super("Resize", actor, duration, target_component, false);
+    constructor(target_component = "svg_container") {
+        super("Resize", target_component, false);
         this.begin_width_ratio = 0;
         this.end_width_ratio = 1;
         this.begin_height_ratio = 1;
@@ -68,8 +123,6 @@ class ResizeEffect extends AnimationEffect {
             }, timeout);
         }
     }
-
-
 
     execute(self = this) {
         const targetable_components = self.get_targetable_components();

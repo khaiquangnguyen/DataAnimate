@@ -24,8 +24,8 @@ class RectObject extends GraphicalObject {
 }
 
 class CircleObject extends GraphicalObject {
-    constructor(x, y, r, name) {
-        super(x, y, r * 2, r * 2, 'Circle', name, circle);
+    constructor(x, y, r, name, circle) {
+        super(x, y, r * 2, r * 2, 'Circle', name);
         this.r = r;
         this.SVG_reference = circle;
         this.SVG_reference.attr("id", this.name);
