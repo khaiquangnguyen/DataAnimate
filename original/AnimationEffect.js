@@ -57,6 +57,20 @@ class AnimationEffect {
     static get_name() {
         return this.name;
     }
+
+    reachTo(timestamp = 0, self = this) {
+        return;
+    }
+    play(start_timestamp = 0, self = this) {
+        return;
+    }
+    pause(self = this) {
+        return;
+    }
+
+    resume(self = this) {
+        return;
+    }
 }
 
 class SVG_Move extends AnimationEffect {
@@ -68,17 +82,28 @@ class SVG_Move extends AnimationEffect {
         this.end_y = this.actor.y;
     }
 
-    play(start_timestamp = 0, self = this) {
+    reachTo(timestamp = 0, self = this) {
+        if (timestamp < 0 || timestamp >= self.duration) return;
         this.target_components.forEach(e => {
             var svg_e = SVG.adopt(e);
+            // clear out all animations
+            svg_e.play();
+            svg_e.stop();
             // get current position based on start_timestamp
-            console.log((self.end_x - self.start_x) * start_timestamp / self.duration);
-            const start_x = self.start_x + (self.end_x - self.start_x) * start_timestamp / self.duration;
-            const start_y = self.start_y + (self.end_y - self.start_y) * start_timestamp / self.duration;
-            console.log(start_x);
-            console.log(start_y);
+            const start_x = self.start_x + (self.end_x - self.start_x) * timestamp / self.duration;
+            const start_y = self.start_y + (self.end_y - self.start_y) * timestamp / self.duration;
             svg_e.x(start_x);
             svg_e.y(start_y);
+        });
+    }
+
+    play(start_timestamp = 0, self = this) {
+        this.reachTo(start_timestamp);
+        this.target_components.forEach(e => {
+            var svg_e = SVG.adopt(e);
+            // clear out all animations
+            svg_e.play();
+            svg_e.stop();
             svg_e.animate(self.duration - start_timestamp).move(self.end_x, self.end_y);
         });
     }

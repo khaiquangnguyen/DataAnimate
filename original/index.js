@@ -96,20 +96,44 @@ function create_text() {
     current_focus_object = new TextObject(0, 0, 200, 100, 'test_text', 'this is a good text');
 }
 
+
+var first_effect_stack;
+var move_effect;
 document.addEventListener("keypress", function onEvent(event) {
+
     if (event.key === "1") {
-        create_text();
-    }
-    else if (event.key === "2") {
-        create_circle();
-    }
-    else if (event.key === "3") {
         create_rectangle();
     }
-    else if (event.key === "a") {
-        current_focus_object.track.pause();
+    else if (event.key === "2") {
+        first_effect_stack = new EffectStack(current_focus_object, 2000, 5000);
+        move_effect = new SVG_Move(first_effect_stack);
+        move_effect.set_attributes(50, 50, 400, 400);
+        first_effect_stack.add_effect(move_effect);
+
+    }
+    else if (event.key === "3") {
+        console.log(first_effect_stack);
+        first_effect_stack.reachTo(3000);
+        // current_focus_object.track.play();
+    }
+    else if (event.key === "4") {
+        console.log(first_effect_stack);
+        first_effect_stack.play(3000);
+        // current_focus_object.track.play();
+    }
+    else if (event.key === "5") {
+        console.log(first_effect_stack);
+        first_effect_stack.pause();
+        // current_focus_object.track.play();
+    }
+    else if (event.key === "6") {
+        console.log(first_effect_stack);
+        first_effect_stack.resume();
+        // current_focus_object.track.play();
     }
     else if (event.key === "s") {
+        current_focus_object.track.pause();
+
         current_focus_object.track.resume();
     }
 
@@ -117,16 +141,13 @@ document.addEventListener("keypress", function onEvent(event) {
 
 
 
-setTimeout(() => {
-    console.log(current_focus_object);
-    track = current_focus_object.track;
-    console.log(track);
-    const first_effect_stack = new EffectStack(current_focus_object, 2000, 5000);
-    const second_effect_stack = new EffectStack(current_focus_object, 4000, 5000);
-    const move_effect = new SVG_Move(first_effect_stack);
-    move_effect.set_attributes(50, 50, 400, 400);
-    first_effect_stack.add_effect(move_effect);
-    track.add_effect_stack(second_effect_stack);
-    track.add_effect_stack(first_effect_stack);
-    track.play();
-}, 1000);
+// setTimeout(() => {
+//     console.log(current_focus_object);
+//     track = current_focus_object.track;
+//     console.log(track);
+//     const second_effect_stack = new EffectStack(current_focus_object, 4000, 5000);
+
+//     track.add_effect_stack(second_effect_stack);
+//     track.add_effect_stack(first_effect_stack);
+//     track.play();
+// }, 1000);

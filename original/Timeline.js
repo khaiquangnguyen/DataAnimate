@@ -1,6 +1,6 @@
 
 
-
+var global_current_time = 0;
 
 class Track {
     constructor(actor) {
@@ -35,16 +35,20 @@ class Track {
     }
 
     pause(self = this) {
-        console.log('pause');
         self.effect_stacks.forEach(effect_stack => {
             effect_stack.pause();
         });
     }
 
     resume(self = this) {
-        console.log(self.effect_stacks);
         self.effect_stacks.forEach(effect_stack => {
             effect_stack.resume();
+        });
+    }
+
+    reachTo(play_time, self = this) {
+        self.effect_stacks.forEach(effect_stack => {
+            effect_stack.reachTo(play_time);
         });
     }
 }
@@ -122,6 +126,14 @@ class EffectStack {
     resume(self = this) {
         self.effects.forEach(effect => {
             effect.resume();
+        });
+    }
+
+    reachTo(play_time, self = this) {
+        self.effects.forEach(effect => {
+            if (self.start_time <= play_time <= self.start_time + self.duration) {
+                effect.reachTo(play_time - self.start_time);
+            }
         });
     }
 }
