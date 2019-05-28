@@ -50,94 +50,56 @@
 // line.selectize().draggable().resize();
 
 
+// var drawing = SVG.adopt(document.getElementById('canvas'));
+// rect = drawing.rect();
 
-var current_focus_object = null;
+// const test1 = new RectObject(100, 100, 200, 200, 'a', rect);
+// const test2 = new RectObject(100, 100, 200, 200, 'a', this);
+// console.log(test1.unique_id);
+// console.log(test2.unique_id);
 
-function create_rectangle() {
-    var drawing = SVG.adopt(document.getElementById('canvas'));
-    rect = drawing.rect();
-    drawing.on('mousedown', function (e) {
-        rect.draw(e);
-    }, false);
-
-    drawing.on('mouseup', function (e) {
-        rect.draw('stop', e);
-    }, false);
-
-    rect.on('drawstop', function () {
-        var x = rect.x();
-        var y = rect.y();
-        var width = rect.attr('width');
-        var height = rect.attr('height');
-        current_focus_object = new RectObject(x, y, width, height, "test_rectangle", this);
-    });
-}
-
-function create_circle() {
-    var drawing = SVG.adopt(document.getElementById('canvas'));
-    var circle = drawing.circle();
-    drawing.on('mousedown', function (e) {
-        circle.draw(e);
-    }, false);
-
-    drawing.on('mouseup', function (e) {
-        circle.draw('stop', e);
-    }, false);
-
-    circle.on('drawstop', function () {
-        var cx = circle.attr("cx")
-        var cy = circle.attr("cy")
-        var r = circle.attr('r');
-        current_focus_object = new CircleObject(cx, cy, r, "test_circle", this);
-    });
-}
-
-function create_text() {
-    current_focus_object = new TextObject(0, 0, 200, 100, 'test_text', 'this is a good text');
-}
+// var current_focus_object = null;
 
 
-var first_effect_stack;
-var move_effect;
-document.addEventListener("keypress", function onEvent(event) {
+// var first_effect_stack;
+// var move_effect;
 
-    if (event.key === "1") {
-        create_rectangle();
-    }
-    else if (event.key === "2") {
-        first_effect_stack = new EffectStack(current_focus_object, 2000, 5000);
-        move_effect = new SVG_Move(first_effect_stack);
-        move_effect.set_attributes(50, 50, 400, 400);
-        first_effect_stack.add_effect(move_effect);
+//     if (event.key === "1") {
+//         create_rectangle();
+//     }
+//     else if (event.key === "2") {
+//         first_effect_stack = new EffectStack(current_focus_object, 2000, 5000);
+//         move_effect = new SVG_Move(first_effect_stack);
+//         move_effect.set_attributes(50, 50, 400, 400);
+//         first_effect_stack.add_effect(move_effect);
 
-    }
-    else if (event.key === "3") {
-        console.log(first_effect_stack);
-        first_effect_stack.reachTo(3000);
-        // current_focus_object.track.play();
-    }
-    else if (event.key === "4") {
-        console.log(first_effect_stack);
-        first_effect_stack.play(3000);
-        // current_focus_object.track.play();
-    }
-    else if (event.key === "5") {
-        console.log(first_effect_stack);
-        first_effect_stack.pause();
-        // current_focus_object.track.play();
-    }
-    else if (event.key === "6") {
-        console.log(first_effect_stack);
-        first_effect_stack.resume();
-        // current_focus_object.track.play();
-    }
-    else if (event.key === "s") {
-        current_focus_object.track.pause();
+//     }
+//     else if (event.key === "3") {
+//         console.log(first_effect_stack);
+//         first_effect_stack.reachTo(3000);
+//         // current_focus_object.track.play();
+//     }
+//     else if (event.key === "4") {
+//         console.log(first_effect_stack);
+//         first_effect_stack.play(3000);
+//         // current_focus_object.track.play();
+//     }
+//     else if (event.key === "5") {
+//         console.log(first_effect_stack);
+//         first_effect_stack.pause();
+//         // current_focus_object.track.play();
+//     }
+//     else if (event.key === "6") {
+//         console.log(first_effect_stack);
+//         first_effect_stack.resume();
+//         // current_focus_object.track.play();
+//     }
+//     else if (event.key === "s") {
+//         current_focus_object.track.pause();
 
-        current_focus_object.track.resume();
-    }
-
-});
+//         current_focus_object.track.resume();
+//     }
+// });
 
 
 
@@ -151,3 +113,29 @@ document.addEventListener("keypress", function onEvent(event) {
 //     track.add_effect_stack(first_effect_stack);
 //     track.play();
 // }, 1000);
+
+
+
+
+scene.set_curr_blueprint(scene.obj_bp_lib.blueprints.Rectangle);
+var state = scene.export_state();
+console.log(state);
+document.addEventListener("keypress", function onEvent(event) {
+
+    if (event.key === "1") {
+        scene.create_object();
+        // scene.import_graphical_object_blueprint();
+        // scene.create_circle();
+    }
+    else if (event.key === "2") {
+        var state = scene.export_state();
+        console.log(state);
+
+    }
+    else if (event.key === "3") {
+        scene.set_curr_graphical_object(scene.graphical_objects[0]);
+    }
+    else if (event.key === "4") {
+        scene.set_curr_graphical_object(scene.graphical_objects[1]);
+    }
+});
