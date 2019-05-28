@@ -175,9 +175,6 @@ class Scene {
         });
     }
 
-
-
-
     export_state() {
         // generate 
         return {
@@ -196,7 +193,6 @@ class Scene {
             })()
         }
     }
-
 }
 
 
