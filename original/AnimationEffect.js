@@ -16,6 +16,7 @@ class AnimationEffect {
         this.target_components = [document.getElementById(this.actor.name)];
         this.exclusive = exclusive;
         this.enabled = true;
+        this.unique_id = "AnimationEffect_" + generate_unique_id();
     }
 
     set_target_component(target_component) {

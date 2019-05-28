@@ -19,9 +19,14 @@ class GraphicalObject {
         this.track = new Track(this);
         this.data = null;
         this.SVG_reference = null;
+        this.unique_id = "graphicalObject_" + generate_unique_id();
     }
 
-    get_default_parameters(self = this) {
+    view_as_DOM(self = this) {
+        return;
+    }
+
+    export_defaults(self = this) {
         return {
             name: {
                 type: input_types.STRING,
@@ -61,5 +66,9 @@ class GraphicalObject {
             },
             linked_object: this
         }
+    }
+
+    export(self = this) {
+        return this.export_defaults();
     }
 }
