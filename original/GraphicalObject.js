@@ -20,10 +20,23 @@ class GraphicalObject {
         this.data = null;
         this.SVG_reference = null;
         this.unique_id = "graphicalObject_" + generate_unique_id();
+        // add onclick event
+    }
+
+    select(self = this) {
+        this.SVG_reference.selectize().draggable().resize();
+    }
+    deselect(self = this) {
+        this.SVG_reference.selectize(false).draggable(false).resize(false);;
     }
 
     view_as_DOM(self = this) {
         return;
+    }
+    set_on_click(sel = this) {
+        this.SVG_reference.on('click', e => {
+            console.log(e);
+        })
     }
 
     export_defaults(self = this) {

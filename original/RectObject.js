@@ -5,6 +5,7 @@ class RectObject extends GraphicalObject {
         this.SVG_reference = rect;
         console.log(rect);
         this.SVG_reference.attr("id", this.unique_id);
+        this.set_on_click();
     }
 
     update_defaults(x = this.x, y = this.y, width = this.total_width, height = this.total_height, name = this.name, opacity = this.opacity) {
@@ -21,12 +22,7 @@ class RectObject extends GraphicalObject {
             .attr("height", this.total_height)
             .attr("opacity", this.opacity)
     }
-    select(self = this) {
-        this.SVG_reference.selectize().draggable().resize();
-    }
-    deselect(self = this) {
-        this.SVG_reference.selectize(false).draggable(false).resize(false);;
-    }
+
 }
 
 class CircleObject extends GraphicalObject {
@@ -35,6 +31,7 @@ class CircleObject extends GraphicalObject {
         this.r = r;
         this.SVG_reference = circle;
         this.SVG_reference.attr("id", this.unique_id);
+        this.set_on_click();
     }
 
     update_defaults(x = this.x, y = this.y, r = this.r, opacity = this.opacity, self = this) {
@@ -50,12 +47,6 @@ class CircleObject extends GraphicalObject {
             .attr("cy", y)
             .attr("r", r)
             .attr("opacity", this.opacity)
-    }
-    select(self = this) {
-        this.SVG_reference.selectize().draggable().resize();
-    }
-    deselect(self = this) {
-        this.SVG_reference.selectize(false).draggable(false).resize(false);;
     }
 }
 
@@ -95,8 +86,10 @@ class TextObject extends GraphicalObject {
         this.text = text;
         this.construct_svg_container();
         this.construct_bounding_box();
-        var drawing = SVG.adopt(document.getElementById(this.name));
-        this.SVG_reference = drawing.text(this.text)
+        var drawing = SVG.adopt(document.getElementById(this.unique_id));
+        this.SVG_reference = drawing.text(this.text);
+        this.set_on_click();
+
     }
 
     construct_svg_container(self = this) {
@@ -159,10 +152,12 @@ class TextObject extends GraphicalObject {
 class GraphObject extends GraphicalObject {
     constructor(x, y, width, height, type, name) {
         super(x, y, width, height, type, name);
-        construct_svg_container();
-        this.SVG_reference = SVG.adopt(document.getElementById(self.name));
         this.svg_container = null;
         this.bounding_box = null;
+        construct_svg_container();
+        this.SVG_reference = SVG.adopt(document.getElementById(self.unique_id));
+        this.set_on_click();
+
     }
 
     construct_svg_container(self = this) {
@@ -174,7 +169,7 @@ class GraphObject extends GraphicalObject {
             .attr("x", this.x)
             .attr("y", this.y)
             .attr("opacity", this.opacity)
-            .attr("id", self.name);
+            .attr("id", self.unique_id);
         self.svg_container.attr('viewBox', `0 0 ${this.total_width} ${this.total_height}`)
             .attr('preserveAspectRatio', 'none')
     }
