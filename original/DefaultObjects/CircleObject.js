@@ -22,3 +22,28 @@ class CircleObject extends GraphicalObject {
             .attr("opacity", this.opacity)
     }
 }
+
+// create_circle(self = this) {
+//     const drawing = SVG.adopt(document.getElementById('canvas'));
+//     var circle;
+//     const start_draw = (e) => {
+//         circle = drawing.circle();
+//         circle.draw(e);
+//     }
+//     const end_draw = (e) => {
+//         circle.draw('stop', e);
+//         // add the circle to the list of new objects
+//         var cx = circle.attr("cx")
+//         var cy = circle.attr("cy")
+//         var r = circle.attr('r');
+//         // set it as the currently chosen circle
+//         self.set_curr_graphical_object(new CircleObject(cx, cy, r, "test_circle", circle));
+//         self.add_graphical_object(self.curr_graphical_object);
+//         // unbind the listener
+//         console.log(drawing);
+//         drawing.off('mousedown', start_draw);
+//         drawing.off('mouseup', end_draw);
+//     }
+//     drawing.on('mousedown', start_draw, false);
+//     drawing.on('mouseup', end_draw, false);
+// }

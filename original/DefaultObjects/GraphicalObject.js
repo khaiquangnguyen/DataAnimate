@@ -81,6 +81,23 @@ class GraphicalObject {
     }
 
 
+    play(play_time = 0, self = this) {
+        self.track.play(play_time);
+    }
+
+    pause(self = this) {
+        self.track.pause();
+    }
+
+    resume(self = this) {
+        self.track.resume();
+    }
+
+    reachTo(play_time, self = this) {
+        self.track.reachTo(play_time);
+    }
+
+
     export_state(self = this) {
         return { ...this.track.export_state(), ...this.export_params() };
     }

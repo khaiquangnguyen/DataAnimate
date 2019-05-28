@@ -79,6 +79,8 @@ class EffectBPLib extends BluePrintLibrary {
 
 class Scene {
     constructor(duration) {
+        this.canvas_width = 0;
+        this.canvas_height = 0;
         this.duration = duration;
         this.graphical_objects = [];
         this.effect_bp_lib = new EffectBPLib();
@@ -92,7 +94,7 @@ class Scene {
         self.graphical_objects.push(graphical_object);
         self.set_curr_graphical_object(graphical_object);
     }
-    
+
     remove_graphical_object(graphical_object, self = this) {
         for (var i = 0; i < self.graphical_objects.length; i++) {
             if (self.graphical_objects[i] === graphical_object) {
@@ -146,50 +148,35 @@ class Scene {
     }
 
     create_effect(self = this) {
-
     }
 
-    create_rectangle(self = this) {
-        this.obj_bp_lib.blueprints[0].create_fn(this.add_graphical_object);
-        console.log(this.obj_bp_lib.blueprints[0]);
+
+    play(play_time = 0, self = this) {
+        self.graphical_objects.forEach(obj => {
+            obj.play(play_time);
+        });
     }
 
-    create_circle(self = this) {
-        const drawing = SVG.adopt(document.getElementById('canvas'));
-        var circle;
-        const start_draw = (e) => {
-            circle = drawing.circle();
-            circle.draw(e);
-        }
-        const end_draw = (e) => {
-            circle.draw('stop', e);
-            // add the circle to the list of new objects
-            var cx = circle.attr("cx")
-            var cy = circle.attr("cy")
-            var r = circle.attr('r');
-            // set it as the currently chosen circle
-            self.set_curr_graphical_object(new CircleObject(cx, cy, r, "test_circle", circle));
-            self.add_graphical_object(self.curr_graphical_object);
-            // unbind the listener
-            console.log(drawing);
-            drawing.off('mousedown', start_draw);
-            drawing.off('mouseup', end_draw);
-        }
-        drawing.on('mousedown', start_draw, false);
-        drawing.on('mouseup', end_draw, false);
+    pause(self = this) {
+        self.graphical_objects.forEach(obj => {
+            obj.pause();
+        });
     }
 
-    /**
-     * remove all junk elements from the scene
-     * @param {*} self 
-     */
-    remove_junks(self = this) {
-        return;
+    resume(self = this) {
+        self.graphical_objects.forEach(obj => {
+            obj.resume();
+        });
     }
 
-    create_text() {
-        current_focus_object = new TextObject(0, 0, 200, 100, 'test_text', 'this is a good text');
+    reachTo(play_time, self = this) {
+        self.graphical_objects.forEach(obj => {
+            obj.reachTo(play_time);
+        });
     }
+
+
+
 
     export_state() {
         // generate 
