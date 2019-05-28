@@ -6,7 +6,7 @@ class Track {
         this.duration = 0;
     }
 
-    add_effect_stack(effect_stack, self = this) {
+    add_effectstack(effect_stack, self = this) {
         self.effect_stacks.push(effect_stack);
         self.effect_stacks = self.effect_stacks.sort((a, b) => (a.start_time > b.start_time) ? 1 : -1);
 

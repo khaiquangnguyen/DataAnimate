@@ -30,6 +30,14 @@ class GraphicalObject {
         })
     }
 
+    remove_effectstack(effect_stack, self = this) {
+        this.track.remove_effectstack(effect_stack);
+    }
+
+    add_effectstack(effect_stack, self = this) {
+        this.track.add_effectstack(effect_stack);
+    }
+
     export_params(self = this) {
         return {
             name: {

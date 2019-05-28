@@ -86,23 +86,21 @@ class Scene {
         this.curr_graphical_object = null;
         this.curr_effectstack = null;
         this.curr_timestamp = 0;
-        this.curr_blueprint = null;
-    }
-
-    set_curr_blueprint(blueprint) {
-        this.curr_blueprint = blueprint;
     }
 
     add_graphical_object(graphical_object, self = this) {
         self.graphical_objects.push(graphical_object);
         self.set_curr_graphical_object(graphical_object);
     }
+    
     remove_graphical_object(graphical_object, self = this) {
         for (var i = 0; i < self.graphical_objects.length; i++) {
             if (self.graphical_objects[i] === graphical_object) {
                 self.graphical_objects.splice(i, 1);
             }
         }
+        self.curr_graphical_object = null;
+        self.curr_effectstack = null;
     }
 
     set_curr_graphical_object(graphical_object, self = this) {
@@ -113,6 +111,24 @@ class Scene {
         })
         this.curr_graphical_object.select();
     }
+
+    add_effect_stack(effect_stack, self = this) {
+        this.curr_graphical_object.add_effectstack(effect_stack);
+        this.curr_effectstack = effect_stack;
+    }
+
+    remove_effectstack(self = this) {
+        this.curr_graphical_object.remove_effectstack(this.curr_effectstack);
+        this.curr_effectstack = null;
+    }
+
+    add_effect(effect, self = this) {
+        this.curr_effectstack.add_effect(effect);
+    }
+    remove_effect(effect, self = this) {
+        this.curr_effectstack.remove_effect(effect);
+    }
+
     set_curr_effectstack(curr_effect_stack, self = this) {
         this.curr_effectstack = curr_effect_stack;
     }
@@ -122,10 +138,15 @@ class Scene {
     }
 
     import_effect_blueprint(jsFile, self = this) {
+        this.effect_bp_lib.add_blueprint();
     }
 
-    create_object(self = this) {
-        this.curr_blueprint.create_fn(this.add_graphical_object);
+    create_object(self = this, blueprint) {
+        blueprint.create_fn(this.add_graphical_object);
+    }
+
+    create_effect(self = this) {
+
     }
 
     create_rectangle(self = this) {
