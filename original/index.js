@@ -61,23 +61,6 @@
 // var current_focus_object = null;
 
 
-const scene = new Scene(1000);
-
-document.addEventListener("keypress", function onEvent(event) {
-
-    if (event.key === "1") {
-        scene.create_circle();
-    }
-    else if (event.key === "2") {
-        scene.create_rectangle();
-    }
-    else if (event.key === "3") {
-        scene.set_curr_graphical_object(scene.graphical_objects[0]);
-    }
-    else if (event.key === "4") {
-        scene.set_curr_graphical_object(scene.graphical_objects[1]);
-    }
-});
 // var first_effect_stack;
 // var move_effect;
 
@@ -130,3 +113,25 @@ document.addEventListener("keypress", function onEvent(event) {
 //     track.add_effect_stack(first_effect_stack);
 //     track.play();
 // }, 1000);
+
+
+
+
+const scene = new Scene(1000);
+
+document.addEventListener("keypress", function onEvent(event) {
+
+    if (event.key === "1") {
+        scene.import_graphical_object_blueprint();
+        // scene.create_circle();
+    }
+    else if (event.key === "2") {
+        scene.create_rectangle();
+    }
+    else if (event.key === "3") {
+        scene.set_curr_graphical_object(scene.graphical_objects[0]);
+    }
+    else if (event.key === "4") {
+        scene.set_curr_graphical_object(scene.graphical_objects[1]);
+    }
+});

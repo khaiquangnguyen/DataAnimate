@@ -23,7 +23,43 @@ class RectObject extends GraphicalObject {
             .attr("opacity", this.opacity)
     }
 
+    static create(self = this) {
+        const drawing = SVG.adopt(document.getElementById('canvas'));
+        var rect;
+        const start_draw = (e) => {
+            rect = drawing.rect();
+            rect.draw(e);
+        }
+        const end_draw = (e) => {
+            rect.draw('stop', e);
+            // add the circle to the list of new objects
+            var x = rect.x();
+            var y = rect.y();
+            var width = rect.attr('width');
+            var height = rect.attr('height');
+            // should be some sort of dispatch action here
+            // self.set_curr_graphical_object(new RectObject(x, y, width, height, "test_rectangle", rect));
+            // self.add_graphical_object(self.curr_graphical_object);
+            // unbind the listener
+            console.log(drawing);
+            drawing.off('mousedown', start_draw);
+            drawing.off('mouseup', end_draw);
+        }
+        drawing.on('mousedown', start_draw, false);
+        drawing.on('mouseup', end_draw, false);
+    }
+
+    static get_blueprint(self = this) {
+        return {
+            type: this.type,
+            tooltips: "This is a rectangle",
+            icon_representation: "",
+            creator_function: self.create
+        }
+    }
 }
+
+
 
 class CircleObject extends GraphicalObject {
     constructor(x, y, r, name, circle) {

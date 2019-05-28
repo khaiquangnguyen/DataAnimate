@@ -1,9 +1,67 @@
+// dummy class to hold all of the blueprints
+class BluePrintLibrary {
+    constructor() {
+        this.blueprints = [];
+    }
+
+    get_num_blueprints() {
+        return this.blueprints.length;
+    }
+
+    add_blueprint() {
+        var input = document.createElement('input');
+        input.type = 'file';
+        input.click();
+        input.onchange = e => {
+
+            // getting a hold of the file reference
+            var file = e.target.files[0];
+
+            // setting up the reader
+            var reader = new FileReader();
+            reader.readAsText(file, 'UTF-8');
+
+            // here we tell the reader what to do when it's done reading...
+            reader.onload = readerEvent => {
+                var content = readerEvent.target.result; // this is the content!
+                var script = document.createElement('script');
+                script.onload = () => {
+                    console.log('done');
+                }
+                script.text = content;
+                document.head.appendChild(script); //or something of the likes
+            }
+        }
+    }
+
+    remove_blueprint(blueprint) {
+        for (var i = 0; i < self.blueprints.length; i++) {
+            if (self.blueprints[i] === blueprint) {
+                self.blueprints.splice(i, 1);
+            }
+        }
+    }
+}
+
+class ObjectBPLib extends BluePrintLibrary {
+    constructor() {
+        super();
+    }
+}
+
+class EffectBPLib extends BluePrintLibrary {
+    constructor() {
+        super();
+    }
+}
+
+
 class Scene {
     constructor(duration) {
         this.duration = duration;
-        this.graphical_object_blueprints = [];
-        this.effect_blueprints = [];
         this.graphical_objects = [];
+        this.effect_blueprints = [];
+        this.bluesprints_lib = new ObjectBPLib();
         this.curr_graphical_object = null;
         this.curr_effectstack = null;
         this.curr_timestamp = 0;
@@ -14,15 +72,17 @@ class Scene {
     }
     remove_graphical_object(graphical_object, self = this) {
         for (var i = 0; i < self.graphical_objects.length; i++) {
-            if (self.graphical_objects[i] === actor) {
-                arr.splice(i, 1);
+            if (self.graphical_objects[i] === graphical_object) {
+                self.graphical_objects.splice(i, 1);
             }
         }
     }
 
+
     set_curr_graphical_object(graphical_object, self = this) {
         this.curr_graphical_object = graphical_object;
         // deselect all other objects first
+        console.log(this.graphical_objects);
         this.graphical_objects.forEach(object => {
             object.deselect();
         })
@@ -33,8 +93,9 @@ class Scene {
     }
 
     import_graphical_object_blueprint(jsFile, self = this) {
-
+        this.bluesprints_lib.add_blueprint();
     }
+
     import_effect_blueprint(jsFile, self = this) {
 
     }
@@ -53,7 +114,6 @@ class Scene {
             var y = rect.y();
             var width = rect.attr('width');
             var height = rect.attr('height');
-            console.log(rect);
             self.set_curr_graphical_object(new RectObject(x, y, width, height, "test_rectangle", rect));
             self.add_graphical_object(self.curr_graphical_object);
             // unbind the listener
