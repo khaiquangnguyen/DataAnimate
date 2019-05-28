@@ -1,3 +1,12 @@
+const input_types = {
+    STRING: "string",
+    INT: "int",
+    FLOAT: "float",
+    DROPDOWN: "dropdown",
+    SELECTOR: "selector",
+    BOOLEAN: "boolean",
+    CONST: "const"
+}
 // dummy class to hold all of the blueprints
 class BluePrintLibrary {
     constructor() {
