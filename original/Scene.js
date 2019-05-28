@@ -1,7 +1,7 @@
 class Scene {
     constructor(duration) {
         this.duration = duration;
-        this.actors = [];
+        this.actors = {};
     }
 
     add_actor(actor, self = this) {
@@ -16,5 +16,13 @@ class Scene {
     }
     generate_id(self=this){
         return this.actors.length;
+    }
+
+    add_object(type, self=this) {
+        this.actors.push(type);
+    }
+
+    export_state(self=this) {
+        return { scene: this, currentSomething: this.actors }
     }
 }
