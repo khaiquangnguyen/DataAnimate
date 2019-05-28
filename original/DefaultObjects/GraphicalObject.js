@@ -24,9 +24,9 @@ class GraphicalObject {
     view_as_DOM(self = this) {
         return;
     }
-    set_on_click(sel = this) {
+    set_on_click(self = this) {
         this.SVG_reference.on('click', e => {
-            console.log(e);
+            scene.set_curr_graphical_object(self);
         })
     }
 

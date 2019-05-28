@@ -23,7 +23,7 @@ class RectObject extends GraphicalObject {
             .attr("opacity", this.opacity)
     }
 
-    static create(self = this) {
+    static create(callback, self = this) {
         const drawing = SVG.adopt(document.getElementById('canvas'));
         var rect;
         const start_draw = (e) => {
@@ -38,10 +38,9 @@ class RectObject extends GraphicalObject {
             var width = rect.attr('width');
             var height = rect.attr('height');
             // should be some sort of dispatch action here
-            // self.set_curr_graphical_object(new RectObject(x, y, width, height, "test_rectangle", rect));
-            // self.add_graphical_object(self.curr_graphical_object);
+            const new_rect = new RectObject(x, y, width, height, "test_rectangle", rect);
+            scene.add_graphical_object(new_rect);
             // unbind the listener
-            console.log(drawing);
             drawing.off('mousedown', start_draw);
             drawing.off('mouseup', end_draw);
         }
@@ -51,7 +50,7 @@ class RectObject extends GraphicalObject {
 
     static get_blueprint(self = this) {
         return {
-            name: "Rectangle",
+            type: "Rectangle",
             tooltips: "This is a rectangle",
             icon_representation: "",
             create_fn: RectObject.create

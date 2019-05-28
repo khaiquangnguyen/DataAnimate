@@ -17,7 +17,11 @@ class BluePrintLibrary {
         return this.blueprints.length;
     }
 
-    add_blueprint() {
+    add_blueprint(blueprint, self = this) {
+        this.blueprints[blueprint.type] = blueprint;
+    }
+
+    import(self = this) {
         var input = document.createElement('input');
         input.type = 'file';
         input.click();
@@ -39,7 +43,7 @@ class BluePrintLibrary {
                 script.text = content;
                 document.head.appendChild(script); //or something of the likes
                 const blue_print = eval(object_name + ".get_blueprint()");
-                this.blueprints[blue_print.type] = (blue_print);
+                self.add_blueprint(blue_print);
             }
         }
     }
@@ -61,6 +65,8 @@ class BluePrintLibrary {
 class ObjectBPLib extends BluePrintLibrary {
     constructor() {
         super();
+        // initiate the default blueprints
+        this.add_blueprint(RectObject.get_blueprint());
     }
 }
 
@@ -80,10 +86,16 @@ class Scene {
         this.curr_graphical_object = null;
         this.curr_effectstack = null;
         this.curr_timestamp = 0;
+        this.curr_blueprint = null;
+    }
+
+    set_curr_blueprint(blueprint) {
+        this.curr_blueprint = blueprint;
     }
 
     add_graphical_object(graphical_object, self = this) {
-        this.graphical_objects.push(graphical_object);
+        self.graphical_objects.push(graphical_object);
+        self.set_curr_graphical_object(graphical_object);
     }
     remove_graphical_object(graphical_object, self = this) {
         for (var i = 0; i < self.graphical_objects.length; i++) {
@@ -93,11 +105,10 @@ class Scene {
         }
     }
 
-
     set_curr_graphical_object(graphical_object, self = this) {
+        console.log(graphical_object);
         this.curr_graphical_object = graphical_object;
         // deselect all other objects first
-        console.log(this.graphical_objects);
         this.graphical_objects.forEach(object => {
             object.deselect();
         })
@@ -114,31 +125,13 @@ class Scene {
     import_effect_blueprint(jsFile, self = this) {
     }
 
+    create_object(self = this) {
+        this.curr_blueprint.create_fn(this.add_graphical_object);
+    }
+
     create_rectangle(self = this) {
-        this.obj_bp_lib.blueprints[0].create_fn();
+        this.obj_bp_lib.blueprints[0].create_fn(this.add_graphical_object);
         console.log(this.obj_bp_lib.blueprints[0]);
-        // const drawing = SVG.adopt(document.getElementById('canvas'));
-        // var rect;
-        // const start_draw = (e) => {
-        //     rect = drawing.rect();
-        //     rect.draw(e);
-        // }
-        // const end_draw = (e) => {
-        //     rect.draw('stop', e);
-        //     // add the circle to the list of new objects
-        //     var x = rect.x();
-        //     var y = rect.y();
-        //     var width = rect.attr('width');
-        //     var height = rect.attr('height');
-        //     self.set_curr_graphical_object(new RectObject(x, y, width, height, "test_rectangle", rect));
-        //     self.add_graphical_object(self.curr_graphical_object);
-        //     // unbind the listener
-        //     console.log(drawing);
-        //     drawing.off('mousedown', start_draw);
-        //     drawing.off('mouseup', end_draw);
-        // }
-        // drawing.on('mousedown', start_draw, false);
-        // drawing.on('mouseup', end_draw, false);
     }
 
     create_circle(self = this) {
@@ -210,3 +203,5 @@ var generate_unique_id = (function () {
     // in the variable uniqueID above.
     return function () { return id++; };  // Return and increment
 })(); // Invoke the outer function after defining it.
+
+const scene = new Scene(1000);
