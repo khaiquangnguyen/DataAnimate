@@ -1,9 +1,9 @@
 class RectObject extends GraphicalObject {
     constructor(x, y, width, height, name, rect) {
-        super(x, y, width, height, 'Rectangle', name);
+        super(x, y, width, height, name);
+        this.type = "Rectangle";
         this.opacity = 0.1;
         this.SVG_reference = rect;
-        console.log(rect);
         this.SVG_reference.attr("id", this.unique_id);
         this.set_on_click();
     }
@@ -51,14 +51,13 @@ class RectObject extends GraphicalObject {
 
     static get_blueprint(self = this) {
         return {
-            type: this.type,
+            name: "Rectangle",
             tooltips: "This is a rectangle",
             icon_representation: "",
-            creator_function: self.create
+            create_fn: RectObject.create
         }
     }
 }
-
 
 
 class CircleObject extends GraphicalObject {
@@ -85,6 +84,7 @@ class CircleObject extends GraphicalObject {
             .attr("opacity", this.opacity)
     }
 }
+
 
 
 // class LineObject extends GraphicalObject {

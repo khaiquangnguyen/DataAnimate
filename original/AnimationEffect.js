@@ -72,6 +72,7 @@ class AnimationEffect {
     resume(self = this) {
         return;
     }
+
 }
 
 class SVG_Move extends AnimationEffect {
@@ -128,6 +129,19 @@ class SVG_Move extends AnimationEffect {
         this.start_y = begin_y;
         this.end_x = end_x;
         this.end_y = end_y;
+    }
+
+    static get_blueprint(self = this) {
+        return {
+            name: "SVG - Move To",
+            tooltips: "Move an object from a starting location to an end location",
+            icon_representation: "",
+            create_fn: SVG_Move.create
+        }
+    }
+
+    create(effect_stack, self = this) {
+        const effect = new SVG_Move(effect_stack);
     }
 }
 

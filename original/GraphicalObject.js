@@ -8,8 +8,8 @@ const input_types = {
 }
 
 class GraphicalObject {
-    constructor(x, y, width, height, type, name) {
-        this.type = type;
+    constructor(x, y, width, height, name) {
+        this.type = "";
         this.name = name;
         this.total_width = width;
         this.total_height = height;
@@ -81,7 +81,8 @@ class GraphicalObject {
         }
     }
 
-    export(self = this) {
+    export_state(self = this) {
         return this.export_defaults();
     }
+
 }

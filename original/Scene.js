@@ -1,7 +1,7 @@
 // dummy class to hold all of the blueprints
 class BluePrintLibrary {
     constructor() {
-        this.blueprints = [];
+        this.blueprints = {};
     }
 
     get_num_blueprints() {
@@ -25,11 +25,12 @@ class BluePrintLibrary {
             reader.onload = readerEvent => {
                 var content = readerEvent.target.result; // this is the content!
                 var script = document.createElement('script');
-                script.onload = () => {
-                    console.log('done');
-                }
+                const object_name = file.name.split(".")[0];
+                console.log(script);
                 script.text = content;
                 document.head.appendChild(script); //or something of the likes
+                const blue_print = eval(object_name + ".get_blueprint()");
+                this.blueprints[blue_print.type] = (blue_print);
             }
         }
     }
@@ -41,6 +42,11 @@ class BluePrintLibrary {
             }
         }
     }
+
+    export_state() {
+        return this.blueprints;
+    }
+
 }
 
 class ObjectBPLib extends BluePrintLibrary {
@@ -60,8 +66,8 @@ class Scene {
     constructor(duration) {
         this.duration = duration;
         this.graphical_objects = [];
-        this.effect_blueprints = [];
-        this.bluesprints_lib = new ObjectBPLib();
+        this.effect_bp_lib = new EffectBPLib();
+        this.obj_bp_lib = new ObjectBPLib();
         this.curr_graphical_object = null;
         this.curr_effectstack = null;
         this.curr_timestamp = 0;
@@ -93,36 +99,37 @@ class Scene {
     }
 
     import_graphical_object_blueprint(jsFile, self = this) {
-        this.bluesprints_lib.add_blueprint();
+        this.obj_bp_lib.add_blueprint();
     }
 
     import_effect_blueprint(jsFile, self = this) {
-
     }
 
     create_rectangle(self = this) {
-        const drawing = SVG.adopt(document.getElementById('canvas'));
-        var rect;
-        const start_draw = (e) => {
-            rect = drawing.rect();
-            rect.draw(e);
-        }
-        const end_draw = (e) => {
-            rect.draw('stop', e);
-            // add the circle to the list of new objects
-            var x = rect.x();
-            var y = rect.y();
-            var width = rect.attr('width');
-            var height = rect.attr('height');
-            self.set_curr_graphical_object(new RectObject(x, y, width, height, "test_rectangle", rect));
-            self.add_graphical_object(self.curr_graphical_object);
-            // unbind the listener
-            console.log(drawing);
-            drawing.off('mousedown', start_draw);
-            drawing.off('mouseup', end_draw);
-        }
-        drawing.on('mousedown', start_draw, false);
-        drawing.on('mouseup', end_draw, false);
+        this.obj_bp_lib.blueprints[0].create_fn();
+        console.log(this.obj_bp_lib.blueprints[0]);
+        // const drawing = SVG.adopt(document.getElementById('canvas'));
+        // var rect;
+        // const start_draw = (e) => {
+        //     rect = drawing.rect();
+        //     rect.draw(e);
+        // }
+        // const end_draw = (e) => {
+        //     rect.draw('stop', e);
+        //     // add the circle to the list of new objects
+        //     var x = rect.x();
+        //     var y = rect.y();
+        //     var width = rect.attr('width');
+        //     var height = rect.attr('height');
+        //     self.set_curr_graphical_object(new RectObject(x, y, width, height, "test_rectangle", rect));
+        //     self.add_graphical_object(self.curr_graphical_object);
+        //     // unbind the listener
+        //     console.log(drawing);
+        //     drawing.off('mousedown', start_draw);
+        //     drawing.off('mouseup', end_draw);
+        // }
+        // drawing.on('mousedown', start_draw, false);
+        // drawing.on('mouseup', end_draw, false);
     }
 
     create_circle(self = this) {
@@ -162,7 +169,26 @@ class Scene {
         current_focus_object = new TextObject(0, 0, 200, 100, 'test_text', 'this is a good text');
     }
 
+    export_state() {
+        // generate 
+        return {
+            duration: this.duration,
+            curr_timestamp: this.curr_effectstack,
+            obj_blueprints: this.obj_bp_lib.export_state(),
+            effect_blueprints: this.effect_bp_lib.export_state(),
+            curr_graphical_object: this.curr_graphical_object.export_state(),
+            curr_effectstack: this.curr_effectstack.export_state(),
+            graphical_objects: () => {
+                const d = [];
+                this.graphical_objects.forEach(object => {
+                    d.push(object.export_state());
+                })
+            }
+        }
+    }
+
 }
+
 
 /**
  * Help from Stackoverflow : https://stackoverflow.com/questions/1535631/static-variables-in-javascript
