@@ -97,6 +97,10 @@ class GraphicalObject {
         self.track.reachTo(play_time);
     }
 
+    reachTo(self = this) {
+        self.track.stop();
+    }
+
 
     export_state(self = this) {
         return { ...this.track.export_state(), ...this.export_params() };

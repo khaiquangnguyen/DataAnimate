@@ -47,6 +47,13 @@ class SVG_Move extends AnimationEffect {
         });
     }
 
+    stop(self = this) {
+        this.target_components.forEach(e => {
+            var svg_e = SVG.adopt(e);
+            svg_e.stop();
+        });
+    }
+
     set_attributes(begin_x = this.start_x, begin_y = this.start_y, end_x = this.end_x, end_y = this.end_y) {
         this.start_x = begin_x;
         this.start_y = begin_y;

@@ -73,6 +73,10 @@ class AnimationEffect {
         return;
     }
 
+    stop(self = this) {
+        return;
+    }
+
     export_default_params(self = this) {
         return {
             name: {
