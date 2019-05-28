@@ -118,7 +118,8 @@
 
 
 scene.set_curr_blueprint(scene.obj_bp_lib.blueprints.Rectangle);
-console.log(scene);
+var state = scene.export_state();
+console.log(state);
 document.addEventListener("keypress", function onEvent(event) {
 
     if (event.key === "1") {
@@ -127,7 +128,9 @@ document.addEventListener("keypress", function onEvent(event) {
         // scene.create_circle();
     }
     else if (event.key === "2") {
-        scene.create_rectangle();
+        var state = scene.export_state();
+        console.log(state);
+
     }
     else if (event.key === "3") {
         scene.set_curr_graphical_object(scene.graphical_objects[0]);

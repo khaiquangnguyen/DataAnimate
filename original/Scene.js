@@ -106,7 +106,6 @@ class Scene {
     }
 
     set_curr_graphical_object(graphical_object, self = this) {
-        console.log(graphical_object);
         this.curr_graphical_object = graphical_object;
         // deselect all other objects first
         this.graphical_objects.forEach(object => {
@@ -178,14 +177,15 @@ class Scene {
             curr_timestamp: this.curr_effectstack,
             obj_blueprints: this.obj_bp_lib.export_state(),
             effect_blueprints: this.effect_bp_lib.export_state(),
-            curr_graphical_object: this.curr_graphical_object.export_state(),
-            curr_effectstack: this.curr_effectstack.export_state(),
-            graphical_objects: () => {
+            curr_graphical_object: this.curr_graphical_object === null ? [] : this.curr_graphical_object.export_state(),
+            curr_effectstack: this.curr_effectstack === null ? [] : this.curr_effectstack.export_state(),
+            graphical_objects: (() => {
                 const d = [];
                 this.graphical_objects.forEach(object => {
                     d.push(object.export_state());
                 })
-            }
+                return d;
+            })()
         }
     }
 

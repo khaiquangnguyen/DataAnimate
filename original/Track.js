@@ -52,13 +52,13 @@ class Track {
     export_state(self = this) {
         return {
             duration: this.duration,
-            effect_stacks: () => {
+            effect_stacks: (() => {
                 var effect_stacks = [];
                 self.effect_stacks.forEach(stack => {
                     effec_stacks.push(stack.export_state());
                 });
                 return effect_stacks;
-            }
+            })()
         }
     }
 }

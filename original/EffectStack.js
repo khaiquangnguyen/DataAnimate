@@ -92,13 +92,13 @@ class EffectStack {
             duration: this.duration,
             start_time: this.start_time,
             enabled: this.enabled,
-            effects: () => {
+            effects: (() => {
                 var effects = [];
                 self.effects.forEach(effect => {
                     effects.push(effect.export_state());
                 });
                 return effects;
-            }
+            })()
         }
     }
 }
