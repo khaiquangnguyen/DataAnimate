@@ -1,0 +1,33 @@
+.is-background-div {
+    background: #161616;
+}
+
+.is-view-container {
+    margin: 2.5px 2.5px 5px 5px;
+}
+
+.is-view-element-container {
+    background:#232323;
+    color: #b0b0b0 !important;
+}
+
+.is-header-container {
+    height: calc(5vh - 7.5px);
+    margin: 5px 5px 2.5px 5px;
+}
+
+.is-screen-container {
+    height: calc(60vh - 5px);
+    margin-bottom: 2.5px;
+
+}
+
+.is-timeline-container {
+    height: calc(35vh - 7.5px);
+    margin-top: 2.5px;
+}
+
+.is-menu-container {
+    height: calc(95vh - 7.5px);
+    margin: 2.5px 5px 5px 2.5px;
+}

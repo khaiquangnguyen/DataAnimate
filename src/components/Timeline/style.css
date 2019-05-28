@@ -1,0 +1,14 @@
+#interact-test {
+    background-color: #29e;
+    color: white;
+    font-size: 20px;
+    font-family: sans-serif;
+    padding: 1px;
+    /*margin: 30px 20px;*/
+    touch-action: none;
+    width: 20px;
+    height: 100%;
+
+    /* This makes things *much* easier */
+    box-sizing: border-box;
+}
