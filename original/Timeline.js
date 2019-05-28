@@ -1,7 +1,6 @@
 
 
-
-
+var global_current_time = 0;
 
 class Track {
     constructor(actor) {
@@ -12,7 +11,7 @@ class Track {
 
     add_effect_stack(effect_stack, self = this) {
         self.effect_stacks.push(effect_stack);
-        self.effect_stacks.sort((a, b) => (a.start_time < b.start_time) ? 1 : -1);
+        self.effect_stacks = self.effect_stacks.sort((a, b) => (a.start_time > b.start_time) ? 1 : -1);
 
     }
     remove_effect_stack(remove_stack, self = this) {
@@ -27,9 +26,29 @@ class Track {
         self.duration = duration;
     }
 
-    play(play_time, self = this) {
+    play(play_time = 0, self = this) {
+        console.log("playing");
+
         self.effect_stacks.forEach(effect_stack => {
             effect_stack.play(play_time);
+        });
+    }
+
+    pause(self = this) {
+        self.effect_stacks.forEach(effect_stack => {
+            effect_stack.pause();
+        });
+    }
+
+    resume(self = this) {
+        self.effect_stacks.forEach(effect_stack => {
+            effect_stack.resume();
+        });
+    }
+
+    reachTo(play_time, self = this) {
+        self.effect_stacks.forEach(effect_stack => {
+            effect_stack.reachTo(play_time);
         });
     }
 }
@@ -55,8 +74,10 @@ class EffectStack {
     add_effect(effect, self = this) {
         effect.set_duration(self.duration);
         effect.set_effect_stack(this);
+        effect.set_actor(self.actor);
         self.effects.push(effect);
     }
+
     remove_effect(effect, self = this) {
         for (var i = 0; i < self.effects.length; i++) {
             if (self.effects[i] === effect) {
@@ -80,14 +101,38 @@ class EffectStack {
         self.enable = false;
     }
 
-    play(play_time, self = this) {
+    play(play_time = 0, self = this) {
         self.effects.forEach(effect => {
-            if (self.start_time + self.duration > play_time) {
+            if (play_time < self.start_time + self.duration) {
                 if (self.start_time >= play_time) {
                     setTimeout(() => {
-                        effect.execute();
+                        effect.play();
                     }, self.start_time - play_time);
                 }
+                else {
+                    effect.play(play_time - self.start_time);
+
+                }
+            }
+        });
+    }
+
+    pause(self = this) {
+        self.effects.forEach(effect => {
+            effect.pause();
+        });
+    }
+
+    resume(self = this) {
+        self.effects.forEach(effect => {
+            effect.resume();
+        });
+    }
+
+    reachTo(play_time, self = this) {
+        self.effects.forEach(effect => {
+            if (self.start_time <= play_time <= self.start_time + self.duration) {
+                effect.reachTo(play_time - self.start_time);
             }
         });
     }

@@ -3,12 +3,9 @@
 class SimpleBarChart extends GraphicalObject {
     constructor(width = 500, height = 500) {
         super(width, height, "Simple_Bar_Chart");
-        this.inner_graph = null;
         this.x_axis = null;
         this.y_axis = null;
         this.bars = null;
-        this.graph_width = this.total_width - this.margin.left - this.margin.right;
-        this.graph_height = this.total_height - this.margin.top - this.margin.bottom;
         this.x_scale = null;
         this.y_scale = null;
         this.x_data = null;
@@ -16,6 +13,11 @@ class SimpleBarChart extends GraphicalObject {
         this.columns = null;
         this.graph_x = null;
         this.graph_y = null;
+        this.inner_graph = null;
+        this.margin = { top: 20, right: 20, bottom: 20, left: 20 };
+        this.graph_width = this.total_width - this.margin.left - this.margin.right;
+        this.graph_height = this.total_height - this.margin.top - this.margin.bottom;
+
         // construct the svg object container
     }
 
@@ -26,7 +28,7 @@ class SimpleBarChart extends GraphicalObject {
             self.columns = Object.keys(self.data[0]);
         });
     }
-   
+
     construct_inner_graph(self = this) {
         self.inner_graph = self.svg_container
             .append("g")
@@ -56,8 +58,8 @@ class SimpleBarChart extends GraphicalObject {
         this.y_axis = self.inner_graph.append("g")
             .attr("class", "y_axis")
             .call(d3.axisLeft(self.graph_y));
-
     }
+
     construct_graph(self = this) {
         // append the rectangles for the bar chart
         self.bars = self.inner_graph.selectAll("." + self.name + "_bar")
@@ -114,6 +116,23 @@ class SimpleBarChart extends GraphicalObject {
     }
     set_y_scale(y_scale) {
         this.y_scale = y_scale;
+    }
+
+    set_margin_top(i) {
+        this.margin.top = i;
+    }
+    set_margin_left(i) {
+        this.margin.left = i;
+    }
+    set_margin_right(i) {
+        this.margin.right = i;
+    }
+    set_margin_bottom(i) {
+        this.margin.bottom = i;
+    }
+
+    set_data(data_file) {
+        this.data = data_file;
     }
 
 }
