@@ -104,7 +104,7 @@ class SVG_Move extends AnimationEffect {
             // clear out all animations
             svg_e.play();
             svg_e.stop();
-            svg_e.animate(self.duration - start_timestamp).move(self.end_x, self.end_y);
+            svg_e.animate(self.duration - start_timestamp).move(self.end_x, self.end_y).rotate(45);
         });
     }
 
@@ -128,9 +128,7 @@ class SVG_Move extends AnimationEffect {
         this.end_x = end_x;
         this.end_y = end_y;
     }
-
 }
-
 
 class ResizeEffect extends AnimationEffect {
     constructor(target_component = "svg_container") {
