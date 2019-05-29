@@ -114,7 +114,7 @@ class Scene {
         this.curr_graphical_object.select();
     }
 
-    add_effect_stack(effect_stack, self = this) {
+    add_effectstack(add_effectstack, self = this) {
         this.curr_graphical_object.add_effectstack(effect_stack);
         this.curr_effectstack = effect_stack;
     }
@@ -135,7 +135,7 @@ class Scene {
         this.curr_effectstack = curr_effect_stack;
     }
 
-    import_graphical_object_blueprint(jsFile, self = this) {
+    import_graphical_object_blueprint(self = this) {
         this.obj_bp_lib.add_blueprint();
     }
 
@@ -146,10 +146,6 @@ class Scene {
     create_object(self = this, blueprint) {
         blueprint.create_fn(this.add_graphical_object);
     }
-
-    create_effect(self = this) {
-    }
-
 
     play(play_time = 0, self = this) {
         self.graphical_objects.forEach(obj => {
@@ -175,24 +171,31 @@ class Scene {
         });
     }
 
-    export_state() {
-        // generate 
-        return {
-            duration: this.duration,
-            curr_timestamp: this.curr_effectstack,
-            obj_blueprints: this.obj_bp_lib.export_state(),
-            effect_blueprints: this.effect_bp_lib.export_state(),
-            curr_graphical_object: this.curr_graphical_object === null ? [] : this.curr_graphical_object.export_state(),
-            curr_effectstack: this.curr_effectstack === null ? [] : this.curr_effectstack.export_state(),
-            graphical_objects: (() => {
-                const d = [];
-                this.graphical_objects.forEach(object => {
-                    d.push(object.export_state());
-                })
-                return d;
-            })()
-        }
+    stop(self = this) {
+        self.graphical_objects.forEach(obj => {
+            obj.stop();
+        });
     }
+}
+
+export_state() {
+    // generate 
+    return {
+        duration: this.duration,
+        curr_timestamp: this.curr_effectstack,
+        obj_blueprints: this.obj_bp_lib.export_state(),
+        effect_blueprints: this.effect_bp_lib.export_state(),
+        curr_graphical_object: this.curr_graphical_object === null ? [] : this.curr_graphical_object.export_state(),
+        curr_effectstack: this.curr_effectstack === null ? [] : this.curr_effectstack.export_state(),
+        graphical_objects: (() => {
+            const d = [];
+            this.graphical_objects.forEach(object => {
+                d.push(object.export_state());
+            })
+            return d;
+        })()
+    }
+}
 }
 
 

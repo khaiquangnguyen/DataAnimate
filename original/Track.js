@@ -43,6 +43,12 @@ class Track {
         });
     }
 
+    stop(self = this) {
+        self.effect_stacks.forEach(effect_stack => {
+            effect_stack.stop();
+        });
+    }
+
     reachTo(play_time, self = this) {
         self.effect_stacks.forEach(effect_stack => {
             effect_stack.reachTo(play_time);

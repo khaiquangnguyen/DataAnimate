@@ -79,6 +79,12 @@ class EffectStack {
         });
     }
 
+    stop(self = this) {
+        self.effects.forEach(effect => {
+            effect.stop();
+        });
+    }
+
     reachTo(play_time, self = this) {
         self.effects.forEach(effect => {
             if (self.start_time <= play_time <= self.start_time + self.duration) {
