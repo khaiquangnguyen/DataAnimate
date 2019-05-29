@@ -117,13 +117,13 @@
 
 
 
-scene.set_curr_blueprint(scene.obj_bp_lib.blueprints.Rectangle);
+// scene.set_curr_blueprint(scene.obj_bp_lib.blueprints.Rectangle);
 var state = scene.export_state();
 console.log(state);
 document.addEventListener("keypress", function onEvent(event) {
 
     if (event.key === "1") {
-        scene.create_object();
+        scene.create_object(scene.obj_bp_lib.blueprints.Rectangle);
         // scene.import_graphical_object_blueprint();
         // scene.create_circle();
     }

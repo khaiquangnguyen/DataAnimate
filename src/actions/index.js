@@ -6,7 +6,7 @@ import {
   ADD_EFFECT_STACK,
   EDIT_EFFECT_STACK,
   DELETE_EFFECT_STACK,
-  SELECT_OBJECT,
+  // SELECT_OBJECT,
   EDIT_ATTRIBUTE,
   IMPORT_BLUEPRINT,
   IMPORT_EFFECT,
@@ -54,12 +54,10 @@ export const setEffectStack = effectStack => ({
   payload: effectStack,
 });
 
-export const 
-
-export const selectObject = graphicalObject => ({
-  type: SELECT_OBJECT,
-  payload: graphicalObject,
-});
+// export const selectObject = graphicalObject => ({
+//   type: SELECT_OBJECT,
+//   payload: graphicalObject,
+// });
 
 export const editAttribute = (graphicalObject, attribute, value) => ({
   type: EDIT_ATTRIBUTE,

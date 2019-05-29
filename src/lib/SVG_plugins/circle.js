@@ -1,4 +1,6 @@
-    SVG.Element.prototype.draw.extend('circle', {
+import SVG from 'svg.js';
+
+SVG.Element.prototype.draw.extend('circle', {
     
         init:function(e){
         

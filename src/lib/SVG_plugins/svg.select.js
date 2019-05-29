@@ -1,3 +1,5 @@
+import SVG from 'svg.js';
+
 function SelectHandler(el) {
 
     this.el = el;

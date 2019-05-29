@@ -12,9 +12,9 @@ class Track {
 
     }
     remove_effect_stack(remove_stack, self = this) {
-        for (var i = 0; i < self.effect_stacks.length; i++) {
+        for (let i = 0; i < self.effect_stacks.length; i++) {
             if (self.effect_stacks[i] === remove_stack) {
-                arr.splice(i, 1);
+                self.effect_stacks.splice(i, 1);
             }
         }
     }
@@ -61,10 +61,12 @@ class Track {
             effect_stacks: (() => {
                 var effect_stacks = [];
                 self.effect_stacks.forEach(stack => {
-                    effec_stacks.push(stack.export_state());
+                    self.effect_stacks.push(stack.export_state());
                 });
                 return effect_stacks;
             })()
         }
     }
 }
+
+export default Track;

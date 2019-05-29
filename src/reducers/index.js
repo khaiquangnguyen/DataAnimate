@@ -1,11 +1,11 @@
 import * as types from '../actions/types';
 
-
 export const rootReducer = (state = {}, action) => {
   console.log(state);
   switch (action.type) {
     case types.ADD_OBJECT:
-      state.scene.add_graphical_object(action.payload);
+      // state.scene.add_graphical_object(action.payload);
+      state.scene.create_object(state.scene.obj_bp_lib.blueprints.Rectangle);
       return state.scene.export_state();
 
     case types.DELETE_OBJECT:
@@ -69,4 +69,3 @@ export const rootReducer = (state = {}, action) => {
       return state;
   }
 };
-

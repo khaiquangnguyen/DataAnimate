@@ -12,8 +12,11 @@
 }
 
 .is-header-container {
+    width: calc(100vw - 5px);
     height: calc(5vh - 7.5px);
     margin: 5px 5px 2.5px 5px;
+    display: flex;
+    justify-content: center;
 }
 
 .is-screen-container {

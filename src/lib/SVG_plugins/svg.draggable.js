@@ -1,10 +1,12 @@
-// import { Box, Element, G, extend, off, on } from 'svg.min.js'
-Box = SVG.Box;
-Element = SVG.Element;
-G = SVG.G;
-extend = SVG.extend;
-off = SVG.off;
-on = SVG.on;
+import SVG from 'svg.js';
+// import { Box, Element, G, extend, off, on } from 'svg.js'
+
+const Box = SVG.Box;
+const Element = SVG.Element;
+const G = SVG.G;
+const extend = SVG.extend;
+const off = SVG.off;
+const on = SVG.on;
 const getCoordsFromEvent = (ev) => {
   if (ev.changedTouches) {
     ev = ev.changedTouches[0]

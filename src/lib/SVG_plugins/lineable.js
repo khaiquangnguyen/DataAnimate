@@ -1,4 +1,6 @@
-    SVG.Element.prototype.draw.extend('line polyline polygon', {
+import SVG from 'svg.js';
+
+SVG.Element.prototype.draw.extend('line polyline polygon', {
 
         init:function(e){
             // When we draw a polygon, we immediately need 2 points.

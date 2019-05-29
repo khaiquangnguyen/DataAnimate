@@ -1,3 +1,8 @@
+import Track from '../Track';
+import { input_types, generate_unique_id, scene } from "../Scene";
+import SVG from 'svg.js';
+import * as d3 from 'd3';
+
 class GraphicalObject {
     constructor(x, y, width, height, name) {
         this.type = "";
@@ -114,8 +119,8 @@ class GraphObject extends GraphicalObject {
         super(x, y, width, height, type, name);
         this.svg_container = null;
         this.bounding_box = null;
-        construct_svg_container();
-        this.SVG_reference = SVG.adopt(document.getElementById(self.unique_id));
+        this.construct_svg_container();
+        this.SVG_reference = SVG.adopt(document.getElementById(this.unique_id));
         this.set_on_click();
 
     }
@@ -174,3 +179,6 @@ class GraphObject extends GraphicalObject {
             .attr("opacity", this.opacity)
     }
 }
+
+export default GraphicalObject;
+

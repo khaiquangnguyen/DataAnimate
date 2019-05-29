@@ -1,5 +1,16 @@
 .track-container {
     height: 100%;
-    overflow-x: auto;
+    overflow: auto;
 }
 
+#ruler {
+    top: 0;
+    left: 20px;
+    background-color: #29e;
+    position: absolute;
+    padding: 1px;
+    touch-action: none;
+    width: 1px;
+    height: 100%;
+    box-sizing: border-box;
+}
