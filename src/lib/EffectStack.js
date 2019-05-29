@@ -109,3 +109,4 @@ class EffectStack {
     }
 }
 
+export default EffectStack;

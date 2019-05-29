@@ -1,3 +1,16 @@
+import GraphicalObject from './GraphicalObject';
+import SVG from 'svg.js';
+import { scene, input_types } from "../Scene";
+import '../SVG_plugins/svg.draw';
+import '../SVG_plugins/circle';
+import '../SVG_plugins/ellipse';
+import '../SVG_plugins/lineable';
+import '../SVG_plugins/rectable';
+import '../SVG_plugins/svg.draggable';
+import '../SVG_plugins/svg.resize';
+import '../SVG_plugins/svg.select';
+// import '../SVG_plugins/SVGPlugins';
+
 class RectObject extends GraphicalObject {
     constructor(x, y, width, height, name, rect) {
         super(x, y, width, height, name);
@@ -95,6 +108,7 @@ class RectObject extends GraphicalObject {
     }
 }
 
+export default RectObject;
 
 
 

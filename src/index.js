@@ -7,10 +7,17 @@ import * as serviceWorker from './serviceWorker';
 import 'bulma/css/bulma.min.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
+import { rootReducer } from "./reducers";
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import { scene } from './lib/Scene';
 
+const store = createStore(rootReducer, scene.export_state(), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 
 ReactDOM.render(
+  <Provider store={store}>
   <App />
+  </Provider>
   , document.getElementById('root'));
 
 

@@ -1,4 +1,6 @@
-; (function () {
+import SVG from 'svg.js';
+
+ (function () {
 
     function ResizeHandler(el) {
 

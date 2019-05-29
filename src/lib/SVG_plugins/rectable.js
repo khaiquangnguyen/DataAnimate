@@ -1,4 +1,6 @@
-    SVG.Element.prototype.draw.extend('rect image', {
+import SVG from 'svg.js';
+
+SVG.Element.prototype.draw.extend('rect image', {
     
         init:function(e){
 

@@ -1,4 +1,6 @@
-    // Our Object which manages drawing
+import SVG from 'svg.js';
+
+// Our Object which manages drawing
     function PaintHandler(el, event, options) {
 
         this.el = el;

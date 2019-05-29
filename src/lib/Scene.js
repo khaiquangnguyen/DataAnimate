@@ -1,4 +1,7 @@
-const input_types = {
+import RectObject from './DefaultObjects/RectObject';
+import EffectStack from './EffectStack';
+
+export const input_types = {
     STRING: "string",
     INT: "int",
     FLOAT: "float",
@@ -48,8 +51,8 @@ class BluePrintLibrary {
         }
     }
 
-    remove_blueprint(blueprint) {
-        for (var i = 0; i < self.blueprints.length; i++) {
+    remove_blueprint(blueprint, self=this) {
+        for (let i = 0; i < self.blueprints.length; i++) {
             if (self.blueprints[i] === blueprint) {
                 self.blueprints.splice(i, 1);
             }
@@ -115,8 +118,8 @@ class Scene {
     }
 
     add_effectstack(add_effectstack, self = this) {
-        this.curr_graphical_object.add_effectstack(effect_stack);
-        this.curr_effectstack = effect_stack;
+        this.curr_graphical_object.add_effectstack(add_effectstack);
+        this.curr_effectstack = add_effectstack;
     }
 
     remove_effectstack(self = this) {
@@ -143,7 +146,7 @@ class Scene {
         this.effect_bp_lib.add_blueprint();
     }
 
-    create_object(self = this, blueprint) {
+    create_object(blueprint,self = this) {
         blueprint.create_fn(this.add_graphical_object);
     }
 
@@ -176,34 +179,34 @@ class Scene {
             obj.stop();
         });
     }
-}
-
-export_state() {
-    // generate 
-    return {
-        duration: this.duration,
-        curr_timestamp: this.curr_effectstack,
-        obj_blueprints: this.obj_bp_lib.export_state(),
-        effect_blueprints: this.effect_bp_lib.export_state(),
-        curr_graphical_object: this.curr_graphical_object === null ? [] : this.curr_graphical_object.export_state(),
-        curr_effectstack: this.curr_effectstack === null ? [] : this.curr_effectstack.export_state(),
-        graphical_objects: (() => {
-            const d = [];
-            this.graphical_objects.forEach(object => {
-                d.push(object.export_state());
-            })
-            return d;
-        })()
+    export_state() {
+        // generate
+        return {
+            scene: this,
+            duration: this.duration,
+            curr_timestamp: this.curr_effectstack,
+            obj_blueprints: this.obj_bp_lib.export_state(),
+            effect_blueprints: this.effect_bp_lib.export_state(),
+            curr_graphical_object: this.curr_graphical_object === null ? [] : this.curr_graphical_object.export_state(),
+            curr_effectstack: this.curr_effectstack === null ? [] : this.curr_effectstack.export_state(),
+            graphical_objects: (() => {
+                const d = [];
+                this.graphical_objects.forEach(object => {
+                    d.push(object.export_state());
+                });
+                return d;
+            })()
+        }
     }
 }
-}
+
 
 
 /**
  * Help from Stackoverflow : https://stackoverflow.com/questions/1535631/static-variables-in-javascript
  * Function to generate a global unique id for all the elements
  */
-var generate_unique_id = (function () {
+export const generate_unique_id = (function () {
     var id = 0; // This is the private persistent value
     // The outer function returns a nested function that has access
     // to the persistent value.  It is this nested function we're storing
@@ -211,4 +214,4 @@ var generate_unique_id = (function () {
     return function () { return id++; };  // Return and increment
 })(); // Invoke the outer function after defining it.
 
-const scene = new Scene(1000);
+export const scene = new Scene(1000);
