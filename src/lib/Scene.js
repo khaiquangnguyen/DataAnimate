@@ -51,7 +51,7 @@ class BluePrintLibrary {
         }
     }
 
-    remove_blueprint(blueprint, self=this) {
+    remove_blueprint(blueprint, self = this) {
         for (let i = 0; i < self.blueprints.length; i++) {
             if (self.blueprints[i] === blueprint) {
                 self.blueprints.splice(i, 1);
@@ -146,7 +146,7 @@ class Scene {
         this.effect_bp_lib.add_blueprint();
     }
 
-    create_object(blueprint,self = this) {
+    create_object(blueprint, self = this) {
         blueprint.create_fn(this.add_graphical_object);
     }
 
@@ -181,13 +181,47 @@ class Scene {
     }
     export_state() {
         // generate
+        const test_curr = {
+            name: {
+                type: input_types.STRING,
+                range: "",
+                tooltips: "The name of the graphical object",
+                value: 'rect'
+            },
+            width: {
+                type: input_types.INT,
+                range: [-Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER],
+                value: 100,
+            },
+            height: {
+                type: input_types.INT,
+                range: [-Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER],
+                value: 100,
+            },
+            x: {
+                type: input_types.INT,
+                range: [-Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER],
+                value: 100
+            },
+            y: {
+                type: input_types.INT,
+                range: [-Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER],
+                value: 100
+            },
+            opacity: {
+                type: input_types.FLOAT,
+                range: [0, 1],
+                value: 1
+            },
+            linked_object: null
+        }
         return {
             scene: this,
             duration: this.duration,
             curr_timestamp: this.curr_effectstack,
             obj_blueprints: this.obj_bp_lib.export_state(),
             effect_blueprints: this.effect_bp_lib.export_state(),
-            curr_graphical_object: this.curr_graphical_object === null ? [] : this.curr_graphical_object.export_state(),
+            curr_graphical_object: this.curr_graphical_object === null ? test_curr : this.curr_graphical_object.export_state(),
             curr_effectstack: this.curr_effectstack === null ? [] : this.curr_effectstack.export_state(),
             graphical_objects: (() => {
                 const d = [];
