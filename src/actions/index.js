@@ -23,6 +23,11 @@ export const deleteObject = graphicalObject => ({
   payload: graphicalObject,
 });
 
+export const setObject = graphicalObject => ({
+  type: SET_OBJECT,
+  payload: graphicalObject,
+});
+
 export const addEffect = animationEffect => ({
   type: ADD_EFFECT,
   payload: animationEffect,
@@ -38,15 +43,18 @@ export const addEffectStack = effectStack => ({
   payload: effectStack,
 });
 
-export const editEffectStack = effectStack => ({
-  type: EDIT_EFFECT_STACK,
-  payload: effectStack,
-});
-
 export const deleteEffectStack = effectStack => ({
   type: DELETE_EFFECT_STACK,
   payload: effectStack,
 });
+
+
+export const setEffectStack = effectStack => ({
+  type: SET_EFFECT_STACK,
+  payload: effectStack,
+});
+
+export const 
 
 export const selectObject = graphicalObject => ({
   type: SELECT_OBJECT,

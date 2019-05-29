@@ -43,7 +43,7 @@ export const rootReducer = (state = {}, action) => {
     case types.IMPORT_EFFECT_BP:
       state.scene.import_effect_blueprint();
       return state.scene.export_state();
-    
+
     case types.ACTION_PAUSE:
       state.scene.pause();
       return state.scene.export_state();

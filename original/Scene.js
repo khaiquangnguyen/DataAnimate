@@ -119,8 +119,8 @@ class Scene {
         this.curr_effectstack = effect_stack;
     }
 
-    remove_effectstack(self = this) {
-        this.curr_graphical_object.remove_effectstack(this.curr_effectstack);
+    remove_effectstack(effect_stack = this.curr_effectstack, self = this) {
+        this.curr_graphical_object.remove_effectstack(effect_stack);
         this.curr_effectstack = null;
     }
 
