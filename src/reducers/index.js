@@ -63,7 +63,9 @@ export const rootReducer = (state = {}, action) => {
     case types.ACTION_STOP:
       state.scene.stop();
       return state.scene.export_state();
-
+    case types.EDIT_ATTRIBUTE:
+      console.log(action.payload);
+      return state.scene.export_state();
     default:
       console.log(state);
       return state;

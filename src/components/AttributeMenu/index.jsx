@@ -16,7 +16,7 @@ const AttributeMenu = () => (
                 <ObjAttrMenuItem />
             </div>
             <div className="content ">
-                <EffectStackMenuItem />
+                <EffectStackMenuItem/>
             </div>
         </div>
     </div>
