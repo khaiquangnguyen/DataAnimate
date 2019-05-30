@@ -1,5 +1,4 @@
 import React from 'react';
-import { editAttribute } from "../../actions/index";
 import { connect } from 'react-redux';
 import { emptySelection } from '../../actions';
 

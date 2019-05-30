@@ -2,11 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import DefaultObjIcon from './DefaultObjIcon';
 import SelectionIcon from './SelectionIcon';
+import MoreObjIcon from './MoreObjIcon';
 const ActionMenu = function (props) {
     const content_el = [];
     var new_el;
     // generate the generic objects, such empty selection
     new_el = <SelectionIcon ></SelectionIcon>
+    content_el.push(new_el);
+    new_el = <MoreObjIcon ></MoreObjIcon>
     content_el.push(new_el);
     const content = Object.keys(props.blueprints).forEach(key => {
         console.log(props.blueprints);
