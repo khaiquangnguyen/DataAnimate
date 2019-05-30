@@ -15,6 +15,7 @@ class GraphicalObject {
         this.track = new Track(this);
         this.data = null;
         this.SVG_reference = null;
+        this.show = 1;
         this.unique_id = "graphicalObject_" + generate_unique_id();
         // add onclick event
     }
@@ -43,7 +44,77 @@ class GraphicalObject {
         this.track.add_effectstack(effect_stack);
     }
 
-    export_default_state(self = this) {
+
+
+    play(play_time = 0, self = this) {
+        self.track.play(play_time);
+    }
+
+    pause(self = this) {
+        self.track.pause();
+    }
+
+    resume(self = this) {
+        self.track.resume();
+    }
+
+    reachTo(play_time, self = this) {
+        self.track.reachTo(play_time);
+    }
+
+    reachTo(self = this) {
+        self.track.stop();
+    }
+
+    edit_default_attr(d) {
+        if (!d) return;
+        const attr = d.attribute;
+        const value = d.value;
+        switch (attr) {
+            case "name":
+                this.name = value;
+                return;
+            case "height":
+                this.total_height = value;
+                this.SVG_reference
+                    .attr("height", this.total_height)
+
+                break;
+            case "width":
+                this.total_width = value;
+                this.SVG_reference
+                    .attr("width", this.total_width)
+
+                break;
+            case "x":
+                console.log(this);
+                this.x = value;
+                this.SVG_reference
+                    .attr("x", this.x)
+                break;
+            case "y":
+                this.y = value;
+                this.SVG_reference
+                    .attr("y", this.y)
+                break;
+            case "opacity":
+                this.opacity = value;
+                this.SVG_reference
+                    .attr("opacity", this.opacity)
+            case "show":
+                this.show = value;
+                this.show == 1 ? this.SVG_reference.show() : this.SVG_reference.hide();
+                break;
+            default:
+                break;
+        }
+    }
+
+    edit_attr(attr, value) {
+        this.edit_default_attr(attr, value);
+    }
+
+    export_default_attributes(self = this) {
         return {
             name: {
                 type: input_types.STRING,
@@ -76,86 +147,24 @@ class GraphicalObject {
                 range: [0, 1],
                 value: this.opacity
             },
-            data: {
-                type: input_types.SELECTOR,
-                range: null,
-                value: this.data
+            linked_object: {
+                type: undefined,
+                range: undefined,
+                value: this
             },
+            show: {
+                type: input_types.BOOLEAN,
+                range: [true, false],
+                value: this.show
+            }
         }
     }
-
-
-    play(play_time = 0, self = this) {
-        self.track.play(play_time);
+    export_attributes(self = this) {
+        return self.export_default_attributes()
     }
-
-    pause(self = this) {
-        self.track.pause();
-    }
-
-    resume(self = this) {
-        self.track.resume();
-    }
-
-    reachTo(play_time, self = this) {
-        self.track.reachTo(play_time);
-    }
-
-    reachTo(self = this) {
-        self.track.stop();
-    }
-
-    edit_default_attr(d) {
-        console.log(d);
-        if (!d) return;
-        const attr = d.attribute;
-        const value = d.value;
-        switch (attr) {
-            case "name":
-                this.name = value;
-                return;
-            case "height":
-                this.total_height = value;
-                this.SVG_reference
-                    .attr("height", this.total_height)
-
-                break;
-            case "width":
-                this.total_width = value;
-                this.SVG_reference
-                    .attr("width", this.total_width)
-
-                break;
-            case "x":
-                console.log(this);
-                this.x = value;
-                this.SVG_reference
-                    .attr("x", this.x)
-                break;
-            case "y":
-                this.y = value;
-                this.SVG_reference
-                    .attr("y", this.y)
-                break;
-            case "opacity":
-
-                this.opacity = value;
-                this.SVG_reference
-                    .attr("opacity", this.opacity)
-
-                break;
-            default:
-                break;
-        }
-    }
-
-    edit_attr(attr, value) {
-        this.edit_default_attr(attr, value);
-    }
-
 
     export_state(self = this) {
-        return { ...this.track.export_state(), ...this.export_default_state() };
+        return { ...this.track.export_state(), ...this.export_attributes() };
     }
 
 }

@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 //         }} /></>);
 // }
 
-class IntEdit extends React.Component {
+class FileEdit extends React.Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
@@ -21,20 +21,22 @@ class IntEdit extends React.Component {
     handleChange(event) {
         const min_value = this.props.attribute.desc.range[0];
         const max_value = this.props.attribute.desc.range[1];
-        const re = /^[0-9\b]+$/;
+        console.log(min_value, max_value);
         // if value is not blank, then test the regex
         // check value
-        if (parseInt(event.target.value) < min_value || parseInt(event.target.value) > max_value) return;
-        if (re.test(event.target.value)) {
-            this.props.editAttribute(this.props.attribute.key, event.target.value)
-        }
+        if (parseFloat(event.target.value) < min_value || parseInt(event.target.value) > max_value) return;
+        this.props.editAttribute(this.props.attribute.key, event.target.value)
     }
 
+    handleSubmit(event) {
+        alert('A name was submitted: ' + this.state.value);
+        event.preventDefault();
+    }
 
     render() {
         return (<><label> {this.props.attribute.key}</label>
-            <input type="text" value={this.props.attribute.desc.value} pattern="[0-9]*" onChange={this.handleChange} /></>);
+            <input type="number" step="0.01" value={this.props.attribute.desc.value} onChange={this.handleChange} /></>);
     }
 }
 
-export default connect(null, { editAttribute })(IntEdit);
+export default connect(null, { editAttribute })(FileEdit);

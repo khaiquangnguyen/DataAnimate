@@ -90,42 +90,6 @@ class RectObject extends GraphicalObject {
         }
     }
 
-    export_default_state() {
-        return {
-            name: {
-                type: input_types.STRING,
-                range: "",
-                tooltips: "The name of the graphical object",
-                value: this.name
-            },
-            width: {
-                type: input_types.INT,
-                range: [-Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER],
-                value: this.total_width,
-            },
-            height: {
-                type: input_types.INT,
-                range: [-Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER],
-                value: this.total_height,
-            },
-            x: {
-                type: input_types.INT,
-                range: [-Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER],
-                value: this.x
-            },
-            y: {
-                type: input_types.INT,
-                range: [-Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER],
-                value: this.y
-            },
-            opacity: {
-                type: input_types.FLOAT,
-                range: [0, 1],
-                value: this.opacity
-            },
-            linked_object: this
-        }
-    }
 }
 
 export default RectObject;

@@ -186,7 +186,6 @@ class Scene {
     }
 
     edit_attr(d, self = this) {
-        console.log(d);
         this.curr_graphical_object.edit_attr(d)
     }
     export_state() {
