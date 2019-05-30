@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { rootReducer } from "../reducers";
 import { createObject } from '../actions';
 import AttributeMenu from './AttributeMenu';
-
+import ActionMenu from './ActionMenu/index';
 function App(props) {
   return (
     <section className="hero is-fullheight is-relative">
@@ -23,28 +23,8 @@ function App(props) {
               <svg id="canvas" style={{ background: 'green' }} width={500} height={500} />
               <div className="columns is-vcentered is-multiline"
                 style={{ height: '100%', width: '5%', margin: '0 0 0 -12px' }}>
-                <div className="panel">
-                  <a className="panel-block">
-                    <span className="panel-icon is-marginless">
-                      <i className="fas fa-book" aria-hidden="true" />
-                    </span>
-                  </a>
-                  <a className="panel-block">
-                    <span className="panel-icon is-marginless">
-                      <i className="fas fa-book" aria-hidden="true" />
-                    </span>
-                  </a>
-                  <a className="panel-block">
-                    <span className="panel-icon is-marginless">
-                      <i className="fas fa-book" aria-hidden="true" />
-                    </span>
-                  </a>
-                  <a className="panel-block">
-                    <span className="panel-icon is-marginless">
-                      <i className="fas fa-book" aria-hidden="true" />
-                    </span>
-                  </a>
-                </div>
+                <ActionMenu></ActionMenu>
+
                 <div style={{ position: 'absolute', background: 'red', bottom: '12px', width: '100%', justifyContent: 'center', display: 'flex' }} >
                   <button className="button is-dark">Library</button>
                   <button className="button is-dark">Library</button>

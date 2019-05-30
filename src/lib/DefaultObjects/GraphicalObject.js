@@ -66,6 +66,10 @@ class GraphicalObject {
         self.track.stop();
     }
 
+    edit_duration(duration) {
+        this.track.edit_duration(duration);
+    }
+
     edit_default_attr(d) {
         if (!d) return;
         const attr = d.attribute;
@@ -87,7 +91,6 @@ class GraphicalObject {
 
                 break;
             case "x":
-                console.log(this);
                 this.x = value;
                 this.SVG_reference
                     .attr("x", this.x)

@@ -12,7 +12,29 @@ import {
   IMPORT_BLUEPRINT,
   IMPORT_EFFECT,
   SET_CURRENT_TIME,
+  EDIT_DURATION,
+  SHOW_MORE_OBJECTS,
+  SHOW_EFFECTS,
+  EMPTY_SELECTION
 } from './types';
+
+export const emptySelection = () => ({
+  type: EMPTY_SELECTION,
+  payload: null,
+});
+
+export const showMoreObjects = () => ({
+  type: SHOW_MORE_OBJECTS,
+  payload: null,
+});
+export const showEffects = () => ({
+  type: SHOW_EFFECTS,
+  payload: null,
+});
+export const editDuration = newDuration => ({
+  type: EDIT_DURATION,
+  payload: newDuration,
+});
 
 export const selectObject = graphicalObject => ({
   type: SELECT_OBJECT,

@@ -2,9 +2,14 @@ import * as types from '../actions/types';
 
 export const rootReducer = (state = {}, action) => {
   switch (action.type) {
+    case types.EMPTY_SELECTION:
+      // state.scene.add_graphical_object(action.payload);
+      state.scene.set_curr_graphical_object();
+      return state.scene.export_state();
+
     case types.CREATE_OBJECT:
       // state.scene.add_graphical_object(action.payload);
-      state.scene.create_graphical_object(state.scene.obj_bp_lib.blueprints.Rectangle);
+      state.scene.create_graphical_object(state.scene.default_bp_lib.blueprints.Rectangle);
       return state.scene.export_state();
     case types.SELECT_OBJECT:
       return state.scene.export_state();

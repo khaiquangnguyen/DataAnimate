@@ -24,7 +24,6 @@ class RectObject extends GraphicalObject {
     select(self = this) {
         this.SVG_reference.draggable().selectize().resize();
         this.SVG_reference.on('dragend', (e) => {
-            console.log('e');
             store.dispatch(editAttribute('x', this.SVG_reference.attr('x')));
             store.dispatch(editAttribute('y', this.SVG_reference.attr('y')));
             // events are still bound e.g. dragend will fire anyway
@@ -58,6 +57,10 @@ class RectObject extends GraphicalObject {
 
     static create(callback, self = this) {
         const drawing = SVG.adopt(document.getElementById('canvas'));
+        // first, let's clear all other listener on drawing
+        drawing.off('mousedown');
+        drawing.off('mouseup');
+
         var rect;
         const start_draw = (e) => {
             rect = drawing.rect();

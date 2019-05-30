@@ -28,7 +28,6 @@ class DragHandler {
   // Enables or disabled drag based on input
   init(enabled) {
     if (enabled) {
-      console.log(this.el);
       this.el.on('mousedown.drag', this.startDrag)
       this.el.on('touchstart.drag', this.startDrag)
     } else {

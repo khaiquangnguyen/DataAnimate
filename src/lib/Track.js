@@ -55,6 +55,10 @@ class Track {
         });
     }
 
+    edit_duration(duration) {
+        this.duration = duration;
+    }
+
     export_state(self = this) {
         return {
             duration: this.duration,

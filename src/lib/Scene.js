@@ -69,8 +69,6 @@ class BluePrintLibrary {
 class ObjectBPLib extends BluePrintLibrary {
     constructor() {
         super();
-        // initiate the default blueprints
-        this.add_blueprint(RectObject.get_blueprint());
     }
 }
 
@@ -80,15 +78,26 @@ class EffectBPLib extends BluePrintLibrary {
     }
 }
 
+class DefaultBPLib extends BluePrintLibrary {
+    constructor() {
+        super();
+        // initiate the default blueprints
+        this.add_blueprint(RectObject.get_blueprint());
+        this.add_blueprint(RectObject.get_blueprint());
+        this.add_blueprint(RectObject.get_blueprint());
+
+    }
+}
 
 class Scene {
-    constructor(duration) {
+    constructor(duration, canvas_width, canvas_height) {
         this.canvas_width = 0;
         this.canvas_height = 0;
         this.duration = duration;
         this.graphical_objects = [];
         this.effect_bp_lib = new EffectBPLib();
         this.obj_bp_lib = new ObjectBPLib();
+        this.default_bp_lib = new DefaultBPLib();
         this.curr_graphical_object = null;
         this.curr_effectstack = null;
         this.curr_timestamp = 0;
@@ -114,7 +123,14 @@ class Scene {
     }
 
     set_curr_graphical_object(graphical_object, self = this) {
-        console.log(graphical_object);
+        if (graphical_object === undefined || graphical_object === undefined) {
+            console.log(graphical_object);
+            this.graphical_objects.forEach(object => {
+                object.deselect();
+            })
+            this.curr_graphical_object = null;
+            return;
+        }
         this.curr_graphical_object = graphical_object;
         // deselect all other objects first
         this.graphical_objects.forEach(object => {
@@ -185,52 +201,25 @@ class Scene {
         });
     }
 
+    edit_duration(new_duration, self = this) {
+        self.duration = new_duration;
+        self.graphical_objects.forEach(obj => {
+            obj.edit_duration(new_duration);
+        })
+    }
+
     edit_attr(d, self = this) {
         this.curr_graphical_object.edit_attr(d)
     }
     export_state() {
-        // generate
-        const test_curr = {
-            name: {
-                type: input_types.STRING,
-                range: "",
-                tooltips: "The name of the graphical object",
-                value: 'rect'
-            },
-            width: {
-                type: input_types.INT,
-                range: [-Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER],
-                value: 100,
-            },
-            height: {
-                type: input_types.INT,
-                range: [-Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER],
-                value: 100,
-            },
-            x: {
-                type: input_types.INT,
-                range: [-Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER],
-                value: 100
-            },
-            y: {
-                type: input_types.INT,
-                range: [-Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER],
-                value: 100
-            },
-            opacity: {
-                type: input_types.FLOAT,
-                range: [0, 1],
-                value: 1
-            },
-            linked_object: '100'
-        }
         return {
             scene: this,
             duration: this.duration,
             curr_timestamp: this.curr_effectstack,
             obj_blueprints: this.obj_bp_lib.export_state(),
             effect_blueprints: this.effect_bp_lib.export_state(),
-            curr_graphical_object: this.curr_graphical_object === null ? test_curr : this.curr_graphical_object.export_state(),
+            default_blueprints: this.default_bp_lib.export_state(),
+            curr_graphical_object: this.curr_graphical_object === null ? [] : this.curr_graphical_object.export_state(),
             curr_effectstack: this.curr_effectstack === null ? [] : this.curr_effectstack.export_state(),
             graphical_objects: (() => {
                 const d = [];
@@ -258,3 +247,4 @@ export const generate_unique_id = (function () {
 })(); // Invoke the outer function after defining it.
 
 export const scene = new Scene(1000);
+console.log(scene);
