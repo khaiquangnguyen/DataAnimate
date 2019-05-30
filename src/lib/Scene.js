@@ -1,5 +1,6 @@
 import RectObject from './DefaultObjects/RectObject';
 import CircleObject from './DefaultObjects/CircleObject';
+import TextObject from './DefaultObjects/TextObject';
 import { selectObject } from '../actions';
 import { store } from '../index';
 export const input_types = {
@@ -78,7 +79,7 @@ class DefaultBPLib extends BluePrintLibrary {
         // initiate the default blueprints
         this.add_blueprint(RectObject.get_blueprint());
         this.add_blueprint(CircleObject.get_blueprint());
-
+        this.add_blueprint(TextObject.get_blueprint());
     }
 }
 

@@ -34,7 +34,6 @@ class RectObject extends GraphicalObject {
             store.dispatch(editAttribute('width', this.SVG_reference.attr('width')));
             store.dispatch(editAttribute('height', this.SVG_reference.attr('height')));
         })
-
     }
     deselect(self = this) {
         this.SVG_reference.selectize(false).draggable(false).resize(false);;
