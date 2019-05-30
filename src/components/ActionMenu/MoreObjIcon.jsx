@@ -9,7 +9,7 @@ class MoreObjIcon extends React.Component {
         return (
             <a className="panel-block" onClick={() => this.props.showMoreObjects()}>
                 <span className="panel-icon is-marginless">
-                    <i className="fas fa-book" aria-hidden="true" />
+                    <i className="fas fa-mouse-pointer" aria-hidden="true" />
                 </span>
             </a>
         )
