@@ -40,21 +40,6 @@ class RectObject extends GraphicalObject {
         this.SVG_reference.selectize(false).draggable(false).resize(false);;
     }
 
-    update_defaults(x = this.x, y = this.y, width = this.total_width, height = this.total_height, name = this.name, opacity = this.opacity) {
-        this.x = x;
-        this.y = y;
-        this.total_width = width;
-        this.total_height = height;
-        this.name = name;
-        this.opacity = opacity;
-        this.SVG_reference
-            .attr("x", this.x)
-            .attr("y", this.y)
-            .attr("width", this.total_width)
-            .attr("height", this.total_height)
-            .attr("opacity", this.opacity)
-    }
-
     static create(callback, self = this) {
         const drawing = SVG.adopt(document.getElementById('canvas'));
         // first, let's clear all other listener on drawing

@@ -1,5 +1,5 @@
 import RectObject from './DefaultObjects/RectObject';
-import EffectStack from './EffectStack';
+import CircleObject from './DefaultObjects/CircleObject';
 import { selectObject } from '../actions';
 import { store } from '../index';
 export const input_types = {
@@ -67,15 +67,9 @@ class BluePrintLibrary {
 }
 
 class ObjectBPLib extends BluePrintLibrary {
-    constructor() {
-        super();
-    }
 }
 
 class EffectBPLib extends BluePrintLibrary {
-    constructor() {
-        super();
-    }
 }
 
 class DefaultBPLib extends BluePrintLibrary {
@@ -83,8 +77,7 @@ class DefaultBPLib extends BluePrintLibrary {
         super();
         // initiate the default blueprints
         this.add_blueprint(RectObject.get_blueprint());
-        this.add_blueprint(RectObject.get_blueprint());
-        this.add_blueprint(RectObject.get_blueprint());
+        this.add_blueprint(CircleObject.get_blueprint());
 
     }
 }

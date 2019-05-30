@@ -62,7 +62,7 @@ class GraphicalObject {
         self.track.reachTo(play_time);
     }
 
-    reachTo(self = this) {
+    stop(self = this) {
         self.track.stop();
     }
 
@@ -104,17 +104,18 @@ class GraphicalObject {
                 this.opacity = value;
                 this.SVG_reference
                     .attr("opacity", this.opacity)
+                break;
             case "show":
                 this.show = value;
-                this.show == 1 ? this.SVG_reference.show() : this.SVG_reference.hide();
+                this.show === 1 ? this.SVG_reference.show() : this.SVG_reference.hide();
                 break;
             default:
                 break;
         }
     }
 
-    edit_attr(attr, value) {
-        this.edit_default_attr(attr, value);
+    edit_attr(d) {
+        this.edit_default_attr(d);
     }
 
     export_default_attributes(self = this) {

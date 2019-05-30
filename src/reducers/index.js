@@ -9,7 +9,8 @@ export const rootReducer = (state = {}, action) => {
 
     case types.CREATE_OBJECT:
       // state.scene.add_graphical_object(action.payload);
-      state.scene.create_graphical_object(state.scene.default_bp_lib.blueprints.Rectangle);
+      console.log(action.payload);
+      state.scene.create_graphical_object(action.payload);
       return state.scene.export_state();
     case types.SELECT_OBJECT:
       return state.scene.export_state();
