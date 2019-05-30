@@ -1,6 +1,7 @@
 import {
-  ADD_OBJECT,
+  SELECT_OBJECT,
   DELETE_OBJECT,
+  CREATE_OBJECT,
   ADD_EFFECT,
   DELETE_EFFECT,
   ADD_EFFECT_STACK,
@@ -13,14 +14,19 @@ import {
   SET_CURRENT_TIME,
 } from './types';
 
-export const addObject = graphicalObject => ({
-  type: ADD_OBJECT,
+export const selectObject = graphicalObject => ({
+  type: SELECT_OBJECT,
   payload: graphicalObject,
 });
 
 export const deleteObject = graphicalObject => ({
   type: DELETE_OBJECT,
   payload: graphicalObject,
+});
+
+export const createObject = blueprint => ({
+  type: CREATE_OBJECT,
+  payload: blueprint,
 });
 
 export const setObject = graphicalObject => ({

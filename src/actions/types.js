@@ -1,6 +1,7 @@
-export const ADD_OBJECT = 'ADD_OBJECT';
+export const SELECT_OBJECT = 'SELECT_OBJECT';
 export const DELETE_OBJECT = 'DELETE_OBJECT';
 export const SET_OBJECT = 'SET_OBJECT';
+export const CREATE_OBJECT = 'CREATE_OBJECT';
 
 export const ADD_EFFECT = 'ADD_EFFECT';
 export const DELETE_EFFECT = 'DELETE_EFFECT';

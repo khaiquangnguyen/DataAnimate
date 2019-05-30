@@ -1,21 +1,19 @@
 import * as types from '../actions/types';
 
 export const rootReducer = (state = {}, action) => {
-  console.log(state);
   switch (action.type) {
-    case types.ADD_OBJECT:
+    case types.CREATE_OBJECT:
       // state.scene.add_graphical_object(action.payload);
-      state.scene.create_object(state.scene.obj_bp_lib.blueprints.Rectangle);
+      state.scene.create_graphical_object(state.scene.obj_bp_lib.blueprints.Rectangle);
       return state.scene.export_state();
-
+    case types.SELECT_OBJECT:
+      return state.scene.export_state();
     case types.DELETE_OBJECT:
       state.scene.remove_graphical_object(action.payload);
       return state.scene.export_state();
-
     case types.SET_OBJECT:
       state.scene.set_curr_graphical_object(action.payload);
       return state.scene.export_state();
-
     case types.ADD_EFFECT:
       state.scene.add_effect(action.payload);
       return state.scene.export_state();
@@ -64,7 +62,7 @@ export const rootReducer = (state = {}, action) => {
       state.scene.stop();
       return state.scene.export_state();
     case types.EDIT_ATTRIBUTE:
-      console.log(action.payload);
+      state.scene.edit_attr(action.payload);
       return state.scene.export_state();
     default:
       console.log(state);

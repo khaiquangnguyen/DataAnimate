@@ -1,12 +1,5 @@
-import { Box, Element, G, extend, off, on } from 'svg.js'
-// import { Box, Element, G, extend, off, on } from '@svgdotjs/svg.js'
+import { Box, Element, G, extend, off, on } from '@svgdotjs/svg.js'
 
-// const Box = SVG.Box;
-// const Element = SVG.Element;
-// const G = SVG.G;
-// const extend = SVG.extend;
-// const off = SVG.off;
-// const on = SVG.on;
 const getCoordsFromEvent = (ev) => {
   if (ev.changedTouches) {
     ev = ev.changedTouches[0]
@@ -16,7 +9,7 @@ const getCoordsFromEvent = (ev) => {
 
 // Creates handler, saves it
 class DragHandler {
-  constructor(el) {
+  constructor (el) {
     el.remember('_draggable', this)
     this.el = el
 
@@ -26,9 +19,8 @@ class DragHandler {
   }
 
   // Enables or disabled drag based on input
-  init(enabled) {
+  init (enabled) {
     if (enabled) {
-      console.log(this.el);
       this.el.on('mousedown.drag', this.startDrag)
       this.el.on('touchstart.drag', this.startDrag)
     } else {
@@ -38,7 +30,7 @@ class DragHandler {
   }
 
   // Start dragging
-  startDrag(ev) {
+  startDrag (ev) {
     const isMouse = !ev.type.indexOf('mouse')
 
     // Check for left button
@@ -47,7 +39,7 @@ class DragHandler {
     }
 
     // Fire beforedrag event
-    if (this.el.fire('beforedrag', { event: ev, handler: this }).defaultPrevented) {
+    if (this.el.dispatch('beforedrag', { event: ev, handler: this }).defaultPrevented) {
       return
     }
 
@@ -77,7 +69,7 @@ class DragHandler {
   }
 
   // While dragging
-  drag(ev) {
+  drag (ev) {
 
     const { box, lastClick } = this
 
@@ -86,7 +78,7 @@ class DragHandler {
     const y = box.y + (currentClick.y - lastClick.y)
     const newBox = new Box(x, y, box.w, box.h)
 
-    if (this.el.fire('dragmove', {
+    if (this.el.dispatch('dragmove', {
       event: ev,
       handler: this,
       box: newBox
@@ -96,7 +88,7 @@ class DragHandler {
     return newBox
   }
 
-  move(x, y) {
+  move (x, y) {
     // Svg elements bbox depends on their content even though they have
     // x, y, width and height - strange!
     // Thats why we handle them the same as groups
@@ -107,7 +99,7 @@ class DragHandler {
     }
   }
 
-  endDrag(ev) {
+  endDrag (ev) {
     // final drag
     const box = this.drag(ev)
 
@@ -126,9 +118,9 @@ class DragHandler {
 }
 
 extend(Element, {
-  draggable(enable = true) {
+  draggable (enable = true) {
     const dragHandler = this.remember('_draggable') || new DragHandler(this)
-    dragHandler.init(enable);
-    return this;
+    dragHandler.init(enable)
+    return this
   }
 })

@@ -1,16 +1,16 @@
 import GraphicalObject from './GraphicalObject';
 import SVG from 'svg.js';
 import { scene, input_types } from "../Scene";
+import '../SVG_plugins/svg.draggable';
 import '../SVG_plugins/svg.draw';
 import '../SVG_plugins/circle';
 import '../SVG_plugins/ellipse';
 import '../SVG_plugins/lineable';
 import '../SVG_plugins/rectable';
-import '../SVG_plugins/svg.draggable';
 import '../SVG_plugins/svg.resize';
 import '../SVG_plugins/svg.select';
-// import '../SVG_plugins/SVGPlugins';
-
+import { store } from '../../index';
+import { editAttribute } from '../../actions/index'
 class RectObject extends GraphicalObject {
     constructor(x, y, width, height, name, rect) {
         super(x, y, width, height, name);
@@ -19,6 +19,26 @@ class RectObject extends GraphicalObject {
         this.SVG_reference = rect;
         this.SVG_reference.attr("id", this.unique_id);
         this.set_on_click();
+    }
+
+    select(self = this) {
+        this.SVG_reference.draggable().selectize().resize();
+        this.SVG_reference.on('dragend', (e) => {
+            console.log('e');
+            store.dispatch(editAttribute('x', this.SVG_reference.attr('x')));
+            store.dispatch(editAttribute('y', this.SVG_reference.attr('y')));
+            // events are still bound e.g. dragend will fire anyway
+        })
+        this.SVG_reference.on('resizedone', (e) => {
+            store.dispatch(editAttribute('x', this.SVG_reference.attr('x')));
+            store.dispatch(editAttribute('y', this.SVG_reference.attr('y')));
+            store.dispatch(editAttribute('width', this.SVG_reference.attr('width')));
+            store.dispatch(editAttribute('height', this.SVG_reference.attr('height')));
+        })
+
+    }
+    deselect(self = this) {
+        this.SVG_reference.selectize(false).draggable(false).resize(false);;
     }
 
     update_defaults(x = this.x, y = this.y, width = this.total_width, height = this.total_height, name = this.name, opacity = this.opacity) {
@@ -70,7 +90,7 @@ class RectObject extends GraphicalObject {
         }
     }
 
-    export_params() {
+    export_default_state() {
         return {
             name: {
                 type: input_types.STRING,

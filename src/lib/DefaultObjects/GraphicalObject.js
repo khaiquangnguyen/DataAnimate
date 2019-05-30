@@ -43,7 +43,7 @@ class GraphicalObject {
         this.track.add_effectstack(effect_stack);
     }
 
-    export_params(self = this) {
+    export_default_state(self = this) {
         return {
             name: {
                 type: input_types.STRING,
@@ -81,7 +81,6 @@ class GraphicalObject {
                 range: null,
                 value: this.data
             },
-            linked_object: this
         }
     }
 
@@ -106,9 +105,57 @@ class GraphicalObject {
         self.track.stop();
     }
 
+    edit_default_attr(d) {
+        console.log(d);
+        if (!d) return;
+        const attr = d.attribute;
+        const value = d.value;
+        switch (attr) {
+            case "name":
+                this.name = value;
+                return;
+            case "height":
+                this.total_height = value;
+                this.SVG_reference
+                    .attr("height", this.total_height)
+
+                break;
+            case "width":
+                this.total_width = value;
+                this.SVG_reference
+                    .attr("width", this.total_width)
+
+                break;
+            case "x":
+                console.log(this);
+                this.x = value;
+                this.SVG_reference
+                    .attr("x", this.x)
+                break;
+            case "y":
+                this.y = value;
+                this.SVG_reference
+                    .attr("y", this.y)
+                break;
+            case "opacity":
+
+                this.opacity = value;
+                this.SVG_reference
+                    .attr("opacity", this.opacity)
+
+                break;
+            default:
+                break;
+        }
+    }
+
+    edit_attr(attr, value) {
+        this.edit_default_attr(attr, value);
+    }
+
 
     export_state(self = this) {
-        return { ...this.track.export_state(), ...this.export_params() };
+        return { ...this.track.export_state(), ...this.export_default_state() };
     }
 
 }
@@ -162,21 +209,6 @@ class GraphObject extends GraphicalObject {
             var height = self.bounding_box.attr('height');
             self.update_defaults(x, y, width, height);
         });
-    }
-
-    update_defaults(x = this.x, y = this.y, width = this.total_width, height = this.total_height, name = this.name, opacity = this.opacity) {
-        this.x = x;
-        this.y = y;
-        this.total_width = width;
-        this.total_height = height;
-        this.name = name;
-        this.opacity = opacity;
-        this.svg_container
-            .attr("x", this.x)
-            .attr("y", this.y)
-            .attr("width", this.total_width)
-            .attr("height", this.total_height)
-            .attr("opacity", this.opacity)
     }
 }
 

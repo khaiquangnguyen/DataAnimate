@@ -12,11 +12,11 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { scene } from './lib/Scene';
 
-const store = createStore(rootReducer, scene.export_state(), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+export const store = createStore(rootReducer, scene.export_state(), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 
 ReactDOM.render(
   <Provider store={store}>
-  <App />
+    <App />
   </Provider>
   , document.getElementById('root'));
 

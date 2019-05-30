@@ -1,6 +1,7 @@
 import RectObject from './DefaultObjects/RectObject';
 import EffectStack from './EffectStack';
-
+import { selectObject } from '../actions';
+import { store } from '../index';
 export const input_types = {
     STRING: "string",
     INT: "int",
@@ -98,6 +99,10 @@ class Scene {
         self.set_curr_graphical_object(graphical_object);
     }
 
+    create_graphical_object(blueprint, self = this) {
+        blueprint.create_fn(this.add_graphical_object);
+    }
+
     remove_graphical_object(graphical_object, self = this) {
         for (var i = 0; i < self.graphical_objects.length; i++) {
             if (self.graphical_objects[i] === graphical_object) {
@@ -109,12 +114,15 @@ class Scene {
     }
 
     set_curr_graphical_object(graphical_object, self = this) {
+        console.log(graphical_object);
         this.curr_graphical_object = graphical_object;
         // deselect all other objects first
         this.graphical_objects.forEach(object => {
             object.deselect();
         })
         this.curr_graphical_object.select();
+        store.dispatch(selectObject(this.curr_graphical_object));
+
     }
 
     add_effectstack(add_effectstack, self = this) {
@@ -146,9 +154,6 @@ class Scene {
         this.effect_bp_lib.add_blueprint();
     }
 
-    create_object(blueprint, self = this) {
-        blueprint.create_fn(this.add_graphical_object);
-    }
 
     play(play_time = 0, self = this) {
         self.graphical_objects.forEach(obj => {
@@ -178,6 +183,11 @@ class Scene {
         self.graphical_objects.forEach(obj => {
             obj.stop();
         });
+    }
+
+    edit_attr(d, self = this) {
+        console.log(d);
+        this.curr_graphical_object.edit_attr(d)
     }
     export_state() {
         // generate
@@ -213,7 +223,7 @@ class Scene {
                 range: [0, 1],
                 value: 1
             },
-            linked_object: null
+            linked_object: '100'
         }
         return {
             scene: this,

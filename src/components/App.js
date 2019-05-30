@@ -6,7 +6,7 @@ import Timeline from "./Timeline";
 
 import { connect } from 'react-redux';
 import { rootReducer } from "../reducers";
-import { addObject } from '../actions';
+import { createObject } from '../actions';
 import AttributeMenu from './AttributeMenu';
 
 function App(props) {
@@ -14,7 +14,7 @@ function App(props) {
     <section className="hero is-fullheight is-relative">
       <div className="columns is-paddingless is-marginless is-multiline is-background-div">
         <div className="is-view-element-container is-header-container">
-          <button className="button is-dark" onClick={() => props.addObject()}>Library</button>
+          <button className="button is-dark" onClick={() => props.createObject()}>Library</button>
         </div>
 
         <div className="column is-10 is-view-container">
@@ -66,4 +66,4 @@ function App(props) {
   );
 }
 
-export default connect(null, { addObject })(App);
+export default connect(null, { createObject })(App);

@@ -36,3 +36,8 @@ code {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+.svg_select_boundingRect{
+  fill: none;
+}
+

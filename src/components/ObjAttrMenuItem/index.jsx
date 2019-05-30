@@ -5,11 +5,10 @@ import IntEdit from '../AttributeMenu/IntEdit';
 
 const ObjAttrMenuItem = function (props) {
     const content_el = [];
-    console.log(props.reference_object);
     const content = Object.keys(props.reference_object).forEach(key => {
         const attribute = {
             key,
-            value: props.reference_object.key
+            desc: props.reference_object[key]
         }
         const input_field = <IntEdit attribute={attribute}
         />
