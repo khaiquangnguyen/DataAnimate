@@ -48,16 +48,8 @@ export const rootReducer = (state = {}, action) => {
       state.scene.import_effect_blueprint();
       return state.scene.export_state();
 
-    case types.ACTION_PAUSE:
-      state.scene.pause();
-      return state.scene.export_state();
-
-    case types.ACTION_PLAY:
-      state.scene.play(action.payload);
-      return state.scene.export_state();
-
-    case types.ACTION_RESUME:
-      state.scene.resume();
+    case types.ACTION_PLAYPAUSERESUME:
+      state.scene.playpauseresume();
       return state.scene.export_state();
 
     case types.ACTION_REACH_TIME:
@@ -67,6 +59,7 @@ export const rootReducer = (state = {}, action) => {
     case types.ACTION_STOP:
       state.scene.stop();
       return state.scene.export_state();
+    
     case types.EDIT_ATTRIBUTE:
       state.scene.edit_attr(action.payload);
       return state.scene.export_state();

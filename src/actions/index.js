@@ -11,11 +11,15 @@ import {
   EDIT_ATTRIBUTE,
   IMPORT_BLUEPRINT,
   IMPORT_EFFECT,
-  SET_CURRENT_TIME,
   EDIT_DURATION,
   SHOW_MORE_OBJECTS,
   SHOW_EFFECTS,
-  EMPTY_SELECTION
+  EMPTY_SELECTION,
+  ACTION_PAUSE,
+  ACTION_PLAYPAUSERESUME,
+  ACTION_REACH_TIME,
+  ACTION_RESUME,
+  ACTION_STOP,
 } from './types';
 
 export const emptySelection = () => ({
@@ -105,7 +109,18 @@ export const importEffect = jsFile => ({
   payload: jsFile,
 });
 
-export const setCurrentTime = time => ({
-  type: SET_CURRENT_TIME,
-  payload: time,
+
+export const playpauseresume = () => ({
+  type: ACTION_PLAYPAUSERESUME
+});
+
+
+export const stop = () => ({
+  type: ACTION_STOP
+})
+
+
+export const reachTo = time => ({
+  type: ACTION_REACH_TIME,
+  payload: time
 });

@@ -16,5 +16,5 @@ const BluePrintContainer = function (props) {
         </div>
     )
 };
-const mapStateToProps = state => ({ blueprints: state.effect_blueprints});
+const mapStateToProps = state => ({ blueprints: state.effect_blueprints });
 export default connect(mapStateToProps, null)(BluePrintContainer);

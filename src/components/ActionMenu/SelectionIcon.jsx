@@ -4,7 +4,6 @@ import { emptySelection } from '../../actions';
 class SelectionIcon extends React.Component {
     constructor(props) {
         super(props);
-        console.log(props);
     }
     render() {
         return (
@@ -15,4 +14,5 @@ class SelectionIcon extends React.Component {
             </a >
         )
     }
-} export default connect(null, { emptySelection })(SelectionIcon);
+}
+export default connect(null, { emptySelection })(SelectionIcon);

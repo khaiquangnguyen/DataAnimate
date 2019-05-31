@@ -12,6 +12,12 @@ export const input_types = {
     BOOLEAN: "boolean",
     CONST: "const"
 }
+
+export const scene_action = {
+    PLAY: 'PLAY',
+    PAUSE: 'PAUSE',
+    STOP: 'STOP'
+}
 // dummy class to hold all of the blueprints
 class BluePrintLibrary {
     constructor() {
@@ -74,18 +80,20 @@ class EffectBPLib extends BluePrintLibrary {
     constructor() {
         super();
         // initiate the default blueprints
-        this.add_blueprint( 
-            {type: "Resize",
-        tooltips: "This is a rectangle",
-        icon_representation: "",
-        create_fn: "ahaha"
-    });
-    this.add_blueprint( 
-        {type: "FadeIn",
-    tooltips: "This is a rectangle",
-    icon_representation: "",
-    create_fn: "ahaha"
-});
+        this.add_blueprint(
+            {
+                type: "Resize",
+                tooltips: "This is a rectangle",
+                icon_representation: "",
+                create_fn: "ahaha"
+            });
+        this.add_blueprint(
+            {
+                type: "FadeIn",
+                tooltips: "This is a rectangle",
+                icon_representation: "",
+                create_fn: "ahaha"
+            });
     }
 }
 
@@ -111,6 +119,7 @@ class Scene {
         this.curr_graphical_object = null;
         this.curr_effectstack = null;
         this.curr_timestamp = 0;
+        this.curr_action = scene_action.STOP;
     }
 
     add_graphical_object(graphical_object, self = this) {
@@ -181,23 +190,28 @@ class Scene {
     }
 
 
-    play(play_time = 0, self = this) {
-        self.graphical_objects.forEach(obj => {
-            obj.play(play_time);
-        });
+    playpauseresume(self = this) {
+        console.log(this.curr_action);
+        if (this.curr_action === scene_action.PLAY) {
+            this.curr_action = scene_action.PAUSE;
+            self.graphical_objects.forEach(obj => {
+                obj.pause();
+            });
+        }
+        else if (this.curr_action === scene_action.PAUSE) {
+            this.curr_action = scene_action.PLAY;
+            self.graphical_objects.forEach(obj => {
+                obj.resume();
+            });
+        }
+        else if (this.curr_action === scene_action.STOP) {
+            this.curr_action = scene_action.PLAY;
+            self.graphical_objects.forEach(obj => {
+                obj.play(this.curr_timestamp);
+            });
+        }
     }
 
-    pause(self = this) {
-        self.graphical_objects.forEach(obj => {
-            obj.pause();
-        });
-    }
-
-    resume(self = this) {
-        self.graphical_objects.forEach(obj => {
-            obj.resume();
-        });
-    }
 
     reachTo(play_time, self = this) {
         self.graphical_objects.forEach(obj => {
@@ -209,6 +223,8 @@ class Scene {
         self.graphical_objects.forEach(obj => {
             obj.stop();
         });
+        this.curr_action = scene_action.STOP;
+
     }
 
     edit_duration(new_duration, self = this) {
@@ -224,6 +240,7 @@ class Scene {
     export_state() {
         return {
             scene: this,
+            current_action:this.curr_action,
             duration: this.duration,
             curr_timestamp: this.curr_effectstack,
             obj_blueprints: this.obj_bp_lib.export_state(),
