@@ -1,3 +1,9 @@
+import Track from '../Track';
+import { input_types, generate_unique_id, scene } from "../Scene";
+import SVG from 'svg.js';
+import * as d3 from 'd3';
+
+
 class SVG_Move extends AnimationEffect {
     constructor(effect_stack, ) {
         super("MoveTo", effect_stack, true);

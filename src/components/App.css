@@ -34,3 +34,9 @@
     height: calc(95vh - 7.5px);
     margin: 2.5px 5px 5px 2.5px;
 }
+
+#canvas{
+    background: white;
+    padding: 0;
+    margin: auto;
+}

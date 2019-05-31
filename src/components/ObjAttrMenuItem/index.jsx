@@ -81,11 +81,12 @@ const ObjAttrMenuItem = function (props) {
         <div className="card">
             <header className="card-header">
                 <p className="card-header-title">
-                    {content_el}
-                </p>
+Object               
+ </p>
             </header>
             <div className="card-content">
                 <div className="content ">
+                {content_el}
 
                 </div>
             </div>

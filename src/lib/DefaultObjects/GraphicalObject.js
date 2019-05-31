@@ -167,6 +167,10 @@ class GraphicalObject {
         return self.export_default_attributes()
     }
 
+    export_animation_effects(self=this){
+    
+    }
+
     export_state(self = this) {
         return { ...this.track.export_state(), ...this.export_attributes() };
     }

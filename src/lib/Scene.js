@@ -71,6 +71,22 @@ class ObjectBPLib extends BluePrintLibrary {
 }
 
 class EffectBPLib extends BluePrintLibrary {
+    constructor() {
+        super();
+        // initiate the default blueprints
+        this.add_blueprint( 
+            {type: "Resize",
+        tooltips: "This is a rectangle",
+        icon_representation: "",
+        create_fn: "ahaha"
+    });
+    this.add_blueprint( 
+        {type: "FadeIn",
+    tooltips: "This is a rectangle",
+    icon_representation: "",
+    create_fn: "ahaha"
+});
+    }
 }
 
 class DefaultBPLib extends BluePrintLibrary {

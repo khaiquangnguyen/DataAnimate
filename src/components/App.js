@@ -1,11 +1,9 @@
 import React from 'react';
 
 import './App.css'
-import MenuItem from "./MenuItem";
 import Timeline from "./Timeline";
 
 import { connect } from 'react-redux';
-import { rootReducer } from "../reducers";
 import { createObject } from '../actions';
 import AttributeMenu from './AttributeMenu';
 import ActionMenu from './ActionMenu/index';
@@ -20,7 +18,7 @@ function App(props) {
         <div className="column is-10 is-view-container">
           <div className="columns is-multiline">
             <div className="column is-12 is-view-element-container is-screen-container is-relative">
-              <svg id="canvas" style={{ background: 'green' }} width={500} height={500} />
+              <svg id="canvas"  width={960} height={540} />
               <div className="columns is-vcentered is-multiline"
                 style={{ height: '100%', width: '5%', margin: '0 0 0 -12px' }}>
                 <ActionMenu></ActionMenu>
