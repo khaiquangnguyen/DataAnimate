@@ -1,6 +1,6 @@
-
-
-class SimpleBarChart extends GraphicalObject {
+import * as d3 from 'd3.js';
+import 
+class SimpleBarChart extends GraphObject {
     constructor(width = 500, height = 500) {
         super(width, height, "Simple_Bar_Chart");
         this.x_axis = null;
@@ -105,34 +105,44 @@ class SimpleBarChart extends GraphicalObject {
         }
     }
 
-    set_x_data(x_data) {
-        this.x_data = x_data;
-    }
-    set_y_data(y_data) {
-        this.y_data = y_data;
-    }
-    set_x_scale(x_scale) {
-        this.x_scale = x_scale;
-    }
-    set_y_scale(y_scale) {
-        this.y_scale = y_scale;
+    static create(callback, self = this) {
+        const drawing = SVG.adopt(document.getElementById('canvas'));
+        // first, let's clear all other listener on drawing
+        drawing.off('mousedown');
+        drawing.off('mouseup');
+
+        var rect;
+        const start_draw = (e) => {
+            rect = drawing.rect();
+            rect.draw(e);
+        }
+        const end_draw = (e) => {
+            rect.draw('stop', e);
+            // add the circle to the list of new objects
+            var x = rect.x();
+            var y = rect.y();
+            var width = rect.attr('width');
+            var height = rect.attr('height');
+            // should be some sort of dispatch action here
+            rect.attr('fill','none');
+            const new_rect = new SimpleBarChart(x, y, width, height, 'SimpleBarGraph','simple bar graph',rect);
+            scene.add_graphical_object(new_rect);
+            // unbind the listener
+            drawing.off('mousedown', start_draw);
+            drawing.off('mouseup', end_draw);
+        }
+        drawing.on('mousedown', start_draw, false);
+        drawing.on('mouseup', end_draw, false);
     }
 
-    set_margin_top(i) {
-        this.margin.top = i;
-    }
-    set_margin_left(i) {
-        this.margin.left = i;
-    }
-    set_margin_right(i) {
-        this.margin.right = i;
-    }
-    set_margin_bottom(i) {
-        this.margin.bottom = i;
-    }
-
-    set_data(data_file) {
-        this.data = data_file;
+    static get_blueprint(self = this) {
+        return {
+            type: "Simple Bar Chart",
+            tooltips: "This is a simple bar chart",
+            icon_representation: "",
+            create_fn: SimpleBarChart.create
+        }
     }
 
 }
+import GraphObject from './GraphObject';

@@ -1,5 +1,3 @@
-
-import GraphicalObject from './GraphicalObject';
 import SVG from 'svg.js';
 import { scene } from "../Scene";
 import '../SVG_plugins/svg.draggable';
@@ -12,16 +10,16 @@ import '../SVG_plugins/svg.resize';
 import '../SVG_plugins/svg.select';
 import * as d3 from "d3";
 import { store } from '../../index';
-import { editAttribute } from '../../actions/index'
+import { editAttribute } from '../../actions/index';
+import GraphicalObject from './GraphicalObject';
 
-class TextObject extends GraphicalObject {
-    constructor(x, y, width, height, name, text,bounding_box) {
-        super(x, y, width, height, 'Text', name);
-        const drawing = SVG.adopt(document.getElementById('canvas'));
+class GraphObject extends GraphicalObject {
+    constructor(x, y, width, height, type, name, bounding_box) {
+        super(x, y, width, height, type, name);
+        this.svg_container = null;
+        this.bounding_box = null;
         this.construct_svg_container();
-        this.text = drawing.text(text);
         this.SVG_reference = SVG.adopt(document.getElementById(this.unique_id));
-        this.SVG_reference.add(this.text);
         this.bounding_box = bounding_box;
         this.set_on_click();
     }
@@ -81,61 +79,11 @@ class TextObject extends GraphicalObject {
         this.bounding_box.selectize(false).draggable(false).resize(false);;
     }
 
-    static create(callback, self = this) {
-        const drawing = SVG.adopt(document.getElementById('canvas'));
-        // first, let's clear all other listener on drawing
-        drawing.off('mousedown');
-        drawing.off('mouseup');
 
-        var rect;
-        const start_draw = (e) => {
-            rect = drawing.rect();
-            rect.draw(e);
-        }
-        const end_draw = (e) => {
-            rect.draw('stop', e);
-            // add the circle to the list of new objects
-            var x = rect.x();
-            var y = rect.y();
-            var width = rect.attr('width');
-            var height = rect.attr('height');
-            // should be some sort of dispatch action here
-            rect.attr('fill','none');
-            const new_rect = new TextObject(x, y, width, height, "test_rectangle", 'dummy text', rect);
-            scene.add_graphical_object(new_rect);
-            // unbind the listener
-            drawing.off('mousedown', start_draw);
-            drawing.off('mouseup', end_draw);
-        }
-        drawing.on('mousedown', start_draw, false);
-        drawing.on('mouseup', end_draw, false);
-    }
 
-    static get_blueprint(self = this) {
-        return {
-            type: "Text",
-            tooltips: "This is a Text box",
-            icon_representation: "",
-            create_fn: TextObject.create
-        }
-    }
 
-    edit_attr(d) {
-        if (!d) return;
-        this.edit_default_attr(d);
-        const attr = d.attribute;
-        const value = d.value;
-        switch (attr) {
-            case "text":
-                this.text.plain(value);
-                return;
-            default:
-                break;
-        }
-        console.log(this.SVG_reference.attr('viewBox'));
-        this.SVG_reference
-        .attr('viewBox', `0 0 ${this.total_width} ${this.total_height}`);
-    }
 }
-export default TextObject;
+
+export default GraphObject;
+
 
