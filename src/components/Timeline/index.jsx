@@ -16,7 +16,7 @@ class Timeline extends React.Component {
 
 
     const x = d3.scaleLinear()
-      .domain([0, 6000])
+      .domain([0, 60000])
       .range([0, PIXELS_PER_SECOND * 60]);
 
     svg

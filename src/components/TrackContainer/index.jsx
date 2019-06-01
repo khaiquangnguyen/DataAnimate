@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import interact from "interactjs";
 
 import './style.css';
-import {BULMA_COLUMNS_OFFSET, SVG_OFFSET} from "../../constants";
+import {BULMA_COLUMNS_OFFSET, PIXELS_PER_SECOND, SVG_OFFSET} from "../../constants";
 
 import { reachTo } from "../../actions";
 import Track from '../Track';
@@ -11,6 +11,7 @@ import Track from '../Track';
 
 
 class TrackContainer extends React.Component {
+
   componentDidMount() {
     interact('#ruler')
       .draggable({
@@ -26,12 +27,12 @@ class TrackContainer extends React.Component {
       });
   }
 
-  dragMoveListener (event) {
+  dragMoveListener = (event) => {
     let target = event.target,
       // keep the dragged position in the data-x/data-y attributes
-      x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+      x = Math.max(0, (parseFloat(target.getAttribute('data-x')) || 0) + event.dx),
       y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-
+    this.props.reachTo((x + 1) / PIXELS_PER_SECOND * 1000);
     // translate the element
     target.style.webkitTransform =
       target.style.transform =
@@ -40,7 +41,7 @@ class TrackContainer extends React.Component {
     // update the posiion attributes
     target.setAttribute('data-x', x);
     target.setAttribute('data-y', y);
-  }
+  };
 
   render() {
     return (

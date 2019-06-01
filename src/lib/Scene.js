@@ -214,6 +214,7 @@ class Scene {
 
 
     reachTo(play_time, self = this) {
+        this.curr_timestamp = play_time;
         self.graphical_objects.forEach(obj => {
             obj.reachTo(play_time);
         });
