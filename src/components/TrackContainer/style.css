@@ -5,7 +5,7 @@
 
 #ruler {
     top: 0;
-    left: 20px;
+    /*left: 20px;*/
     background-color: #29e;
     position: absolute;
     padding: 1px;

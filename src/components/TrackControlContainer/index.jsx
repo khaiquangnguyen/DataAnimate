@@ -7,7 +7,7 @@ import StopButton from './StopButton'
 
 const TrackControlContainer = function (props) {
     return (
-        <div style={{ position: 'absolute', background: 'red', bottom: '12px', width: '100%', justifyContent: 'center', display: 'flex' }}>
+        <div style={{ position: 'absolute', bottom: '12px', width: '100%', justifyContent: 'center', display: 'flex' }}>
             <PlayButton> </PlayButton>
             <StopButton ></StopButton>
         </div>

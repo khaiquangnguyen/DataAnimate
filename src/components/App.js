@@ -19,17 +19,16 @@ function App(props) {
         <div className="column is-10 is-view-container">
           <div className="columns is-multiline">
             <div className="column is-12 is-view-element-container is-screen-container is-relative">
-              <svg id="canvas" width={960} height={540} />
-              <div className="columns is-vcentered is-multiline"
-                style={{ height: '100%', width: '5%', margin: '0 0 0 -12px' }}>
-                <ActionMenu></ActionMenu>
-                <TrackControlContainer></TrackControlContainer>
+              <svg style={{position: 'absolute', left: '50px'}} id="canvas" width={1516} height={485} />
+
+                <ActionMenu />
+                <TrackControlContainer />
                 {/* <div style={{ position: 'absolute', background: 'red', bottom: '12px', width: '100%', justifyContent: 'center', display: 'flex' }} >
                   <button className="button is-dark">Library</button>
                   <button className="button is-dark">Library</button>
                   <button className="button is-dark">Library</button>
                 </div> */}
-              </div>
+
 
             </div>
             <div className="column is-12 is-view-element-container is-timeline-container">

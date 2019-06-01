@@ -7,9 +7,9 @@ const ActionMenu = function (props) {
     const content_el = [];
     var new_el;
     // generate the generic objects, such empty selection
-    new_el = <SelectionIcon ></SelectionIcon>
+    new_el = <SelectionIcon />
     content_el.push(new_el);
-    new_el = <MoreObjIcon ></MoreObjIcon>
+    new_el = <MoreObjIcon/>
     content_el.push(new_el);
     const content = Object.keys(props.blueprints).forEach(key => {
         console.log(props.blueprints);
@@ -17,7 +17,7 @@ const ActionMenu = function (props) {
         content_el.push(new_el);
     });
     return (
-        <div className="panel">
+        <div className="panel" style={{position: 'absolute', left: '0', top: '33%'}}>
             {content_el}
         </div>
     )
