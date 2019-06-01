@@ -21,6 +21,7 @@ class EffectStack {
     add_effect(effect_bp, self = this) {
         const new_effect = effect_bp.create_fn(this);
         self.effects.push(new_effect);
+        console.log(new_effect);
         return new_effect;
     }
 

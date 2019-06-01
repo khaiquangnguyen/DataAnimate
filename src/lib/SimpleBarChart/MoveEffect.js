@@ -72,7 +72,7 @@ class MoveEffect extends AnimationEffect {
 
     static get_blueprint(self = this) {
         return {
-            name: "SVG - Move To",
+            name: "Move",
             tooltips: "Move an object from a starting location to an end location",
             icon_representation: "",
             create_fn: MoveEffect.create

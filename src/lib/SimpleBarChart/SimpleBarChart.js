@@ -26,15 +26,8 @@ class SimpleBarChart extends GraphObject {
         this.axis_styling = {};
         this.bar_styling = { fill: "blue" };
         this.import_data();
-        this.all_effects = [MoveEffect, FadeEffect, BarGrowByOne];
+        this.effect_bps = [MoveEffect.get_blueprint(), FadeEffect.get_blueprint(), BarGrowByOne.get_blueprint()];
         // let's do something fun
-
-        setTimeout(() => {
-            let new_effectstack = new EffectStack(this, 0, 5000);
-            this.track.add_effectstack(new_effectstack);
-            let new_effect = new_effectstack.add_effect(BarGrowByOne.get_blueprint());
-            this.track.play(500);
-        }, 100);
     }
 
     import_data(self = this) {

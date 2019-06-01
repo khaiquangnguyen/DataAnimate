@@ -6,7 +6,8 @@ export const rootReducer = (state = {}, action) => {
       // state.scene.add_graphical_object(action.payload);
       state.scene.set_curr_graphical_object();
       return state.scene.export_state();
-
+    case types.PLAYING:
+      return state.scene.export_state();
     case types.CREATE_OBJECT:
       // state.scene.add_graphical_object(action.payload);
       console.log(action.payload);
@@ -23,11 +24,15 @@ export const rootReducer = (state = {}, action) => {
     case types.ADD_EFFECT:
       state.scene.add_effect(action.payload);
       return state.scene.export_state();
-
     case types.DELETE_EFFECT:
       state.scene.remove_effect(action.payload);
       return state.scene.export_state();
-
+    case types.TOGGLE_EFFECT_BPS:
+      state.scene.toggle_effect_bps();
+      return state.scene.export_state();
+    case types.TOGGLE_OBJ_BPS:
+      state.scene.toggle_obj_bps();
+      return state.scene.export_state();
     case types.ADD_EFFECT_STACK:
       state.scene.add_effectstack(action.payload);
       return state.scene.export_state();
@@ -59,7 +64,7 @@ export const rootReducer = (state = {}, action) => {
     case types.ACTION_STOP:
       state.scene.stop();
       return state.scene.export_state();
-    
+
     case types.EDIT_ATTRIBUTE:
       state.scene.edit_attr(action.payload);
       return state.scene.export_state();

@@ -20,6 +20,9 @@ import {
   ACTION_REACH_TIME,
   ACTION_RESUME,
   ACTION_STOP,
+  TOGGLE_EFFECT_BPS,
+  TOGGLE_OBJ_BPS,
+  PLAYING
 } from './types';
 
 export const emptySelection = () => ({
@@ -124,3 +127,15 @@ export const reachTo = time => ({
   type: ACTION_REACH_TIME,
   payload: time
 });
+
+export const toggle_effect_bps = () => ({
+  type: TOGGLE_EFFECT_BPS
+});
+
+export const toggle_ob_bps = () => ({
+  type: TOGGLE_OBJ_BPS
+});
+
+export const playing = () => ({
+  type: PLAYING
+})

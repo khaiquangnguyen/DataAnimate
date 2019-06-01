@@ -14,6 +14,7 @@ class GraphicalObject {
         this.SVG_reference = null;
         this.show = 1;
         this.unique_id = "graphicalObject_" + generate_unique_id();
+        this.effect_bps = [];
         // add onclick event
     }
 

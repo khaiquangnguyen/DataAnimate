@@ -1,7 +1,7 @@
 import RectObject from './DefaultObjects/RectObject';
 import CircleObject from './DefaultObjects/CircleObject';
 import TextObject from './DefaultObjects/TextObject';
-import { selectObject } from '../actions';
+import { selectObject, stop, playing } from '../actions';
 import { store } from '../index';
 import SimpleBarChart from './SimpleBarChart/SimpleBarChart';
 export const input_types = {
@@ -78,23 +78,9 @@ class ObjectBPLib extends BluePrintLibrary {
 }
 
 class EffectBPLib extends BluePrintLibrary {
-    constructor() {
-        super();
-        // initiate the default blueprints
-        this.add_blueprint(
-            {
-                type: "Resize",
-                tooltips: "This is a rectangle",
-                icon_representation: "",
-                create_fn: "ahaha"
-            });
-        this.add_blueprint(
-            {
-                type: "FadeIn",
-                tooltips: "This is a rectangle",
-                icon_representation: "",
-                create_fn: "ahaha"
-            });
+    load_new_bps(new_bps, self = this) {
+        this.blueprints = new_bps;
+        console.log(this.blueprints);
     }
 }
 
@@ -121,7 +107,11 @@ class Scene {
         this.curr_graphical_object = null;
         this.curr_effectstack = null;
         this.curr_timestamp = 0;
+        this.last_timestamp = null;
         this.curr_action = scene_action.STOP;
+        this.show_effect_bps = false;
+        this.show_obj_bps = false;
+        this.curr_animation_frame_req = null;
     }
 
     add_graphical_object(graphical_object, self = this) {
@@ -144,12 +134,12 @@ class Scene {
     }
 
     set_curr_graphical_object(graphical_object, self = this) {
+        this.graphical_objects.forEach(object => {
+            object.deselect();
+        })
         if (graphical_object === undefined || graphical_object === undefined) {
-            console.log(graphical_object);
-            this.graphical_objects.forEach(object => {
-                object.deselect();
-            })
             this.curr_graphical_object = null;
+            this.effect_bp_lib.load_new_bps([]);
             return;
         }
         this.curr_graphical_object = graphical_object;
@@ -157,6 +147,7 @@ class Scene {
         this.graphical_objects.forEach(object => {
             object.deselect();
         })
+        this.effect_bp_lib.load_new_bps(this.curr_graphical_object.effect_bps);
         this.curr_graphical_object.select();
         store.dispatch(selectObject(this.curr_graphical_object));
 
@@ -172,10 +163,12 @@ class Scene {
         this.curr_effectstack = null;
     }
 
-    add_effect(effect, self = this) {
-        this.curr_effectstack.add_effect(effect);
+    add_effect(effect_bp, self = this) {
+        if (this.curr_effectstack === null || this.curr_effectstack === undefined) return;
+        this.curr_effectstack.add_effect(effect_bp);
     }
     remove_effect(effect, self = this) {
+        if (this.curr_effectstack === null || this.curr_effectstack === undefined) return;
         this.curr_effectstack.remove_effect(effect);
     }
 
@@ -193,42 +186,65 @@ class Scene {
 
 
     playpauseresume(self = this) {
-        console.log(this.curr_action);
+        this.last_timestamp = null;
         if (this.curr_action === scene_action.PLAY) {
             this.curr_action = scene_action.PAUSE;
             self.graphical_objects.forEach(obj => {
                 obj.pause();
             });
+            cancelAnimationFrame(this.curr_animation_frame_req);
         }
         else if (this.curr_action === scene_action.PAUSE) {
             this.curr_action = scene_action.PLAY;
+            this.curr_animation_frame_req = requestAnimationFrame(this.show_time);
             self.graphical_objects.forEach(obj => {
                 obj.resume();
             });
         }
         else if (this.curr_action === scene_action.STOP) {
             this.curr_action = scene_action.PLAY;
+            this.curr_animation_frame_req = requestAnimationFrame(this.show_time);
             self.graphical_objects.forEach(obj => {
                 obj.play(this.curr_timestamp);
             });
         }
     }
 
-
     reachTo(play_time, self = this) {
+        if (this.curr_action === scene_action.PLAY) return;
+        this.last_timestamp = null;
         this.curr_timestamp = play_time;
         self.graphical_objects.forEach(obj => {
             obj.reachTo(play_time);
         });
+        cancelAnimationFrame(this.curr_animation_frame_req);
     }
 
     stop(self = this) {
         self.graphical_objects.forEach(obj => {
             obj.stop();
         });
+        cancelAnimationFrame(this.curr_animation_frame_req);
+        this.curr_timestamp = 0;
+        this.last_timestamp = null;
         this.curr_action = scene_action.STOP;
-
     }
+
+    show_time = function (time_stamp) {
+        if (!this.last_timestamp) this.last_timestamp = time_stamp;
+        this.curr_timestamp += time_stamp - this.last_timestamp;
+        this.last_timestamp = time_stamp;
+        // console.log(this.curr_timestamp);
+        if (this.curr_timestamp >= this.duration) {
+            cancelAnimationFrame(this.curr_animation_frame_req);
+            this.curr_timestamp = this.duration;
+            store.dispatch(stop());
+            return;
+        }
+        store.dispatch(playing());
+        console.log(this.curr_timestamp);
+        this.curr_animation_frame_req = requestAnimationFrame(this.show_time);
+    }.bind(this);
 
     edit_duration(new_duration, self = this) {
         self.duration = new_duration;
@@ -239,6 +255,13 @@ class Scene {
 
     edit_attr(d, self = this) {
         this.curr_graphical_object.edit_attr(d)
+    }
+
+    toggle_effect_bps() {
+        this.show_effect_bps = !this.show_effect_bps;
+    }
+    toggle_obj_bps() {
+        this.show_obj_bps = !this.show_obj_bps;
     }
     export_state() {
         return {
@@ -251,6 +274,8 @@ class Scene {
             default_blueprints: this.default_bp_lib.export_state(),
             curr_graphical_object: this.curr_graphical_object === null ? [] : this.curr_graphical_object.export_state(),
             curr_effectstack: this.curr_effectstack === null ? [] : this.curr_effectstack.export_state(),
+            show_obj_bps: this.show_obj_bps,
+            show_effect_bps: this.show_effect_bps,
             graphical_objects: (() => {
                 const d = [];
                 this.graphical_objects.forEach(object => {
@@ -261,8 +286,6 @@ class Scene {
         }
     }
 }
-
-
 
 /**
  * Help from Stackoverflow : https://stackoverflow.com/questions/1535631/static-variables-in-javascript
@@ -276,5 +299,5 @@ export const generate_unique_id = (function () {
     return function () { return id++; };  // Return and increment
 })(); // Invoke the outer function after defining it.
 
-export const scene = new Scene(1000);
+export const scene = new Scene(10000);
 console.log(scene);

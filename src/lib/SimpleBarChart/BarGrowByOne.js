@@ -62,8 +62,8 @@ class BarGrowByOne extends AnimationEffect {
 
     static get_blueprint(self = this) {
         return {
-            name: "SVG - Move To",
-            tooltips: "Move an object from a starting location to an end location",
+            name: "Bar Grow",
+            tooltips: "Make the bar grow from 0 to full height",
             icon_representation: "",
             create_fn: BarGrowByOne.create
         }

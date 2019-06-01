@@ -5,9 +5,12 @@ import Timeline from "./Timeline";
 
 import { connect } from 'react-redux';
 import { createObject } from '../actions';
-import AttributeMenu from './AttributeMenu';
+import AttributeMenu from './RightMenuContainer';
 import ActionMenu from './ActionMenu/index';
 import TrackControlContainer from './TrackControlContainer';
+import BluePrintContainer from '../components/EffectStackMenu/BluePrintContainer';
+
+
 function App(props) {
   return (
     <section className="hero is-fullheight is-relative">
@@ -19,11 +22,13 @@ function App(props) {
         <div className="column is-10 is-view-container">
           <div className="columns is-multiline">
             <div className="column is-12 is-view-element-container is-screen-container is-relative">
-              <svg style={{position: 'absolute', left: '50px'}} id="canvas" width={1516} height={485} />
+              <svg style={{ position: 'absolute', left: '50px' }} id="canvas" width={1516} height={485} />
 
-                <ActionMenu />
-                <TrackControlContainer />
-                {/* <div style={{ position: 'absolute', background: 'red', bottom: '12px', width: '100%', justifyContent: 'center', display: 'flex' }} >
+              <ActionMenu />
+              <TrackControlContainer />
+              <BluePrintContainer />
+
+              {/* <div style={{ position: 'absolute', background: 'red', bottom: '12px', width: '100%', justifyContent: 'center', display: 'flex' }} >
                   <button className="button is-dark">Library</button>
                   <button className="button is-dark">Library</button>
                   <button className="button is-dark">Library</button>

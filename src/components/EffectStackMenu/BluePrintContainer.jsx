@@ -10,11 +10,18 @@ const BluePrintContainer = function (props) {
         new_el = <BluePrintIcon blueprint={props.blueprints[key]}></BluePrintIcon>
         content_el.push(new_el);
     });
-    return (
-        <div className="panel">
-            {content_el}
-        </div>
-    )
+    if (props.show) {
+        return (
+            <div className="panel">
+                {content_el}
+            </div>
+        )
+    }
+    else {
+        return null;
+    }
+
 };
-const mapStateToProps = state => ({ blueprints: state.effect_blueprints });
+const mapStateToProps = state => ({ show: state.show_effect_bps, blueprints: state.effect_blueprints });
+
 export default connect(mapStateToProps, null)(BluePrintContainer);

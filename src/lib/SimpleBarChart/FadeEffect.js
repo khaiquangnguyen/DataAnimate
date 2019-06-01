@@ -68,8 +68,8 @@ class FadeEffect extends AnimationEffect {
 
     static get_blueprint(self = this) {
         return {
-            name: "SVG - Move To",
-            tooltips: "Move an object from a starting location to an end location",
+            name: "Fade",
+            tooltips: "Fade an object from opacity to another opacity",
             icon_representation: "",
             create_fn: FadeEffect.create
         }

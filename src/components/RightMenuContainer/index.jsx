@@ -1,8 +1,8 @@
 import React from 'react';
 
 // import './style.css';
-import EffectStackMenuItem from '../EffectStackMenuItem';
-import ObjAttrMenuItem from '../ObjAttrMenuItem';
+import EffectStackMenuItem from '../EffectStackMenu';
+import ObjAttrMenuItem from '../ObjAttrMenu';
 
 const AttributeMenu = () => (
     <div className="card">

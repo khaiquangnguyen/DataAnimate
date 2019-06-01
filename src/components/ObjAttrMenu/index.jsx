@@ -1,19 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import IntEdit from '../AttributeMenu/IntEdit';
+import IntEdit from '../RightMenuContainer/IntEdit';
 // import './style.css';
 import { input_types } from '../../lib/Scene';
-import FloatEdit from '../AttributeMenu/FloatEdit';
-import StringEdit from '../AttributeMenu/StringEdit';
-import BooleanEdit from '../AttributeMenu/BooleanEdit';
-import SelectEdit from '../AttributeMenu/SelectEdit';
-import FileEdit from '../AttributeMenu/FileEdit';
-import AddEffectButton from './AddEffectButton';
+import FloatEdit from '../RightMenuContainer/FloatEdit';
+import StringEdit from '../RightMenuContainer/StringEdit';
+import BooleanEdit from '../RightMenuContainer/BooleanEdit';
+import SelectEdit from '../RightMenuContainer/SelectEdit';
+import FileEdit from '../RightMenuContainer/FileEdit';
 
-const EffectStackMenuItem = function (props) {
+const ObjAttrMenuItem = function (props) {
     const content_el = [];
     var attribute, input_field;
-    Object.keys(props.reference_object).forEach(key => {
+    const content = Object.keys(props.reference_object).forEach(key => {
         switch (props.reference_object[key]['type']) {
             case input_types.INT:
                 attribute = {
@@ -82,16 +81,16 @@ const EffectStackMenuItem = function (props) {
         <div className="card">
             <header className="card-header">
                 <p className="card-header-title">
-                Effects
-                </p>
+Object               
+ </p>
             </header>
             <div className="card-content">
                 <div className="content ">
                 {content_el}
+
                 </div>
-                <AddEffectButton></AddEffectButton>
             </div>
         </div>)
 };
-const mapStateToProps = state => ({ reference_object: state.curr_effectstack });
-export default connect(mapStateToProps, null)(EffectStackMenuItem);
+const mapStateToProps = state => ({ reference_object: state.curr_graphical_object });
+export default connect(mapStateToProps, null)(ObjAttrMenuItem);
