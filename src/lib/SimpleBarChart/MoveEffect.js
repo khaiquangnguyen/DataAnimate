@@ -1,14 +1,15 @@
-import { input_types} from "../Scene";
+import { input_types } from "../Scene";
 import SVG from 'svg.js';
+import AnimationEffect from '../DefaultEffects/AnimationEffect';
 
-
-class SVG_Move extends AnimationEffect {
-    constructor(effect_stack, ) {
+class MoveEffect extends AnimationEffect {
+    constructor(effect_stack) {
         super("MoveTo", effect_stack, true);
         this.start_x = this.actor.x;
         this.start_y = this.actor.y;
         this.end_x = this.actor.x;
         this.end_y = this.actor.y;
+        this.target_components = [this.actor.svg_container.node()];
     }
 
     reachTo(timestamp = 0, self = this) {
@@ -27,13 +28,14 @@ class SVG_Move extends AnimationEffect {
     }
 
     play(start_timestamp = 0, self = this) {
+        console.log('why not run');
         this.reachTo(start_timestamp);
         this.target_components.forEach(e => {
             var svg_e = SVG.adopt(e);
             // clear out all animations
             svg_e.play();
             svg_e.stop();
-            svg_e.animate(self.duration - start_timestamp).move(self.end_x, self.end_y).rotate(45);
+            svg_e.animate(self.duration - start_timestamp).move(self.end_x, self.end_y);
         });
     }
 
@@ -58,28 +60,46 @@ class SVG_Move extends AnimationEffect {
         });
     }
 
-    set_attributes(begin_x = this.start_x, begin_y = this.start_y, end_x = this.end_x, end_y = this.end_y) {
-        this.start_x = begin_x;
-        this.start_y = begin_y;
-        this.end_x = end_x;
-        this.end_y = end_y;
-    }
 
     static get_blueprint(self = this) {
         return {
             name: "SVG - Move To",
             tooltips: "Move an object from a starting location to an end location",
             icon_representation: "",
-            create_fn: SVG_Move.create
+            create_fn: MoveEffect.create
         }
     }
 
     static create(effect_stack, self = this) {
-        const effect = new SVG_Move(effect_stack);
+        const effect = new MoveEffect(effect_stack);
+        return effect;
     }
 
-    export_extra_params(self = this) {
-        return {
+    edit_attr(d) {
+        if (!d) return;
+        this.edit_default_attr(d);
+        const attr = d.attribute;
+        const value = d.value;
+        switch (attr) {
+            case "begin_x":
+                this.begin_x = value;
+                return;
+            case "end_x":
+                this.end_x = value;
+                return;
+            case "begin_y":
+                this.begin_y = value;
+                return;
+            case "end_y":
+                this.end_y = value;
+                return;
+            default:
+                break;
+        }
+    }
+
+    export_attributes(self = this) {
+        const new_attr = {
             begin_x: {
                 type: input_types.INT,
                 range: [-Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER],
@@ -105,5 +125,8 @@ class SVG_Move extends AnimationEffect {
                 value: this.end_y
             }
         }
+        return { ...self.export_default_attributes(), ...new_attr };
     }
 }
+
+export default MoveEffect;

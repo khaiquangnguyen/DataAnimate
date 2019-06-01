@@ -11,6 +11,7 @@ import '../SVG_plugins/svg.resize';
 import '../SVG_plugins/svg.select';
 import { store } from '../../index';
 import { editAttribute } from '../../actions/index'
+import { input_types, generate_unique_id } from "../Scene";
 
 class CircleObject extends GraphicalObject {
     constructor(cx, cy, r, name, circle) {
@@ -60,9 +61,9 @@ class CircleObject extends GraphicalObject {
             var cx = circle.attr('cx');
             var cy = circle.attr('cy');
             var r = circle.attr('r');
-            console.log(cx,cy,r);
+            console.log(cx, cy, r);
             // should be some sort of dispatch action here
-            const new_circle = new CircleObject(cx,cy,r,'test_circle',circle);
+            const new_circle = new CircleObject(cx, cy, r, 'test_circle', circle);
             scene.add_graphical_object(new_circle);
             // unbind the listener
             drawing.off('mousedown', start_draw);
@@ -81,7 +82,7 @@ class CircleObject extends GraphicalObject {
             case "cx":
                 this.cx = value;
                 this.SVG_reference
-                .attr("cx", this.cx);
+                    .attr("cx", this.cx);
                 return;
             case "cy":
                 this.cy = value;
@@ -90,12 +91,56 @@ class CircleObject extends GraphicalObject {
                 return;
             case 'r':
                 this.r = value;
-                this.SVG_reference.attr('r',this.r);
+                this.SVG_reference.attr('r', this.r);
                 break;
             default:
                 break;
+        }
     }
-}
+
+    export_attributes(self = this) {
+        return {
+            name: {
+                type: input_types.STRING,
+                range: "",
+                tooltips: "The name of the graphical object",
+                value: this.name
+            },
+            radius: {
+                type: input_types.INT,
+                range: [-Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER],
+                value: this.radius,
+            },
+            cx: {
+                type: input_types.INT,
+                range: [-Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER],
+                value: this.cx
+            },
+            cy: {
+                type: input_types.INT,
+                range: [-Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER],
+                value: this.cy
+            },
+            opacity: {
+                type: input_types.FLOAT,
+                range: [0, 1],
+                value: this.opacity
+            },
+            linked_object: {
+                type: undefined,
+                range: undefined,
+                value: this
+            },
+            show: {
+                type: input_types.BOOLEAN,
+                range: [true, false],
+                value: this.show
+            }
+        }
+    }
+
+
+
     static get_blueprint(self = this) {
         return {
             type: "Circle",

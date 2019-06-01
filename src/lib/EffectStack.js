@@ -1,8 +1,5 @@
 
 
-var global_current_time = 0;
-
-
 class EffectStack {
     constructor(actor, start_time = 0, duration = 500) {
         this.actor = actor;
@@ -21,11 +18,10 @@ class EffectStack {
         self.start_time = start_time;
     }
 
-    add_effect(effect, self = this) {
-        effect.set_duration(self.duration);
-        effect.set_effect_stack(this);
-        effect.set_actor(self.actor);
-        self.effects.push(effect);
+    add_effect(effect_bp, self = this) {
+        const new_effect = effect_bp.create_fn(this);
+        self.effects.push(new_effect);
+        return new_effect;
     }
 
     remove_effect(effect, self = this) {

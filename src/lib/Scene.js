@@ -3,6 +3,7 @@ import CircleObject from './DefaultObjects/CircleObject';
 import TextObject from './DefaultObjects/TextObject';
 import { selectObject } from '../actions';
 import { store } from '../index';
+import SimpleBarChart from './SimpleBarChart/SimpleBarChart';
 export const input_types = {
     STRING: "string",
     INT: "int",
@@ -101,9 +102,10 @@ class DefaultBPLib extends BluePrintLibrary {
     constructor() {
         super();
         // initiate the default blueprints
-        this.add_blueprint(RectObject.get_blueprint());
-        this.add_blueprint(CircleObject.get_blueprint());
-        this.add_blueprint(TextObject.get_blueprint());
+        // this.add_blueprint(RectObject.get_blueprint());
+        // this.add_blueprint(CircleObject.get_blueprint());
+        // this.add_blueprint(TextObject.get_blueprint());
+        this.add_blueprint(SimpleBarChart.get_blueprint());
     }
 }
 
@@ -240,7 +242,7 @@ class Scene {
     export_state() {
         return {
             scene: this,
-            current_action:this.curr_action,
+            current_action: this.curr_action,
             duration: this.duration,
             curr_timestamp: this.curr_effectstack,
             obj_blueprints: this.obj_bp_lib.export_state(),

@@ -1,7 +1,4 @@
-import Track from '../Track';
-import { input_types, generate_unique_id, scene } from "../Scene";
-import SVG from 'svg.js';
-import * as d3 from 'd3';
+import { input_types, generate_unique_id } from "../Scene";
 
 class AnimationEffect {
     /**
@@ -15,16 +12,17 @@ class AnimationEffect {
     constructor(name, effect_stack, exclusive = true) {
         this.effect_stack = effect_stack;
         this.name = name;
-        this.actor = effect_stack.actor;;
+        this.actor = effect_stack.actor;
         this.duration = effect_stack.duration;
         // must be a list of pure DOM 3elements
         this.target_components = [document.getElementById(this.actor.name)];
         this.exclusive = exclusive;
         this.enabled = true;
         this.unique_id = "AnimationEffect_" + generate_unique_id();
+        this.target_components = [this.actor.svg_container.node()];
     }
 
-    set_target_component(target_component, self=this) {
+    set_target_component(target_component, self = this) {
         if (target_component in this.actor.get_targetable_components()) {
             self.target_component = target_component;
             return 1;
@@ -53,12 +51,6 @@ class AnimationEffect {
         this.duration = duration;
     }
 
-    enable(self = this) {
-        self.enable = true;
-    }
-    disable(self = this) {
-        self.disable = true;
-    }
 
     static get_name() {
         return this.name;
@@ -82,7 +74,27 @@ class AnimationEffect {
         return;
     }
 
-    export_default_params(self = this) {
+    edit_default_attr(d) {
+        if (!d) return;
+        const attr = d.attribute;
+        const value = d.value;
+        switch (attr) {
+            case "name":
+                this.name = value;
+                return;
+            case "enabled":
+                this.enabled = value;
+                break;
+            default:
+                break;
+        }
+    }
+
+    edit_attr(d) {
+        this.edit_default_attr(d);
+    }
+
+    export_default_attributes(self = this) {
         return {
             name: {
                 type: input_types.CONST,
@@ -90,28 +102,25 @@ class AnimationEffect {
                 tooltips: "The name of the the effect",
                 value: this.name
             },
-            exclusive: {
-                type: input_types.BOOLEAN,
-                range: [true, false],
-                value: this.exclusive,
-            },
             enabled: {
                 type: input_types.BOOLEAN,
-                range: [true, false],
+                range: [0, 1],
                 value: this.enabled,
             }
         }
     }
 
-    export_extra_params(self = this) {
-        return {}
+
+    export_attributes(self = this) {
+        return self.export_default_attributes()
     }
 
     export_state(self = this) {
-        return { ...self.export_default_params, ...self.export_extra_params };
+        return this.export_attributes();
     }
-
 }
+
+export default AnimationEffect;
 
 
 

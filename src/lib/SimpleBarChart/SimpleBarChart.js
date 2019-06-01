@@ -1,8 +1,15 @@
-import * as d3 from 'd3.js';
-import 
+import * as d3 from 'd3';
+import GraphObject from '../DefaultObjects/GraphObject';
+import { input_types, scene } from "../Scene";
+import SVG from 'svg.js';
+import * as data from '../sales.csv';
+import EffectStack from '../EffectStack';
+import MoveEffect from './MoveEffect';
+import FadeEffect from './FadeEffect';
+
 class SimpleBarChart extends GraphObject {
-    constructor(width = 500, height = 500) {
-        super(width, height, "Simple_Bar_Chart");
+    constructor(x, y, width, height, name, bounding_box) {
+        super(x, y, width, height, "Simple Bar Chart", name, bounding_box);
         this.x_axis = null;
         this.y_axis = null;
         this.bars = null;
@@ -17,16 +24,32 @@ class SimpleBarChart extends GraphObject {
         this.margin = { top: 20, right: 20, bottom: 20, left: 20 };
         this.graph_width = this.total_width - this.margin.left - this.margin.right;
         this.graph_height = this.total_height - this.margin.top - this.margin.bottom;
-
-        // construct the svg object container
+        this.data = data;
+        this.axis_styling = {};
+        this.bar_styling = { fill: "blue" };
+        this.import_data();
+        this.all_effects = [MoveEffect];
+        // let's do something fun
+        let new_effectstack = new EffectStack(this, 0, 1000);
+        this.track.add_effectstack(new_effectstack);
+        let new_effect = new_effectstack.add_effect(FadeEffect.get_blueprint());
+        new_effect.start_opacity = 0.5;
+        new_effect.end_opacity = 1;
+        this.track.play();
     }
 
     import_data(self = this) {
-        d3.csv(this.data, function (error, data) {
-            if (error) throw error;
-            self.data = data;
-            self.columns = Object.keys(self.data[0]);
-        });
+        d3.csv(this.data)
+            .then(function (data) {
+                self.data = data;
+                self.columns = Object.keys(self.data[0]);
+                self.x_data = self.columns[0];
+                self.y_data = self.columns[1];
+                // clear the graph
+                // this.SVG_reference.
+                self.SVG_reference.clear();
+                self.construct_graph();
+            })
     }
 
     construct_inner_graph(self = this) {
@@ -35,11 +58,9 @@ class SimpleBarChart extends GraphObject {
             .attr("class", "inner_graph")
             .attr("transform",
                 "translate(" + self.margin.left + "," + self.margin.top + ")");
-        console.log(self.svg_container);
     }
 
     construct_x_axis(self = this) {
-        console.log(self.x_data);
         // add the x Axis
         self.graph_x = d3.scaleBand()
             .range([0, self.graph_width])
@@ -60,7 +81,11 @@ class SimpleBarChart extends GraphObject {
             .call(d3.axisLeft(self.graph_y));
     }
 
+
     construct_graph(self = this) {
+        self.construct_inner_graph();
+        self.construct_x_axis();
+        self.construct_y_axis();
         // append the rectangles for the bar chart
         self.bars = self.inner_graph.selectAll("." + self.name + "_bar")
             .data(self.data)
@@ -69,8 +94,11 @@ class SimpleBarChart extends GraphObject {
             .attr("x", function (d) { return self.graph_x(d[self.x_data]); })
             .attr("width", self.graph_x.bandwidth())
             .attr("y", function (d) { return self.graph_y(d[self.y_data]); })
-            .attr("fill", "blue")
             .attr("height", function (d) { return self.graph_height - self.graph_y(d[self.y_data]); });
+
+        for (let style in self.bar_styling) {
+            self.bars.attr(style, self.bar_styling[style]);
+        }
     }
 
     get_targetable_components(self = this) {
@@ -80,28 +108,6 @@ class SimpleBarChart extends GraphObject {
             "bars": self.bars,
             "x_axis": self.x_axis,
             "y_axis": self.y_axis
-        }
-    }
-
-    get_parameters(self = this) {
-        return {
-            "x_axis_scale": {
-                "type": "dropdown",
-                "range": ['scaleBand', 'scaleLinear']
-            },
-            "y_axis_scale": {
-                "type": "dropdown",
-                "range": ['scaleBand', 'scaleLinear']
-            },
-            "x_data": {
-                "type": "dropdown",
-                "range": this.columns
-            },
-            "y_data": {
-                "type": "dropdown",
-                "range": this.columns
-            },
-
         }
     }
 
@@ -124,8 +130,8 @@ class SimpleBarChart extends GraphObject {
             var width = rect.attr('width');
             var height = rect.attr('height');
             // should be some sort of dispatch action here
-            rect.attr('fill','none');
-            const new_rect = new SimpleBarChart(x, y, width, height, 'SimpleBarGraph','simple bar graph',rect);
+            rect.attr('fill', 'red');
+            const new_rect = new SimpleBarChart(x, y, width, height, 'simple bar graph', rect);
             scene.add_graphical_object(new_rect);
             // unbind the listener
             drawing.off('mousedown', start_draw);
@@ -144,5 +150,40 @@ class SimpleBarChart extends GraphObject {
         }
     }
 
+    export_attributes(self = this) {
+        const new_attr = {
+            bar_styling: {
+                type: input_types.STRING,
+                range: "",
+                tooltips: "The name of the graphical object",
+                value: JSON.stringify(this.bar_styling)
+            },
+            axis_styling: {
+                type: input_types.STRING,
+                range: "",
+                value: JSON.stringify(this.axis_styling)
+            }
+        }
+        return { ...this.export_default_attributes(), ...new_attr };
+    }
+
+    edit_attr(d) {
+        if (!d) return;
+        this.edit_default_attr(d);
+        const attr = d.attribute;
+        const value = d.value;
+        switch (attr) {
+            case "text":
+                this.text.plain(value);
+                return;
+            default:
+                break;
+        }
+        // this.SVG_reference.clear();
+        // this.construct_graph();
+        // this.SVG_reference
+        //     .attr('viewBox', `0 0 ${this.total_width} ${this.total_height}`);
+
+    }
 }
-import GraphObject from './GraphObject';
+export default SimpleBarChart;

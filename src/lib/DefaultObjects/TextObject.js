@@ -1,6 +1,5 @@
 
-import GraphicalObject from './GraphicalObject';
-import SVG from 'svg.js';
+import GraphObject from './GraphObject';
 import { scene } from "../Scene";
 import '../SVG_plugins/svg.draggable';
 import '../SVG_plugins/svg.draw';
@@ -13,31 +12,16 @@ import '../SVG_plugins/svg.select';
 import * as d3 from "d3";
 import { store } from '../../index';
 import { editAttribute } from '../../actions/index'
+import { input_types } from "../Scene";
+import SVG from 'svg.js';
 
-class TextObject extends GraphicalObject {
-    constructor(x, y, width, height, name, text,bounding_box) {
-        super(x, y, width, height, 'Text', name);
+class TextObject extends GraphObject {
+    constructor(x, y, width, height, name, text, bounding_box) {
+        super(x, y, width, height, 'Text', name, bounding_box);
         const drawing = SVG.adopt(document.getElementById('canvas'));
-        this.construct_svg_container();
+        this.data = text;
         this.text = drawing.text(text);
-        this.SVG_reference = SVG.adopt(document.getElementById(this.unique_id));
         this.SVG_reference.add(this.text);
-        this.bounding_box = bounding_box;
-        this.set_on_click();
-    }
-
-    construct_svg_container(self = this) {
-        // create svg container
-        self.svg_container = d3.select("#canvas")
-            .append("svg")
-            .attr("width", this.total_width)
-            .attr("height", this.total_height)
-            .attr("x", this.x)
-            .attr("y", this.y)
-            .attr("opacity", this.opacity)
-            .attr("id", self.unique_id);
-        self.svg_container.attr('viewBox', `0 0 ${this.total_width} ${this.total_height}`)
-            .attr('preserveAspectRatio', 'none')
     }
 
     select(self = this) {
@@ -59,20 +43,20 @@ class TextObject extends GraphicalObject {
             var y = self.bounding_box.attr('y');
             var width = self.bounding_box.attr('width');
             var height = self.bounding_box.attr('height');
-            self.edit_attr({attribute: 'x',value:x});
-            self.edit_attr({attribute: 'y',value:y});
-            self.edit_attr({attribute: 'width',value:width});
-            self.edit_attr({attribute: 'height',value:height});
+            self.edit_attr({ attribute: 'x', value: x });
+            self.edit_attr({ attribute: 'y', value: y });
+            self.edit_attr({ attribute: 'width', value: width });
+            self.edit_attr({ attribute: 'height', value: height });
         });
         this.bounding_box.on('dragmove', function (event) {
             var x = self.bounding_box.attr('x');
             var y = self.bounding_box.attr('y');
             var width = self.bounding_box.attr('width');
             var height = self.bounding_box.attr('height');
-            self.edit_attr({attribute: 'x',value:x});
-            self.edit_attr({attribute: 'y',value:y});
-            self.edit_attr({attribute: 'width',value:width});
-            self.edit_attr({attribute: 'height',value:height});
+            self.edit_attr({ attribute: 'x', value: x });
+            self.edit_attr({ attribute: 'y', value: y });
+            self.edit_attr({ attribute: 'width', value: width });
+            self.edit_attr({ attribute: 'height', value: height });
 
         });
     }
@@ -100,7 +84,7 @@ class TextObject extends GraphicalObject {
             var width = rect.attr('width');
             var height = rect.attr('height');
             // should be some sort of dispatch action here
-            rect.attr('fill','none');
+            rect.attr('fill', 'red');
             const new_rect = new TextObject(x, y, width, height, "test_rectangle", 'dummy text', rect);
             scene.add_graphical_object(new_rect);
             // unbind the listener
@@ -127,14 +111,62 @@ class TextObject extends GraphicalObject {
         const value = d.value;
         switch (attr) {
             case "text":
-                this.text.plain(value);
+
+                this.text.text(value);
+                this.data = value;
                 return;
             default:
                 break;
         }
-        console.log(this.SVG_reference.attr('viewBox'));
+
         this.SVG_reference
-        .attr('viewBox', `0 0 ${this.total_width} ${this.total_height}`);
+            .attr('viewBox', `0 0 ${this.total_width} ${this.total_height}`);
+    }
+    
+    export_attributes(self = this) {
+        return {
+            text: {
+                type: input_types.STRING,
+                range: "",
+                tooltips: "The name of the graphical object",
+                value: this.text.text()
+            },
+            width: {
+                type: input_types.INT,
+                range: [-Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER],
+                value: this.total_width,
+            },
+            height: {
+                type: input_types.INT,
+                range: [-Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER],
+                value: this.total_height,
+            },
+            x: {
+                type: input_types.INT,
+                range: [-Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER],
+                value: this.x
+            },
+            y: {
+                type: input_types.INT,
+                range: [-Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER],
+                value: this.y
+            },
+            opacity: {
+                type: input_types.FLOAT,
+                range: [0, 1],
+                value: this.opacity
+            },
+            linked_object: {
+                type: undefined,
+                range: undefined,
+                value: this
+            },
+            show: {
+                type: input_types.BOOLEAN,
+                range: [true, false],
+                value: this.show
+            }
+        }
     }
 }
 export default TextObject;
