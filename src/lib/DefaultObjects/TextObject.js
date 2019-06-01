@@ -99,7 +99,7 @@ class TextObject extends GraphObject {
         return {
             type: "Text",
             tooltips: "This is a Text box",
-            icon_representation: "",
+            icon_representation: "fa-font",
             create_fn: TextObject.create
         }
     }
@@ -122,7 +122,7 @@ class TextObject extends GraphObject {
         this.SVG_reference
             .attr('viewBox', `0 0 ${this.total_width} ${this.total_height}`);
     }
-    
+
     export_attributes(self = this) {
         return {
             text: {

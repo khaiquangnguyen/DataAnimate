@@ -1,14 +1,12 @@
 import React from 'react';
 
 import './App.css'
-import Timeline from "./Timeline";
+import Timeline from "./TrackComponents/Timeline";
 
 import { connect } from 'react-redux';
 import { createObject } from '../actions';
-import AttributeMenu from './RightMenuContainer';
-import ActionMenu from './ActionMenu/index';
-import TrackControlContainer from './TrackControlContainer';
-import BluePrintContainer from '../components/EffectStackMenu/BluePrintContainer';
+import AttributeMenu from './AttributeComponents';
+import ActionMenu from './LeftPanel/index';
 
 
 function App(props) {
@@ -25,16 +23,6 @@ function App(props) {
               <svg style={{ position: 'absolute', left: '50px' }} id="canvas" width={1516} height={485} />
 
               <ActionMenu />
-              <TrackControlContainer />
-              <BluePrintContainer />
-
-              {/* <div style={{ position: 'absolute', background: 'red', bottom: '12px', width: '100%', justifyContent: 'center', display: 'flex' }} >
-                  <button className="button is-dark">Library</button>
-                  <button className="button is-dark">Library</button>
-                  <button className="button is-dark">Library</button>
-                </div> */}
-
-
             </div>
             <div className="column is-12 is-view-element-container is-timeline-container">
               <Timeline />

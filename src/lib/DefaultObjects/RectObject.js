@@ -73,7 +73,7 @@ class RectObject extends GraphicalObject {
         return {
             type: "Rectangle",
             tooltips: "This is a rectangle",
-            icon_representation: "",
+            icon_representation: "fa-square",
             create_fn: RectObject.create
         }
     }

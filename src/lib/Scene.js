@@ -3,7 +3,6 @@ import CircleObject from './DefaultObjects/CircleObject';
 import TextObject from './DefaultObjects/TextObject';
 import { selectObject, stop, playing } from '../actions';
 import { store } from '../index';
-import SimpleBarChart from './SimpleBarChart/SimpleBarChart';
 export const input_types = {
     STRING: "string",
     INT: "int",
@@ -22,7 +21,7 @@ export const scene_action = {
 // dummy class to hold all of the blueprints
 class BluePrintLibrary {
     constructor() {
-        this.blueprints = {};
+        this.blueprints = [];
     }
 
     get_num_blueprints() {
@@ -88,10 +87,10 @@ class DefaultBPLib extends BluePrintLibrary {
     constructor() {
         super();
         // initiate the default blueprints
-        // this.add_blueprint(RectObject.get_blueprint());
-        // this.add_blueprint(CircleObject.get_blueprint());
-        // this.add_blueprint(TextObject.get_blueprint());
-        this.add_blueprint(SimpleBarChart.get_blueprint());
+        this.add_blueprint(RectObject.get_blueprint());
+        this.add_blueprint(CircleObject.get_blueprint());
+        this.add_blueprint(TextObject.get_blueprint());
+        // this.add_blueprint(SimpleBarChart.get_blueprint());
     }
 }
 

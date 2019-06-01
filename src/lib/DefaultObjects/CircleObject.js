@@ -145,7 +145,7 @@ class CircleObject extends GraphicalObject {
         return {
             type: "Circle",
             tooltips: "This is a circle",
-            icon_representation: "",
+            icon_representation: "fa-circle",
             create_fn: CircleObject.create
         }
     }
