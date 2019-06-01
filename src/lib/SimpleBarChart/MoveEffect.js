@@ -9,12 +9,21 @@ class MoveEffect extends AnimationEffect {
         this.start_y = this.actor.y;
         this.end_x = this.actor.x;
         this.end_y = this.actor.y;
-        this.target_components = [this.actor.svg_container.node()];
+        this.targetable_components =
+            {
+                CONTAINER: 'CONTAINER',
+                'X AXIS': 'X AXIS',
+                'y AXIS': 'Y AXIS',
+                'XY AXIS': 'XY AXIS',
+                'BAR': 'BAR'
+            }
+        this.curr_target_component = this.DOM_target_components.CONTAINER;
+        this.DOM_target_components = [this.actor.svg_container.node()];
     }
 
     reachTo(timestamp = 0, self = this) {
         if (timestamp < 0 || timestamp >= self.duration) return;
-        this.target_components.forEach(e => {
+        this.DOM_target_components.forEach(e => {
             var svg_e = SVG.adopt(e);
             // clear out all animations
             svg_e.play();
@@ -30,7 +39,7 @@ class MoveEffect extends AnimationEffect {
     play(start_timestamp = 0, self = this) {
         console.log('why not run');
         this.reachTo(start_timestamp);
-        this.target_components.forEach(e => {
+        this.DOM_target_components.forEach(e => {
             var svg_e = SVG.adopt(e);
             // clear out all animations
             svg_e.play();
@@ -40,21 +49,21 @@ class MoveEffect extends AnimationEffect {
     }
 
     pause(self = this) {
-        this.target_components.forEach(e => {
+        this.DOM_target_components.forEach(e => {
             var svg_e = SVG.adopt(e);
             svg_e.pause();
         });
     }
 
     resume(self = this) {
-        this.target_components.forEach(e => {
+        this.DOM_target_components.forEach(e => {
             var svg_e = SVG.adopt(e);
             svg_e.play();
         });
     }
 
     stop(self = this) {
-        this.target_components.forEach(e => {
+        this.DOM_target_components.forEach(e => {
             var svg_e = SVG.adopt(e);
             svg_e.stop();
         });
@@ -123,6 +132,12 @@ class MoveEffect extends AnimationEffect {
                 range: [-Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER],
                 tooltips: "The beginning x position",
                 value: this.end_y
+            },
+            target_component: {
+                type: input_types.DROPDOWN,
+                range: Object.keys(this.targetable_components),
+                tooltips: "The beginning x position",
+                value: this.curr_target_component
             }
         }
         return { ...self.export_default_attributes(), ...new_attr };

@@ -6,20 +6,18 @@ import * as data from '../sales.csv';
 import EffectStack from '../EffectStack';
 import MoveEffect from './MoveEffect';
 import FadeEffect from './FadeEffect';
-
+import BarGrowByOne from './BarGrowByOne';
 class SimpleBarChart extends GraphObject {
     constructor(x, y, width, height, name, bounding_box) {
         super(x, y, width, height, "Simple Bar Chart", name, bounding_box);
         this.x_axis = null;
         this.y_axis = null;
         this.bars = null;
-        this.x_scale = null;
-        this.y_scale = null;
         this.x_data = null;
         this.y_data = null;
         this.columns = null;
-        this.graph_x = null;
-        this.graph_y = null;
+        this.x_scale = null;
+        this.y_scale = null;
         this.inner_graph = null;
         this.margin = { top: 20, right: 20, bottom: 20, left: 20 };
         this.graph_width = this.total_width - this.margin.left - this.margin.right;
@@ -28,14 +26,15 @@ class SimpleBarChart extends GraphObject {
         this.axis_styling = {};
         this.bar_styling = { fill: "blue" };
         this.import_data();
-        this.all_effects = [MoveEffect];
+        this.all_effects = [MoveEffect, FadeEffect, BarGrowByOne];
         // let's do something fun
-        let new_effectstack = new EffectStack(this, 0, 1000);
-        this.track.add_effectstack(new_effectstack);
-        let new_effect = new_effectstack.add_effect(FadeEffect.get_blueprint());
-        new_effect.start_opacity = 0.5;
-        new_effect.end_opacity = 1;
-        this.track.play();
+
+        setTimeout(() => {
+            let new_effectstack = new EffectStack(this, 0, 5000);
+            this.track.add_effectstack(new_effectstack);
+            let new_effect = new_effectstack.add_effect(BarGrowByOne.get_blueprint());
+            this.track.play(500);
+        }, 100);
     }
 
     import_data(self = this) {
@@ -62,23 +61,23 @@ class SimpleBarChart extends GraphObject {
 
     construct_x_axis(self = this) {
         // add the x Axis
-        self.graph_x = d3.scaleBand()
+        self.x_scale = d3.scaleBand()
             .range([0, self.graph_width])
-        self.graph_x.domain(self.data.map(function (d) { return d[self.x_data]; }));
+        self.x_scale.domain(self.data.map(function (d) { return d[self.x_data]; }));
         this.x_axis = self.inner_graph.append("g")
             .attr("class", "x_axis")
             .attr("transform", "translate(0," + self.graph_height + ")")
-            .call(d3.axisBottom(self.graph_x));
+            .call(d3.axisBottom(self.x_scale));
     }
 
     construct_y_axis(self = this) {
-        self.graph_y = d3.scaleLinear()
+        self.y_scale = d3.scaleLinear()
             .range([self.graph_height, 0]);
         // add the y Axis
-        this.graph_y.domain([0, d3.max(self.data, function (d) { return d[self.y_data]; })]);
+        this.y_scale.domain([0, d3.max(self.data, function (d) { return d[self.y_data]; })]);
         this.y_axis = self.inner_graph.append("g")
             .attr("class", "y_axis")
-            .call(d3.axisLeft(self.graph_y));
+            .call(d3.axisLeft(self.y_scale));
     }
 
 
@@ -91,10 +90,12 @@ class SimpleBarChart extends GraphObject {
             .data(self.data)
             .enter().append("rect")
             .attr("class", self.name + "_bar")
-            .attr("x", function (d) { return self.graph_x(d[self.x_data]); })
-            .attr("width", self.graph_x.bandwidth())
-            .attr("y", function (d) { return self.graph_y(d[self.y_data]); })
-            .attr("height", function (d) { return self.graph_height - self.graph_y(d[self.y_data]); });
+            .attr("x", function (d) { return self.x_scale(d[self.x_data]); })
+            .attr("width", self.x_scale.bandwidth())
+            .attr("y", function (d) { return self.y_scale(d[self.y_data]); })
+            .attr("height", function (d) {
+                return self.graph_height - self.y_scale(d[self.y_data]);
+            });
 
         for (let style in self.bar_styling) {
             self.bars.attr(style, self.bar_styling[style]);
@@ -173,14 +174,20 @@ class SimpleBarChart extends GraphObject {
         const attr = d.attribute;
         const value = d.value;
         switch (attr) {
-            case "text":
-                this.text.plain(value);
+            case "bar_styling":
+                this.bar_styling = JSON.parse(value);
+                this.SVG_reference.clear();
+                this.construct_graph();
+                return;
+            case "axis_styling":
+                this.axis_styling = JSON.parse(value);
+                this.SVG_reference.clear();
+                this.construct_graph();
                 return;
             default:
                 break;
         }
-        // this.SVG_reference.clear();
-        // this.construct_graph();
+
         // this.SVG_reference
         //     .attr('viewBox', `0 0 ${this.total_width} ${this.total_height}`);
 

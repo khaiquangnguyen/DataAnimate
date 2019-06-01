@@ -7,12 +7,21 @@ class FadeEffect extends AnimationEffect {
         super("MoveTo", effect_stack, true);
         this.start_opacity = this.actor.opacity;
         this.end_opacity = this.actor.opacity;
-        this.target_components = [this.actor.svg_container.node()];
+        this.targetable_components =
+            {
+                CONTAINER: 'CONTAINER',
+                'X AXIS': 'X AXIS',
+                'y AXIS': 'Y AXIS',
+                'XY AXIS': 'XY AXIS',
+                'BAR': 'BAR'
+            }
+        this.curr_target_component = this.DOM_target_components.CONTAINER;
+        this.DOM_target_components = [this.actor.svg_container.node()];
     }
 
     reachTo(timestamp = 0, self = this) {
         if (timestamp < 0 || timestamp >= self.duration) return;
-        this.target_components.forEach(e => {
+        this.DOM_target_components.forEach(e => {
             var svg_e = SVG.adopt(e);
             // clear out all animations
             svg_e.play();
@@ -26,7 +35,7 @@ class FadeEffect extends AnimationEffect {
     play(start_timestamp = 0, self = this) {
         console.log('why not run');
         this.reachTo(start_timestamp);
-        this.target_components.forEach(e => {
+        this.DOM_target_components.forEach(e => {
             var svg_e = SVG.adopt(e);
             // clear out all animations
             svg_e.play();
@@ -36,21 +45,21 @@ class FadeEffect extends AnimationEffect {
     }
 
     pause(self = this) {
-        this.target_components.forEach(e => {
+        this.DOM_target_components.forEach(e => {
             var svg_e = SVG.adopt(e);
             svg_e.pause();
         });
     }
 
     resume(self = this) {
-        this.target_components.forEach(e => {
+        this.DOM_target_components.forEach(e => {
             var svg_e = SVG.adopt(e);
             svg_e.play();
         });
     }
 
     stop(self = this) {
-        this.target_components.forEach(e => {
+        this.DOM_target_components.forEach(e => {
             var svg_e = SVG.adopt(e);
             svg_e.stop();
         });
@@ -102,6 +111,12 @@ class FadeEffect extends AnimationEffect {
                 tooltips: "The end opacity",
                 value: this.end_x
             },
+            target_component: {
+                type: input_types.DROPDOWN,
+                range: Object.keys(this.targetable_components),
+                tooltips: "The beginning x position",
+                value: this.curr_target_component
+            }
         }
         return { ...self.export_default_attributes(), ...new_attr };
     }
