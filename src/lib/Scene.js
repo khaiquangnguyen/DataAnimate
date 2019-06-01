@@ -242,7 +242,7 @@ class Scene {
             scene: this,
             current_action:this.curr_action,
             duration: this.duration,
-            curr_timestamp: this.curr_effectstack,
+            curr_timestamp: this.curr_timestamp,
             obj_blueprints: this.obj_bp_lib.export_state(),
             effect_blueprints: this.effect_bp_lib.export_state(),
             default_blueprints: this.default_bp_lib.export_state(),

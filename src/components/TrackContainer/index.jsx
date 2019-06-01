@@ -1,10 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import interact from "interactjs";
 
 import './style.css';
+import {BULMA_COLUMNS_OFFSET, SVG_OFFSET} from "../../constants";
 
+import { reachTo } from "../../actions";
 import Track from '../Track';
-import interact from "interactjs";
-import {SVG_OFFSET} from "../../constants";
+
+
 
 class TrackContainer extends React.Component {
   componentDidMount() {
@@ -19,7 +23,7 @@ class TrackContainer extends React.Component {
             restriction: document.getElementById('abc'),
           })
         ]
-      })
+      });
   }
 
   dragMoveListener (event) {
@@ -42,7 +46,7 @@ class TrackContainer extends React.Component {
     return (
       <div id="yo" className="column is-10 track-container is-relative">
         <div id="abc" style={{position: 'absolute', height: '100%', width: '100%', zIndex: '-190', marginLeft: `${SVG_OFFSET}px`}} />
-        <div id="ruler"/>
+        <div id="ruler" style={{left: `${SVG_OFFSET + BULMA_COLUMNS_OFFSET}px`}}/>
         <div className="columns is-multiline">
           <div className="column is-12">
             <svg className="timeline"/>
@@ -55,4 +59,6 @@ class TrackContainer extends React.Component {
   }
 }
 
-export default TrackContainer;
+const mapStateToProps = state => ({ currTimestamp: state.scene.curr_timestamp });
+
+export default connect(mapStateToProps, { reachTo })(TrackContainer);
