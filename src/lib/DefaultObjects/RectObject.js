@@ -1,6 +1,6 @@
 import GraphicalObject from './GraphicalObject';
 import SVG from 'svg.js';
-import { scene, input_types } from "../Scene";
+import { scene } from "../Scene";
 import '../SVG_plugins/svg.draggable';
 import '../SVG_plugins/svg.draw';
 import '../SVG_plugins/circle';
@@ -10,7 +10,8 @@ import '../SVG_plugins/rectable';
 import '../SVG_plugins/svg.resize';
 import '../SVG_plugins/svg.select';
 import { store } from '../../index';
-import { editAttribute } from '../../actions/index'
+import { editAttribute } from '../../actions/index';
+
 class RectObject extends GraphicalObject {
     constructor(x, y, width, height, name, rect) {
         super(x, y, width, height, name);

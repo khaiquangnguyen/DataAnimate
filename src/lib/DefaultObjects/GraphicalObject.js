@@ -160,12 +160,13 @@ class GraphicalObject {
             }
         }
     }
+
     export_attributes(self = this) {
         return self.export_default_attributes()
     }
 
-    export_animation_effects(self=this){
-    
+    export_animation_effects(self = this) {
+
     }
 
     export_state(self = this) {
