@@ -61,7 +61,6 @@ class TrackContainer extends React.Component {
           <div className="column is-12">
             <svg className="timeline" />
           </div>
-
           <Track />
         </div>
       </div>

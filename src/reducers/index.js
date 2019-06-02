@@ -68,6 +68,11 @@ export const rootReducer = (state = {}, action) => {
     case types.EDIT_ATTRIBUTE:
       state.scene.edit_attr(action.payload);
       return state.scene.export_state();
+      
+    case types.EDIT_DURATION:
+      state.scene.edit_duration(action.payload);
+      return state.scene.export_state();
+
     default:
       console.log(state);
       return state;

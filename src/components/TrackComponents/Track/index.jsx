@@ -2,7 +2,7 @@ import React from 'react';
 
 import interact from "interactjs";
 
-import { PIXELS_PER_SECOND } from "../../../constants";
+import {PIXELS_PER_SECOND, TRACK_HEIGHT} from "../../../constants";
 import { SVG_OFFSET } from "../../../constants";
 import { connect } from 'react-redux';
 
@@ -85,7 +85,7 @@ class Track extends React.Component {
         //TODO add a is-last-track check for bottom border rendering
         return (
             <div className="column is-12 track">
-                <div className="track-border" style={{ height: '1em', width: `${PIXELS_PER_SECOND * this.props.duration / 1000}px`, marginLeft: `${SVG_OFFSET}px` }}>
+                <div className="track-border" style={{ height: `${TRACK_HEIGHT}px`, width: `${PIXELS_PER_SECOND * this.props.duration / 1000}px`, marginLeft: `${SVG_OFFSET}px` }}>
                     <div id="interact-test" />
                 </div>
             </div>
