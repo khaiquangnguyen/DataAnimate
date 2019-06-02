@@ -83,18 +83,13 @@ class Track extends React.Component {
 
         return (
             <div className="column is-12 track">
-
-                <div className="track-border" style={{ height: '1em', width: `${PIXELS_PER_SECOND * this.props.duration / 1000}px`, marginLeft: `${SVG_OFFSET}px` }}>
+                <div className="track-border" style={{ height: `${TRACK_HEIGHT}px`, width: `${PIXELS_PER_SECOND * this.props.duration / 1000}px`, marginLeft: `${SVG_OFFSET}px` }}>
                     <div id="interact-test" style={{ transform: translate, width: `${PIXELS_PER_SECOND * duration / 1000}px` }} />
                 </div>
             </div>
         )
     }
 }
-
-
-{/*<div className="track-border" style={{ height: `${TRACK_HEIGHT}px`, width: `${PIXELS_PER_SECOND * this.props.duration / 1000}px`, marginLeft: `${SVG_OFFSET}px` }}>*/}
-{/*<div id="interact-test" />*/}
 
 
 const mapStateToProps = state => ({ duration: state.duration });

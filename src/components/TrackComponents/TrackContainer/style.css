@@ -1,6 +1,7 @@
 .track-container {
     height: 100%;
-    overflow: auto;
+    overflow-y: hidden;
+    overflow-x: auto;
 }
 
 #ruler {

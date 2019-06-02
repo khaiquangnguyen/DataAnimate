@@ -11,7 +11,7 @@ class PlayButton extends React.Component {
 
     handleClick() {
         this.props.playpauseresume();
-        this.props.editDuration(this.props.duration + 1000);
+        // this.props.editDuration(this.props.duration + 1000);
     }
     render() {
         switch (this.props.current_action) {
@@ -37,8 +37,8 @@ class PlayButton extends React.Component {
         // This syntax ensures `this` is bound within handleClick
         return (
             <button className="button is-dark" onClick={(e) => this.handleClick(e)}>
-                <span class="icon is-small">
-                    <i class={"fas " + this.icon} ></i>
+                <span className="icon is-small">
+                    <i className={"fas " + this.icon} ></i>
                 </span>
             </button>
         );

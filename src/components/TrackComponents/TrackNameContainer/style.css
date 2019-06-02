@@ -1,4 +1,5 @@
 .track-name-container {
     border-right: #313131 solid 2px;
     height: 100%;
+    overflow: auto;
 }
