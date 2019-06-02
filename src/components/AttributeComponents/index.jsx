@@ -10,10 +10,8 @@ class AttributeMenu extends React.Component {
         this.component = 'attributes';
 
     }
-
     handleClick(component) {
         this.component = component;
-        console.log(this.component);
         this.forceUpdate();
 
     }

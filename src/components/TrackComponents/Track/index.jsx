@@ -20,6 +20,7 @@ class Track extends React.Component {
             x = Math.max(0, (parseFloat(target.getAttribute('data-x')) || 0) + event.dx),
             y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
         this.props.edit_effect_stack((x) / PIXELS_PER_SECOND * 1000, this.props.obj.effect_stacks[0].duration);
+        console.log(this.editable);
         target.setAttribute('data-x', x);
         target.setAttribute('data-y', y);
     }
@@ -69,11 +70,9 @@ class Track extends React.Component {
                 let duration = event.rect.width / PIXELS_PER_SECOND * 1000;
                 self.editable = (self.props.state.curr_graphical_object.reference_object.value === self.props.obj.reference_object.value);
                 if (self.editable) {
-                    self.props.edit_effect_stack(self.props.obj.effect_stacks[0].start_time, duration);
                     x += event.deltaRect.left;
                     y += event.deltaRect.top;
-                    target.style.webkitTransform = target.style.transform =
-                        'translate(' + x + 'px,' + y + 'px)';
+                    self.props.edit_effect_stack((x) / PIXELS_PER_SECOND * 1000, duration);
                     target.setAttribute('data-x', x);
                     target.setAttribute('data-y', y);
                 }

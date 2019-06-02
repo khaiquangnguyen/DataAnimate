@@ -11,6 +11,9 @@ class EffectStack {
     }
 
     set_duration(duration, self = this) {
+        if (parseFloat(duration) + parseFloat(self.start_time) > this.track.duration) {
+            return;
+        }
         self.duration = duration;
         self.effects.forEach(effect => {
             effect.duration = self.duration;
@@ -18,6 +21,7 @@ class EffectStack {
     }
 
     set_start_time(start_time, self = this) {
+        self.start_time = start_time;
         self.effects.forEach(effect => {
             effect.start_time = self.start_time;
         });

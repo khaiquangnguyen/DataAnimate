@@ -66,8 +66,8 @@ class MoveEffect extends AnimationEffect {
     }
 
     stop(self = this) {
+        this.reachTo(0);
         if (!self.enabled) return;
-
         this.DOM_target_components.forEach(e => {
             var svg_e = SVG.adopt(e);
             svg_e.stop();

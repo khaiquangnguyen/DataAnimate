@@ -117,6 +117,7 @@ class Scene {
     add_graphical_object(graphical_object, self = this) {
         self.graphical_objects.push(graphical_object);
         self.set_curr_graphical_object(graphical_object);
+        self.set_duration();
     }
 
     create_graphical_object(blueprint, self = this) {
@@ -176,11 +177,14 @@ class Scene {
     // }
 
     edit_effectstack(stack_attrs) {
+
         const duration = stack_attrs.duration;
         const start_time = stack_attrs.start_time;
         this.curr_effectstack.set_start_time(start_time);
         this.curr_effectstack.set_duration(duration);
+        console.log(this.curr_effectstack);
     }
+
     add_effect(effect_bp, self = this) {
         if (this.curr_effectstack === null || this.curr_effectstack === undefined) return;
         this.curr_effectstack.add_effect(effect_bp);
@@ -236,6 +240,12 @@ class Scene {
             obj.reachTo(play_time);
         });
         cancelAnimationFrame(this.curr_animation_frame_req);
+    }
+
+    set_duration(self = this) {
+        self.graphical_objects.forEach(obj => {
+            obj.track.set_duration(this.duration);
+        });
     }
 
     stop(self = this) {

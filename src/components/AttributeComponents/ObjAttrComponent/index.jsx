@@ -12,7 +12,6 @@ import TextAreaEdit from '../CustomComponents/TextAreaEdit';
 const ObjAttrMenuItem = function (props) {
     const content_el = [];
     var attribute, input_field;
-    console.log(props.reference_object);
     const content = Object.keys(props.reference_object).forEach(key => {
         attribute = {
             key,
