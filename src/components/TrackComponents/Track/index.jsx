@@ -91,7 +91,9 @@ class Track extends React.Component {
         const pixels = time_stamp / 1000 * PIXELS_PER_SECOND - 1;
         const translate = 'translate(' + pixels + 'px, ' + 0 + 'px)';
         return (
-            <div className="column is-12 track">
+            <div className="column is-12 track" onClick={() => {
+                this.props.setObject(this.props.obj.reference_object.value);
+            }}>
                 <div className="track-border" style={{ height: '1em', width: `${PIXELS_PER_SECOND * this.props.duration / 1000}px`, marginLeft: `${SVG_OFFSET}px` }}>
                     <div class="effect_stack_timeline" id={id} style={{ transform: translate, width: `${PIXELS_PER_SECOND * duration / 1000}px` }} />
                 </div>

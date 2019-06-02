@@ -34,14 +34,14 @@ class CircleObject extends GraphicalObject {
     select(self = this) {
         this.SVG_reference.draggable().selectize().resize();
         this.SVG_reference.on('dragend', (e) => {
-            store.dispatch(editAttribute('cx', this.SVG_reference.attr('cx')));
-            store.dispatch(editAttribute('cy', this.SVG_reference.attr('cy')));
+            store.dispatch(editAttribute(this, 'cx', this.SVG_reference.attr('cx')));
+            store.dispatch(editAttribute(this, 'cy', this.SVG_reference.attr('cy')));
             // events are still bound e.g. dragend will fire anyway
         })
         this.SVG_reference.on('resizedone', (e) => {
-            store.dispatch(editAttribute('cx', this.SVG_reference.attr('cx')));
-            store.dispatch(editAttribute('cy', this.SVG_reference.attr('cy')));
-            store.dispatch(editAttribute('r', this.SVG_reference.attr('r')));
+            store.dispatch(editAttribute(this, 'cx', this.SVG_reference.attr('cx')));
+            store.dispatch(editAttribute(this, 'cy', this.SVG_reference.attr('cy')));
+            store.dispatch(editAttribute(this, 'r', this.SVG_reference.attr('r')));
         })
     }
 

@@ -29,15 +29,15 @@ class TextObject extends GraphObject {
     select(self = this) {
         this.bounding_box.draggable().selectize().resize();
         this.bounding_box.on('dragend', (e) => {
-            store.dispatch(editAttribute('x', this.bounding_box.attr('x')));
-            store.dispatch(editAttribute('y', this.bounding_box.attr('y')));
+            store.dispatch(editAttribute(this, 'x', this.bounding_box.attr('x')));
+            store.dispatch(editAttribute(this, 'y', this.bounding_box.attr('y')));
             // events are still bound e.g. dragend will fire anyway
         })
         this.bounding_box.on('resizedone', (e) => {
-            store.dispatch(editAttribute('x', this.bounding_box.attr('x')));
-            store.dispatch(editAttribute('y', this.bounding_box.attr('y')));
-            store.dispatch(editAttribute('width', this.bounding_box.attr('width')));
-            store.dispatch(editAttribute('height', this.bounding_box.attr('height')));
+            store.dispatch(editAttribute(this, 'x', this.bounding_box.attr('x')));
+            store.dispatch(editAttribute(this, 'y', this.bounding_box.attr('y')));
+            store.dispatch(editAttribute(this, 'width', this.bounding_box.attr('width')));
+            store.dispatch(editAttribute(this, 'height', this.bounding_box.attr('height')));
         })
 
         this.bounding_box.on('resizing', function (event) {

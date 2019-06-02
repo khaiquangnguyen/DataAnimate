@@ -12,10 +12,15 @@ class EffectStack {
 
     set_duration(duration, self = this) {
         self.duration = duration;
+        self.effects.forEach(effect => {
+            effect.duration = self.duration;
+        });
     }
 
     set_start_time(start_time, self = this) {
-        self.start_time = start_time;
+        self.effects.forEach(effect => {
+            effect.start_time = self.start_time;
+        });
     }
 
     add_effect(effect_bp, self = this) {

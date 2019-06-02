@@ -19,7 +19,8 @@ class TextAreaEdit extends React.Component {
     }
 
     handleChange(event) {
-        this.props.editAttribute(this.props.attribute.key, event.target.value)
+        let target = (this.props.attribute.reference_object);
+        this.props.editAttribute(target, this.props.attribute.key, event.target.value)
     }
 
     render() {

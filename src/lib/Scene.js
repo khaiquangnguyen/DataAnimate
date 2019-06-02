@@ -124,6 +124,7 @@ class Scene {
     }
 
     remove_graphical_object(graphical_object, self = this) {
+        // remove its data from the scene
         for (var i = 0; i < self.graphical_objects.length; i++) {
             if (self.graphical_objects[i] === graphical_object) {
                 self.graphical_objects.splice(i, 1);
@@ -131,6 +132,14 @@ class Scene {
         }
         self.curr_graphical_object = null;
         self.curr_effectstack = null;
+        this.effect_bp_lib.load_new_bps([]);
+        console.log(graphical_object.unique_id);
+        // let's deselect it first to remove the bounding box
+        graphical_object.deselect();
+        // then remove the one on canvas
+        var to_remove_el = document.getElementById(graphical_object.unique_id);
+        to_remove_el.parentNode.removeChild(to_remove_el);
+
     }
 
     set_curr_graphical_object(graphical_object, self = this) {
@@ -251,7 +260,6 @@ class Scene {
             return;
         }
         store.dispatch(playing());
-        console.log(this.curr_timestamp);
         this.curr_animation_frame_req = requestAnimationFrame(this.show_time);
     }.bind(this);
 
@@ -262,10 +270,9 @@ class Scene {
         })
     }
 
-    edit_attr(d, self = this) {
-        this.curr_graphical_object.edit_attr(d)
+    edit_attr(payload, self = this) {
+        payload.target.edit_attr(payload);
     }
-
     toggle_effect_bps() {
         this.show_effect_bps = !this.show_effect_bps;
     }

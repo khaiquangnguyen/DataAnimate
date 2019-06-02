@@ -23,22 +23,22 @@ class RectObject extends GraphicalObject {
         this.styling = "";
         store.dispatch(addObject(this));
         store.dispatch(setObject(this));
-
-
     }
+
+
 
     select(self = this) {
         this.SVG_reference.draggable().selectize().resize();
         this.SVG_reference.on('dragend', (e) => {
-            store.dispatch(editAttribute('x', this.SVG_reference.attr('x')));
-            store.dispatch(editAttribute('y', this.SVG_reference.attr('y')));
+            store.dispatch(editAttribute(this, 'x', this.SVG_reference.attr('x')));
+            store.dispatch(editAttribute(this, 'y', this.SVG_reference.attr('y')));
             // events are still bound e.g. dragend will fire anyway
         })
         this.SVG_reference.on('resizedone', (e) => {
-            store.dispatch(editAttribute('x', this.SVG_reference.attr('x')));
-            store.dispatch(editAttribute('y', this.SVG_reference.attr('y')));
-            store.dispatch(editAttribute('width', this.SVG_reference.attr('width')));
-            store.dispatch(editAttribute('height', this.SVG_reference.attr('height')));
+            store.dispatch(editAttribute(this, 'x', this.SVG_reference.attr('x')));
+            store.dispatch(editAttribute(this, 'y', this.SVG_reference.attr('y')));
+            store.dispatch(editAttribute(this, 'width', this.SVG_reference.attr('width')));
+            store.dispatch(editAttribute(this, 'height', this.SVG_reference.attr('height')));
         })
     }
     deselect(self = this) {

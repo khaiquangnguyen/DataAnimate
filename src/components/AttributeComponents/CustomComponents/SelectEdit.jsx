@@ -25,7 +25,6 @@ class BooleanEdit extends React.Component {
         // if value is not blank, then test the regex
         // check value
         if (parseFloat(event.target.value) < min_value || parseInt(event.target.value) > max_value) return;
-        this.props.editAttribute(this.props.attribute.key, event.target.value)
     }
 
     render() {
