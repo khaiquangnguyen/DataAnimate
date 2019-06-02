@@ -36,6 +36,9 @@ export const rootReducer = (state = {}, action) => {
     case types.ADD_EFFECT_STACK:
       state.scene.add_effectstack(action.payload);
       return state.scene.export_state();
+    case types.EDIT_EFFECT_STACK:
+      state.scene.edit_effectstack(action.payload);
+      return state.scene.export_state();
 
     case types.DELETE_EFFECT_STACK:
       state.scene.remove_effectstack();

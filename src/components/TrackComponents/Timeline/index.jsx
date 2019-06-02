@@ -35,17 +35,18 @@ class Timeline extends React.Component {
   }
 
   render() {
+
     return (
       <div className="hero" style={{ height: '100%' }}>
         {this.renderAxis()}
         <div className="hero-body columns is-paddingless" style={{ overflowY: "auto", alignItems: 'start' }}>
-          <TrackNameContainer />
-          <TrackContainer />
+          <TrackNameContainer objs={this.props.objs} />
+          <TrackContainer objs={this.props.objs} />
         </div>
       </div>
     )
   }
 
 };
-const mapStateToProps = state => ({ duration: state.duration });
+const mapStateToProps = state => ({ duration: state.duration, objs: state.graphical_objects });
 export default connect(mapStateToProps)(Timeline);

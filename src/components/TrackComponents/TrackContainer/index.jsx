@@ -12,11 +12,7 @@ import Track from '../Track';
 
 class TrackContainer extends React.Component {
 
-  tick() {
-    this.setState(prevState => ({
-      seconds: prevState.seconds + 1
-    }));
-  }
+
   componentDidMount() {
     interact('#ruler')
       .draggable({
@@ -37,14 +33,6 @@ class TrackContainer extends React.Component {
       x = Math.max(0, (parseFloat(target.getAttribute('data-x')) || 0) + event.dx),
       y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
     this.props.reachTo((x + 1) / PIXELS_PER_SECOND * 1000);
-    console.log(event.dx);
-    // // translate the element
-    // const time_stamp = this.props.currTimestamp;
-    // x = time_stamp / 1000 * PIXELS_PER_SECOND - 1;
-    // target.style.webkitTransform =
-    //   target.style.transform =
-    //   'translate(' + x + 'px, ' + y + 'px)';
-    // // update the posiion attributes
     target.setAttribute('data-x', x);
     target.setAttribute('data-y', y);
   };
@@ -53,6 +41,17 @@ class TrackContainer extends React.Component {
     const time_stamp = this.props.currTimestamp;
     const pixels = time_stamp / 1000 * PIXELS_PER_SECOND - 1;
     const translate = 'translate(' + pixels + 'px, ' + 0 + 'px)';
+
+    let content_els = [];
+    this.props.objs.forEach(obj => {
+      console.log(obj.name);
+      let new_el = (
+        <Track obj={obj} />
+
+      );
+      content_els.push(new_el);
+    });
+
     return (
       <div id="yo" className="column is-10 track-container is-relative">
         <div id="abc" style={{ position: 'absolute', height: '100%', width: '100%', zIndex: '-190', marginLeft: `${SVG_OFFSET}px` }} />
@@ -61,7 +60,7 @@ class TrackContainer extends React.Component {
           <div className="column is-12">
             <svg className="timeline" />
           </div>
-          <Track />
+          {content_els}
         </div>
       </div>
     );

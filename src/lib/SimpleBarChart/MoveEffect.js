@@ -133,12 +133,6 @@ class MoveEffect extends AnimationEffect {
                 tooltips: "The beginning x position",
                 value: this.end_y
             },
-            target_component: {
-                type: input_types.DROPDOWN,
-                range: Object.keys(this.targetable_components),
-                tooltips: "The beginning x position",
-                value: this.curr_target_component
-            }
         }
         return { ...self.export_default_attributes(), ...new_attr };
     }
