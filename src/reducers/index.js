@@ -9,8 +9,6 @@ export const rootReducer = (state = {}, action) => {
     case types.PLAYING:
       return state.scene.export_state();
     case types.CREATE_OBJECT:
-      // state.scene.add_graphical_object(action.payload);
-      console.log(action.payload);
       state.scene.create_graphical_object(action.payload);
       return state.scene.export_state();
     case types.SELECT_OBJECT:
@@ -20,6 +18,9 @@ export const rootReducer = (state = {}, action) => {
       return state.scene.export_state();
     case types.SET_OBJECT:
       state.scene.set_curr_graphical_object(action.payload);
+      return state.scene.export_state();
+    case types.ADD_OBJECT:
+      state.scene.add_graphical_object(action.payload);
       return state.scene.export_state();
     case types.ADD_EFFECT:
       state.scene.add_effect(action.payload);

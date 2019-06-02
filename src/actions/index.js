@@ -23,7 +23,8 @@ import {
   TOGGLE_EFFECT_BPS,
   TOGGLE_OBJ_BPS,
   PLAYING,
-  EDIT_EFFECT_STACK
+  EDIT_EFFECT_STACK,
+  ADD_OBJECT
 } from './types';
 
 export const emptySelection = () => ({
@@ -144,4 +145,9 @@ export const playing = () => ({
 export const edit_effect_stack = (start_time, duration) => ({
   type: EDIT_EFFECT_STACK,
   payload: { start_time, duration }
+})
+
+export const addObject = (obj) => ({
+  type: ADD_OBJECT,
+  payload: obj
 })

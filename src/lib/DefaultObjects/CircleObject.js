@@ -1,6 +1,5 @@
 import GraphicalObject from './GraphicalObject';
 import SVG from 'svg.js';
-import { scene } from "../Scene";
 import '../SVG_plugins/svg.draggable';
 import '../SVG_plugins/svg.draw';
 import '../SVG_plugins/circle';
@@ -10,7 +9,7 @@ import '../SVG_plugins/rectable';
 import '../SVG_plugins/svg.resize';
 import '../SVG_plugins/svg.select';
 import { store } from '../../index';
-import { editAttribute, setObject } from '../../actions/index'
+import { editAttribute, setObject, addObject } from '../../actions/index'
 import { input_types, generate_unique_id } from "../Scene";
 
 class CircleObject extends GraphicalObject {
@@ -26,6 +25,7 @@ class CircleObject extends GraphicalObject {
         this.SVG_reference.attr("id", this.unique_id);
         this.set_on_click();
         this.styling = "";
+        store.dispatch(addObject(this));
         store.dispatch(setObject(this));
 
 
@@ -68,7 +68,6 @@ class CircleObject extends GraphicalObject {
             console.log(cx, cy, r);
             // should be some sort of dispatch action here
             const new_circle = new CircleObject(cx, cy, r, 'test_circle', circle);
-            scene.add_graphical_object(new_circle);
             // unbind the listener
             drawing.off('mousedown', start_draw);
             drawing.off('mouseup', end_draw);
@@ -147,7 +146,7 @@ class CircleObject extends GraphicalObject {
                 range: [0, 1],
                 value: this.opacity
             },
-            linked_object: {
+            reference_object: {
                 type: undefined,
                 range: undefined,
                 value: this

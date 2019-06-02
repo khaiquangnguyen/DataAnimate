@@ -7,7 +7,7 @@ import EffectStack from '../EffectStack';
 import MoveEffect from './MoveEffect';
 import FadeEffect from './FadeEffect';
 import BarGrowByOne from './BarGrowByOne';
-import { editAttribute, setObject } from '../../actions/index'
+import { editAttribute, setObject, addObject } from '../../actions/index'
 import { store } from '../../index';
 
 class SimpleBarChart extends GraphObject {
@@ -31,6 +31,7 @@ class SimpleBarChart extends GraphObject {
         this.bar_styling = "";
         this.import_data();
         this.effect_bps = [MoveEffect.get_blueprint(), FadeEffect.get_blueprint(), BarGrowByOne.get_blueprint()];
+        store.dispatch(addObject(this));
         store.dispatch(setObject(this));
         // let's do something fun
     }
@@ -171,7 +172,6 @@ class SimpleBarChart extends GraphObject {
             // should be some sort of dispatch action here
             rect.attr('fill', 'red');
             const new_rect = new SimpleBarChart(x, y, width, height, 'simple bar graph', rect);
-            scene.add_graphical_object(new_rect);
             // unbind the listener
             drawing.off('mousedown', start_draw);
             drawing.off('mouseup', end_draw);

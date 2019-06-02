@@ -35,7 +35,6 @@ class Timeline extends React.Component {
   }
 
   render() {
-
     return (
       <div className="hero" style={{ height: '100%' }}>
         <div className="hero-body columns is-paddingless" style={{ overflowY: "auto", alignItems: 'start' }}>

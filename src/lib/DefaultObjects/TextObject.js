@@ -1,6 +1,5 @@
 
 import GraphObject from './GraphObject';
-import { scene } from "../Scene";
 import '../SVG_plugins/svg.draggable';
 import '../SVG_plugins/svg.draw';
 import '../SVG_plugins/circle';
@@ -11,7 +10,7 @@ import '../SVG_plugins/svg.resize';
 import '../SVG_plugins/svg.select';
 import * as d3 from "d3";
 import { store } from '../../index';
-import { editAttribute, setObject } from '../../actions/index'
+import { editAttribute, setObject, addObject } from '../../actions/index'
 import { input_types } from "../Scene";
 import SVG from 'svg.js';
 
@@ -23,8 +22,8 @@ class TextObject extends GraphObject {
         this.data = text;
         this.text = drawing.text(text);
         this.SVG_reference.add(this.text);
+        store.dispatch(addObject(this));
         store.dispatch(setObject(this));
-
     }
 
     select(self = this) {
@@ -89,7 +88,6 @@ class TextObject extends GraphObject {
             // should be some sort of dispatch action here
             rect.attr('fill', 'red');
             const new_rect = new TextObject(x, y, width, height, "test_rectangle", 'dummy text', rect);
-            scene.add_graphical_object(new_rect);
             // unbind the listener
             drawing.off('mousedown', start_draw);
             drawing.off('mouseup', end_draw);

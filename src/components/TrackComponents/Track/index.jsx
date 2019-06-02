@@ -9,8 +9,13 @@ import { edit_effect_stack, setObject } from '../../../actions/index'
 import './style.css';
 
 class Track extends React.Component {
-
+    constructor(props) {
+        super(props);
+        this.editable = false;
+    }
     dragMoveListener = (event) => {
+        this.editable = (this.props.state.curr_graphical_object.reference_object.value === this.props.obj.reference_object.value);
+        if (!this.editable) return;
         let target = event.target,
             x = Math.max(0, (parseFloat(target.getAttribute('data-x')) || 0) + event.dx),
             y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
@@ -20,8 +25,10 @@ class Track extends React.Component {
     }
 
     componentDidMount = () => {
+        let id = this.props.obj.reference_object.value.unique_id + "effect_stack";
+
         const self = this;
-        interact('#interact-test')
+        interact('#' + id)
             .draggable({
                 onmove: this.dragMoveListener,
                 startAxis: 'x',
@@ -60,40 +67,38 @@ class Track extends React.Component {
                 // update the element's style
                 target.style.height = event.rect.height + 'px';
                 let duration = event.rect.width / PIXELS_PER_SECOND * 1000;
-
-                self.props.edit_effect_stack(self.props.obj.effect_stacks[0].start_time, duration);
+                self.editable = (self.props.state.curr_graphical_object.reference_object.value === self.props.obj.reference_object.value);
+                if (self.editable) {
+                    self.props.edit_effect_stack(self.props.obj.effect_stacks[0].start_time, duration);
+                    x += event.deltaRect.left;
+                    y += event.deltaRect.top;
+                    target.style.webkitTransform = target.style.transform =
+                        'translate(' + x + 'px,' + y + 'px)';
+                    target.setAttribute('data-x', x);
+                    target.setAttribute('data-y', y);
+                }
                 // translate when resizing from top or left edges
-                x += event.deltaRect.left;
-                y += event.deltaRect.top;
 
-                target.style.webkitTransform = target.style.transform =
-                    'translate(' + x + 'px,' + y + 'px)';
-
-                target.setAttribute('data-x', x);
-                target.setAttribute('data-y', y);
             });
     }
 
     render() {
         //TODO add a is-last-track check for bottom border rendering
+        let id = this.props.obj.reference_object.value.unique_id + "effect_stack";
         const time_stamp = (this.props.obj.effect_stacks[0].start_time);
         const duration = (this.props.obj.effect_stacks[0].duration);
+        this.editable = (this.props.state.curr_graphical_object.reference_object.value === this.props.obj.reference_object.value);
         const pixels = time_stamp / 1000 * PIXELS_PER_SECOND - 1;
         const translate = 'translate(' + pixels + 'px, ' + 0 + 'px)';
-
         return (
-            <div className="column is-12 track" onMouseOver={() => {
-                this.props.setObject(this.props.obj.reference_object.value);
-
-            }}>
+            <div className="column is-12 track">
                 <div className="track-border" style={{ height: '1em', width: `${PIXELS_PER_SECOND * this.props.duration / 1000}px`, marginLeft: `${SVG_OFFSET}px` }}>
-                    <div id="interact-test" style={{ transform: translate, width: `${PIXELS_PER_SECOND * duration / 1000}px` }} />
+                    <div class="effect_stack_timeline" id={id} style={{ transform: translate, width: `${PIXELS_PER_SECOND * duration / 1000}px` }} />
                 </div>
             </div>
         )
     }
 }
 
-
-const mapStateToProps = state => ({ duration: state.duration });
+const mapStateToProps = state => ({ duration: state.duration, state: state });
 export default connect(mapStateToProps, { edit_effect_stack, setObject })(Track);
