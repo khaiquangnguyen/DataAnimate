@@ -22,7 +22,8 @@ import {
   ACTION_STOP,
   TOGGLE_EFFECT_BPS,
   TOGGLE_OBJ_BPS,
-  PLAYING
+  PLAYING,
+  EDIT_EFFECT_STACK
 } from './types';
 
 export const emptySelection = () => ({
@@ -138,4 +139,9 @@ export const toggle_ob_bps = () => ({
 
 export const playing = () => ({
   type: PLAYING
+})
+
+export const edit_effect_stack = (start_time, duration) => ({
+  type: EDIT_EFFECT_STACK,
+  payload: { start_time, duration }
 })

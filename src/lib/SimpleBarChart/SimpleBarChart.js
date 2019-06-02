@@ -139,7 +139,7 @@ class SimpleBarChart extends GraphObject {
         return {
             type: "Simple Bar Chart",
             tooltips: "This is a simple bar chart",
-            icon_representation: "",
+            icon_representation: "fa-chart-bar",
             create_fn: SimpleBarChart.create
         }
     }

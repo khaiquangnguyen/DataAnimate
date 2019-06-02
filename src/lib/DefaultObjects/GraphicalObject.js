@@ -1,5 +1,7 @@
 import Track from '../Track';
 import { input_types, generate_unique_id, scene } from "../Scene";
+import EffectStack from '../EffectStack';
+
 class GraphicalObject {
     constructor(x, y, width, height, name) {
         this.type = "";
@@ -15,6 +17,7 @@ class GraphicalObject {
         this.show = 1;
         this.unique_id = "graphicalObject_" + generate_unique_id();
         this.effect_bps = [];
+        this.track.add_effectstack(new EffectStack(this, 0, scene.duration));
         // add onclick event
     }
 

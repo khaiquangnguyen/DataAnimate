@@ -15,8 +15,8 @@ const ActionMenu = function (props) {
         new_el = <DefaultObjIcon blueprint={props.blueprints[key]}></DefaultObjIcon>
         content_el.push(new_el);
     });
-    new_el = <MoreObjIcon />
-    content_el.push(new_el);
+    // new_el = <MoreObjIcon />
+    // content_el.push(new_el);
     return (
         <div className="panel" style={{ position: 'absolute', left: '0', top: '10%' }}>
             {content_el}

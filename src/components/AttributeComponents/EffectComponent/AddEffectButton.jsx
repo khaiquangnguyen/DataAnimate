@@ -8,10 +8,18 @@ import { addEffect } from "../../../actions/index";
 class AddEffectButton extends React.Component {
   constructor(props) {
     super(props);
+    this.current_bp = null;
     this.bp_dict = {};
   }
-  handleClick() {
+
+  handleClick(e) {
+    console.log(this.current_bp);
+    this.props.addEffect(this.current_bp);
   }
+  select(e) {
+    this.current_bp = this.bp_dict[e.target.value];
+  }
+
   render() {
     // 
     const options = [];
@@ -19,30 +27,20 @@ class AddEffectButton extends React.Component {
     this.props.blueprints.forEach(bp => {
       this.bp_dict[bp.name] = bp;
       let option = <option value={bp.name}>{bp.name}</option>;
-
+      options.push(option);
     });
+    this.current_bp = this.bp_dict[Object.keys(this.bp_dict)[0]];
     return (
       <div class="field has-addons">
         <div class="control is-expanded">
           <div class="select is-fullwidth">
-            <select name="country">
-              <option value="Argentina">Argentina</option>
-              <option value="Bolivia">Bolivia</option>
-              <option value="Brazil">Brazil</option>
-              <option value="Chile">Chile</option>
-              <option value="Colombia">Colombia</option>
-              <option value="Ecuador">Ecuador</option>
-              <option value="Guyana">Guyana</option>
-              <option value="Paraguay">Paraguay</option>
-              <option value="Peru">Peru</option>
-              <option value="Suriname">Suriname</option>
-              <option value="Uruguay">Uruguay</option>
-              <option value="Venezuela">Venezuela</option>
+            <select name="effect" onChange={(e) => this.select(e)}>
+              {options};
             </select>
           </div>
         </div>
         <div class="control">
-          <button className="button is-dark" onClick={(e) => this.handleClick(e)}>
+          <button type='submit' className="button is-dark" onClick={(e) => this.handleClick(e)}>
             <span class="icon is-small">
               <i class={"fas fa-plus"} ></i>
             </span>

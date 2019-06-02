@@ -110,7 +110,6 @@ class AnimationEffect {
         }
     }
 
-
     export_attributes(self = this) {
         return self.export_default_attributes()
     }

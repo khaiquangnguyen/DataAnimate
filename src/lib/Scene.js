@@ -1,8 +1,9 @@
 import RectObject from './DefaultObjects/RectObject';
 import CircleObject from './DefaultObjects/CircleObject';
 import TextObject from './DefaultObjects/TextObject';
-import { selectObject, stop, playing } from '../actions';
+import { selectObject, stop, playing, setEffectStack } from '../actions';
 import { store } from '../index';
+import SimpleBarChart from './SimpleBarChart/SimpleBarChart';
 export const input_types = {
     STRING: "string",
     INT: "int",
@@ -90,7 +91,7 @@ class DefaultBPLib extends BluePrintLibrary {
         this.add_blueprint(RectObject.get_blueprint());
         this.add_blueprint(CircleObject.get_blueprint());
         this.add_blueprint(TextObject.get_blueprint());
-        // this.add_blueprint(SimpleBarChart.get_blueprint());
+        this.add_blueprint(SimpleBarChart.get_blueprint());
     }
 }
 
@@ -146,22 +147,33 @@ class Scene {
         this.graphical_objects.forEach(object => {
             object.deselect();
         })
-        this.effect_bp_lib.load_new_bps(this.curr_graphical_object.effect_bps);
         this.curr_graphical_object.select();
-        store.dispatch(selectObject(this.curr_graphical_object));
 
+        // load the effect stack, if possible
+        const effectstacks = this.curr_graphical_object.track.effect_stacks;
+        this.curr_effectstack = effectstacks[0];
+        this.effect_bp_lib.load_new_bps(this.curr_graphical_object.effect_bps);
+        store.dispatch(selectObject(this.curr_graphical_object));
+        console.log(this.curr_effectstack);
     }
+
 
     add_effectstack(add_effectstack, self = this) {
         this.curr_graphical_object.add_effectstack(add_effectstack);
         this.curr_effectstack = add_effectstack;
     }
 
-    remove_effectstack(effect_stack = this.curr_effectstack, self = this) {
-        this.curr_graphical_object.remove_effectstack(effect_stack);
-        this.curr_effectstack = null;
-    }
+    // remove_effectstack(effect_stack = this.curr_effectstack, self = this) {
+    //     this.curr_graphical_object.remove_effectstack(effect_stack);
+    //     this.curr_effectstack = null;
+    // }
 
+    edit_effectstack(stack_attrs) {
+        const duration = stack_attrs.duration;
+        const start_time = stack_attrs.start_time;
+        this.curr_effectstack.set_start_time(start_time);
+        this.curr_effectstack.set_duration(duration);
+    }
     add_effect(effect_bp, self = this) {
         if (this.curr_effectstack === null || this.curr_effectstack === undefined) return;
         this.curr_effectstack.add_effect(effect_bp);
@@ -171,9 +183,9 @@ class Scene {
         this.curr_effectstack.remove_effect(effect);
     }
 
-    set_curr_effectstack(curr_effect_stack, self = this) {
-        this.curr_effectstack = curr_effect_stack;
-    }
+    // set_curr_effectstack(curr_effect_stack, self = this) {
+    //     this.curr_effectstack = curr_effect_stack;
+    // }
 
     import_graphical_object_blueprint(self = this) {
         this.obj_bp_lib.add_blueprint();

@@ -64,7 +64,6 @@ class Track {
             effect_stacks: (() => {
                 var effect_stacks = [];
                 self.effect_stacks.forEach(stack => {
-                    console.log(stack);
                     effect_stacks.push(stack.export_state());
                 });
                 return effect_stacks;
