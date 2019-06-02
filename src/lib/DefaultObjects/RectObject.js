@@ -20,7 +20,8 @@ class RectObject extends GraphicalObject {
         this.SVG_reference = rect;
         this.SVG_reference.attr("id", this.unique_id);
         this.set_on_click();
-        this.styling = "";
+        this.styling = '"fill":"#e4f1fe","stroke":"black","stroke-width":"2"';
+        this.apply_string_style();
         store.dispatch(addObject(this));
         store.dispatch(setObject(this));
     }
@@ -54,6 +55,9 @@ class RectObject extends GraphicalObject {
         var rect;
         const start_draw = (e) => {
             rect = drawing.rect();
+            rect.attr("fill", "#e4f1fe");
+            rect.attr("stroke", "black");
+            rect.attr("stroke-width", "2");
             rect.draw(e);
         }
         const end_draw = (e) => {

@@ -86,64 +86,6 @@ class GraphObject extends GraphicalObject {
         this.bounding_box.selectize(false).draggable(false).resize(false);;
     }
 
-    edit_default_attr(d, self = this) {
-        if (!d) return;
-        const attr = d.attribute;
-        const value = d.value;
-        switch (attr) {
-            case "name":
-                this.name = value;
-                return;
-            case "height":
-                this.total_height = value;
-                this.SVG_reference
-                    .attr("height", this.total_height)
-                this.bounding_box
-                    .attr("height", this.total_height)
-
-
-                break;
-            case "width":
-                this.total_width = value;
-                this.SVG_reference
-                    .attr("width", this.total_width)
-                this.bounding_box
-                    .attr("width", this.total_width)
-
-                break;
-            case "x":
-                this.x = value;
-                this.SVG_reference
-                    .attr("x", this.x)
-                this.bounding_box
-                    .attr("x", this.x)
-
-                break;
-            case "y":
-                this.y = value;
-                this.SVG_reference
-                    .attr("y", this.y)
-                this.bounding_box
-                    .attr("y", this.y)
-
-                break;
-            case "opacity":
-                this.opacity = value;
-                this.SVG_reference
-                    .attr("opacity", this.opacity)
-
-                break;
-            case "show":
-                this.show = value;
-                this.show === 1 ? this.SVG_reference.show() : this.SVG_reference.hide();
-                this.show === 1 ? this.bounding_box.show() : this.bounding_box.hide();
-
-                break;
-            default:
-                break;
-        }
-    }
-
 
 
 

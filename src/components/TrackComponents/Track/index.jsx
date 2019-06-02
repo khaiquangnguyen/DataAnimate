@@ -14,18 +14,20 @@ class Track extends React.Component {
         this.editable = false;
     }
     dragMoveListener = (event) => {
+        if (this.props.state.curr_graphical_object.length === 0) return;
         this.editable = (this.props.state.curr_graphical_object.reference_object.value === this.props.obj.reference_object.value);
         if (!this.editable) return;
         let target = event.target,
             x = Math.max(0, (parseFloat(target.getAttribute('data-x')) || 0) + event.dx),
             y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
         this.props.edit_effect_stack((x) / PIXELS_PER_SECOND * 1000, this.props.obj.effect_stacks[0].duration);
-        console.log(this.editable);
         target.setAttribute('data-x', x);
         target.setAttribute('data-y', y);
     }
 
     componentDidMount = () => {
+        if (this.props.state.curr_graphical_object.length === 0) return;
+
         let id = this.props.obj.reference_object.value.unique_id + "effect_stack";
 
         const self = this;
@@ -68,6 +70,7 @@ class Track extends React.Component {
                 // update the element's style
                 target.style.height = event.rect.height + 'px';
                 let duration = event.rect.width / PIXELS_PER_SECOND * 1000;
+                if (self.props.state.curr_graphical_object.length === 0) return;
                 self.editable = (self.props.state.curr_graphical_object.reference_object.value === self.props.obj.reference_object.value);
                 if (self.editable) {
                     x += event.deltaRect.left;
@@ -86,7 +89,12 @@ class Track extends React.Component {
         let id = this.props.obj.reference_object.value.unique_id + "effect_stack";
         const time_stamp = (this.props.obj.effect_stacks[0].start_time);
         const duration = (this.props.obj.effect_stacks[0].duration);
-        this.editable = (this.props.state.curr_graphical_object.reference_object.value === this.props.obj.reference_object.value);
+        if (this.props.state.curr_graphical_object.length === 0) {
+            this.editable = false;
+        }
+        else {
+            this.editable = (this.props.state.curr_graphical_object.reference_object.value === this.props.obj.reference_object.value);
+        }
         const pixels = time_stamp / 1000 * PIXELS_PER_SECOND - 1;
         const translate = 'translate(' + pixels + 'px, ' + 0 + 'px)';
         return (

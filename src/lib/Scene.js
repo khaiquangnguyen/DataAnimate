@@ -134,7 +134,6 @@ class Scene {
         self.curr_graphical_object = null;
         self.curr_effectstack = null;
         this.effect_bp_lib.load_new_bps([]);
-        console.log(graphical_object.unique_id);
         // let's deselect it first to remove the bounding box
         graphical_object.deselect();
         // then remove the one on canvas
@@ -182,7 +181,6 @@ class Scene {
         const start_time = stack_attrs.start_time;
         this.curr_effectstack.set_start_time(start_time);
         this.curr_effectstack.set_duration(duration);
-        console.log(this.curr_effectstack);
     }
 
     add_effect(effect_bp, self = this) {
@@ -210,6 +208,7 @@ class Scene {
     playpauseresume(self = this) {
         this.last_timestamp = null;
         if (this.curr_action === scene_action.PLAY) {
+            this.curr_graphical_object.select();
             this.curr_action = scene_action.PAUSE;
             self.graphical_objects.forEach(obj => {
                 obj.pause();
@@ -217,6 +216,7 @@ class Scene {
             cancelAnimationFrame(this.curr_animation_frame_req);
         }
         else if (this.curr_action === scene_action.PAUSE) {
+            this.curr_graphical_object.deselect();
             this.curr_action = scene_action.PLAY;
             this.curr_animation_frame_req = requestAnimationFrame(this.show_time);
             self.graphical_objects.forEach(obj => {
@@ -224,6 +224,7 @@ class Scene {
             });
         }
         else if (this.curr_action === scene_action.STOP) {
+            this.curr_graphical_object.deselect();
             this.curr_action = scene_action.PLAY;
             this.curr_animation_frame_req = requestAnimationFrame(this.show_time);
             self.graphical_objects.forEach(obj => {
@@ -234,6 +235,7 @@ class Scene {
 
     reachTo(play_time, self = this) {
         if (this.curr_action === scene_action.PLAY) return;
+        this.curr_graphical_object.select();
         this.last_timestamp = null;
         this.curr_timestamp = play_time;
         self.graphical_objects.forEach(obj => {
@@ -249,6 +251,7 @@ class Scene {
     }
 
     stop(self = this) {
+        this.curr_graphical_object.select();
         self.graphical_objects.forEach(obj => {
             obj.stop();
         });

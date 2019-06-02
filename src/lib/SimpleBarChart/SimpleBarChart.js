@@ -28,7 +28,7 @@ class SimpleBarChart extends GraphObject {
         this.raw_data = data;
         this.data = "";
         this.axis_styling = {};
-        this.bar_styling = "";
+        this.bar_styling = '"fill":"lightblue","stroke":"lightblue","stroke-width":"1"';
         this.import_data();
         this.effect_bps = [MoveEffect.get_blueprint(), FadeEffect.get_blueprint(), BarGrowByOne.get_blueprint()];
         store.dispatch(addObject(this));
@@ -82,16 +82,16 @@ class SimpleBarChart extends GraphObject {
     select(self = this) {
         this.bounding_box.draggable().selectize().resize();
         this.bounding_box.on('dragend', (e) => {
-            store.dispatch(editAttribute(this,'x', this.bounding_box.attr('x')));
-            store.dispatch(editAttribute(this,'y', this.bounding_box.attr('y')));
+            store.dispatch(editAttribute(this, 'x', this.bounding_box.attr('x')));
+            store.dispatch(editAttribute(this, 'y', this.bounding_box.attr('y')));
 
             // events are still bound e.g. dragend will fire anyway
         })
         this.bounding_box.on('resizedone', (e) => {
-            store.dispatch(editAttribute(this,'x', this.bounding_box.attr('x')));
-            store.dispatch(editAttribute(this,'y', this.bounding_box.attr('y')));
-            store.dispatch(editAttribute(this,'width', this.bounding_box.attr('width')));
-            store.dispatch(editAttribute(this,'height', this.bounding_box.attr('height')));
+            store.dispatch(editAttribute(this, 'x', this.bounding_box.attr('x')));
+            store.dispatch(editAttribute(this, 'y', this.bounding_box.attr('y')));
+            store.dispatch(editAttribute(this, 'width', this.bounding_box.attr('width')));
+            store.dispatch(editAttribute(this, 'height', this.bounding_box.attr('height')));
             this.svg_container.attr('viewBox', `0 0 ${this.total_width} ${this.total_height}`)
             this.SVG_reference.clear();
             this.construct_graph();
@@ -131,8 +131,8 @@ class SimpleBarChart extends GraphObject {
             .data(self.data)
             .enter().append("rect")
             .attr("class", self.name + "_bar")
-            .attr("x", function (d) { return self.x_scale(d[self.x_data]); })
-            .attr("width", self.x_scale.bandwidth())
+            .attr("x", function (d) { return self.x_scale(d[self.x_data]) + 5; })
+            .attr("width", function (d) { return (self.x_scale.bandwidth() - 10) })
             .attr("y", function (d) { return self.y_scale(d[self.y_data]); })
             .attr("height", function (d) {
                 return self.graph_height - self.y_scale(d[self.y_data]);
@@ -160,6 +160,9 @@ class SimpleBarChart extends GraphObject {
         var rect;
         const start_draw = (e) => {
             rect = drawing.rect();
+            rect.attr("fill", "none");
+            rect.attr("stroke", "black");
+            rect.attr("stroke-width", "2");
             rect.draw(e);
         }
         const end_draw = (e) => {
@@ -170,7 +173,8 @@ class SimpleBarChart extends GraphObject {
             var width = rect.attr('width');
             var height = rect.attr('height');
             // should be some sort of dispatch action here
-            rect.attr('fill', 'red');
+            // rect.attr('fill', 'none');
+            rect.addClass('bounding-box');
             const new_rect = new SimpleBarChart(x, y, width, height, 'simple bar graph', rect);
             // unbind the listener
             drawing.off('mousedown', start_draw);

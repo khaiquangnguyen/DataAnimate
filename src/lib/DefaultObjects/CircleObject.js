@@ -24,7 +24,7 @@ class CircleObject extends GraphicalObject {
         this.SVG_reference = circle;
         this.SVG_reference.attr("id", this.unique_id);
         this.set_on_click();
-        this.styling = "";
+        this.styling = '"fill":"#e4f1fe","stroke":"black","stroke-width":"2"';
         store.dispatch(addObject(this));
         store.dispatch(setObject(this));
 
@@ -57,6 +57,9 @@ class CircleObject extends GraphicalObject {
         var circle;
         const start_draw = (e) => {
             circle = drawing.circle();
+            circle.attr("fill", "#e4f1fe");
+            circle.attr("stroke", "black");
+            circle.attr("stroke-width", "2");
             circle.draw(e);
         }
         const end_draw = (e) => {
@@ -92,7 +95,7 @@ class CircleObject extends GraphicalObject {
                 this.SVG_reference
                     .attr("cy", this.cy);
                 return;
-            case 'r':
+            case 'radius':
                 this.r = value;
                 this.SVG_reference.attr('r', this.r);
                 break;
@@ -129,7 +132,7 @@ class CircleObject extends GraphicalObject {
             radius: {
                 type: input_types.INT,
                 range: [-Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER],
-                value: this.radius,
+                value: this.r,
             },
             cx: {
                 type: input_types.INT,

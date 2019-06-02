@@ -38,11 +38,9 @@ class MoveEffect extends AnimationEffect {
     }
 
     play(start_timestamp = 0, self = this) {
-        console.log(self.duration);
         if (!self.enabled) return;
         this.DOM_target_components.forEach(e => {
             var svg_e = SVG.adopt(e);
-            console.log('why not run');
             svg_e.animate(self.duration - start_timestamp).move(self.end_x, self.end_y);
         });
     }
@@ -115,7 +113,7 @@ class MoveEffect extends AnimationEffect {
     export_attributes(self = this) {
         const new_attr = {
             start_x: {
-                type: input_types.INT,
+                type: input_types.CONST,
                 range: [-Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER],
                 tooltips: "The beginning x position",
                 value: this.start_x
@@ -127,7 +125,7 @@ class MoveEffect extends AnimationEffect {
                 value: this.end_x
             },
             start_y: {
-                type: input_types.INT,
+                type: input_types.CONST,
                 range: [-Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER],
                 tooltips: "The beginning x position",
                 value: this.start_y
