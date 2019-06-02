@@ -10,7 +10,7 @@ import '../SVG_plugins/rectable';
 import '../SVG_plugins/svg.resize';
 import '../SVG_plugins/svg.select';
 import { store } from '../../index';
-import { editAttribute } from '../../actions/index'
+import { editAttribute, setObject } from '../../actions/index'
 import { input_types, generate_unique_id } from "../Scene";
 
 class CircleObject extends GraphicalObject {
@@ -25,6 +25,10 @@ class CircleObject extends GraphicalObject {
         this.SVG_reference = circle;
         this.SVG_reference.attr("id", this.unique_id);
         this.set_on_click();
+        this.styling = "";
+        store.dispatch(setObject(this));
+
+
     }
 
     select(self = this) {
@@ -93,8 +97,25 @@ class CircleObject extends GraphicalObject {
                 this.r = value;
                 this.SVG_reference.attr('r', this.r);
                 break;
+            case "additional_styling":
+                this.styling = value;
+                this.apply_string_style();
+                return;
             default:
                 break;
+        }
+    }
+
+    apply_string_style(self = this) {
+        try {
+            let style_dict = JSON.parse("{" + this.styling + "}");
+            console.log(style_dict);
+            for (let style in style_dict) {
+                self.SVG_reference.attr(style, style_dict[style]);
+            }
+        }
+        catch (error) {
+            return;
         }
     }
 
@@ -131,11 +152,19 @@ class CircleObject extends GraphicalObject {
                 range: undefined,
                 value: this
             },
+
             show: {
                 type: input_types.BOOLEAN,
                 range: [true, false],
                 value: this.show
-            }
+            },
+            additional_styling: {
+                type: input_types.TEXT_AREA,
+                range: "",
+                tooltips: "The name of the graphical object",
+                value: this.styling
+            },
+
         }
     }
 

@@ -11,7 +11,8 @@ export const input_types = {
     DROPDOWN: "dropdown",
     SELECTOR: "selector",
     BOOLEAN: "boolean",
-    CONST: "const"
+    CONST: "const",
+    TEXT_AREA: "text_area"
 }
 
 export const scene_action = {
@@ -80,7 +81,6 @@ class ObjectBPLib extends BluePrintLibrary {
 class EffectBPLib extends BluePrintLibrary {
     load_new_bps(new_bps, self = this) {
         this.blueprints = new_bps;
-        console.log(this.blueprints);
     }
 }
 
@@ -153,10 +153,8 @@ class Scene {
         const effectstacks = this.curr_graphical_object.track.effect_stacks;
         this.curr_effectstack = effectstacks[0];
         this.effect_bp_lib.load_new_bps(this.curr_graphical_object.effect_bps);
-        store.dispatch(selectObject(this.curr_graphical_object));
-        console.log(this.curr_effectstack);
+        // store.dispatch(selectObject(this.curr_graphical_object));
     }
-
 
     add_effectstack(add_effectstack, self = this) {
         this.curr_graphical_object.add_effectstack(add_effectstack);

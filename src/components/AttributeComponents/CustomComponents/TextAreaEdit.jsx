@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 //         }} /></>);
 // }
 
-class StringEdit extends React.Component {
+class TextAreaEdit extends React.Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
@@ -32,7 +32,7 @@ class StringEdit extends React.Component {
                 <div class="field-body">
                     <div class="field">
                         <div class="control">
-                            <input type="text" class="input" value={this.props.attribute.desc.value} onChange={this.handleChange} />
+                            <textarea class="textarea" rows="10" value={this.props.attribute.desc.value} onChange={this.handleChange}></textarea>
                         </div>
 
                     </div>
@@ -42,4 +42,4 @@ class StringEdit extends React.Component {
     }
 }
 
-export default connect(null, { editAttribute })(StringEdit);
+export default connect(null, { editAttribute })(TextAreaEdit);

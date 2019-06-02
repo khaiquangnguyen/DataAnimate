@@ -8,7 +8,7 @@ import '../SVG_plugins/svg.resize';
 import '../SVG_plugins/svg.select';
 import * as d3 from "d3";
 import { store } from '../../index';
-import { editAttribute } from '../../actions/index';
+import { editAttribute, setObject } from '../../actions/index';
 import GraphicalObject from './GraphicalObject';
 import SVG from 'svg.js';
 import { scene } from "../Scene";
@@ -24,9 +24,11 @@ class GraphObject extends GraphicalObject {
         this.set_on_click();
     }
 
+
     set_on_click(self = this) {
         this.bounding_box.on('click', e => {
             scene.set_curr_graphical_object(this);
+            store.dispatch(setObject(this));
         })
     }
     construct_svg_container(self = this) {

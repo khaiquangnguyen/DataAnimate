@@ -1,6 +1,6 @@
 import GraphicalObject from './GraphicalObject';
 import SVG from 'svg.js';
-import { scene } from "../Scene";
+import { input_types, scene } from "../Scene";
 import '../SVG_plugins/svg.draggable';
 import '../SVG_plugins/svg.draw';
 import '../SVG_plugins/circle';
@@ -10,7 +10,7 @@ import '../SVG_plugins/rectable';
 import '../SVG_plugins/svg.resize';
 import '../SVG_plugins/svg.select';
 import { store } from '../../index';
-import { editAttribute } from '../../actions/index';
+import { editAttribute, setObject } from '../../actions/index';
 
 class RectObject extends GraphicalObject {
     constructor(x, y, width, height, name, rect) {
@@ -20,6 +20,10 @@ class RectObject extends GraphicalObject {
         this.SVG_reference = rect;
         this.SVG_reference.attr("id", this.unique_id);
         this.set_on_click();
+        this.styling = "";
+        store.dispatch(setObject(this));
+
+
     }
 
     select(self = this) {
@@ -69,6 +73,9 @@ class RectObject extends GraphicalObject {
         drawing.on('mouseup', end_draw, false);
     }
 
+
+
+
     static get_blueprint(self = this) {
         return {
             type: "Rectangle",
@@ -78,6 +85,45 @@ class RectObject extends GraphicalObject {
         }
     }
 
+    edit_attr(d, self = this) {
+        if (!d) return;
+        this.edit_default_attr(d);
+        const attr = d.attribute;
+        const value = d.value;
+        switch (attr) {
+            case "additional_styling":
+                this.styling = value;
+                this.apply_string_style();
+                return;
+            default:
+                break;
+        }
+    }
+
+    apply_string_style(self = this) {
+        try {
+            let style_dict = JSON.parse("{" + this.styling + "}");
+            console.log(style_dict);
+            for (let style in style_dict) {
+                self.SVG_reference.attr(style, style_dict[style]);
+            }
+        }
+        catch (error) {
+            return;
+        }
+    }
+
+    export_attributes(self = this) {
+        const new_attr = {
+            additional_styling: {
+                type: input_types.TEXT_AREA,
+                range: "",
+                tooltips: "The name of the graphical object",
+                value: this.styling
+            },
+        }
+        return { ...this.export_default_attributes(), ...new_attr };
+    }
 }
 
 export default RectObject;

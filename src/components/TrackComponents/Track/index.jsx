@@ -5,7 +5,7 @@ import interact from "interactjs";
 import { PIXELS_PER_SECOND } from "../../../constants";
 import { SVG_OFFSET } from "../../../constants";
 import { connect } from 'react-redux';
-import { edit_effect_stack } from '../../../actions/index'
+import { edit_effect_stack, setObject } from '../../../actions/index'
 import './style.css';
 
 class Track extends React.Component {
@@ -82,7 +82,10 @@ class Track extends React.Component {
         const translate = 'translate(' + pixels + 'px, ' + 0 + 'px)';
 
         return (
-            <div className="column is-12 track">
+            <div className="column is-12 track" onMouseOver={() => {
+                this.props.setObject(this.props.obj.reference_object.value);
+
+            }}>
                 <div className="track-border" style={{ height: '1em', width: `${PIXELS_PER_SECOND * this.props.duration / 1000}px`, marginLeft: `${SVG_OFFSET}px` }}>
                     <div id="interact-test" style={{ transform: translate, width: `${PIXELS_PER_SECOND * duration / 1000}px` }} />
                 </div>
@@ -93,4 +96,4 @@ class Track extends React.Component {
 
 
 const mapStateToProps = state => ({ duration: state.duration });
-export default connect(mapStateToProps, { edit_effect_stack })(Track);
+export default connect(mapStateToProps, { edit_effect_stack, setObject })(Track);

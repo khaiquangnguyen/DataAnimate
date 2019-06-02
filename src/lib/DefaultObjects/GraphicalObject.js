@@ -1,6 +1,8 @@
 import Track from '../Track';
 import { input_types, generate_unique_id, scene } from "../Scene";
 import EffectStack from '../EffectStack';
+import { editAttribute, setObject } from '../../actions/index';
+import { store } from '../../index';
 
 class GraphicalObject {
     constructor(x, y, width, height, name) {
@@ -18,6 +20,7 @@ class GraphicalObject {
         this.unique_id = "graphicalObject_" + generate_unique_id();
         this.effect_bps = [];
         this.track.add_effectstack(new EffectStack(this, 0, scene.duration));
+
         // add onclick event
     }
 
@@ -33,7 +36,7 @@ class GraphicalObject {
     }
     set_on_click(self = this) {
         this.SVG_reference.on('click', e => {
-            scene.set_curr_graphical_object(self);
+            store.dispatch(setObject(this));
         })
     }
 
@@ -152,7 +155,7 @@ class GraphicalObject {
                 range: [0, 1],
                 value: this.opacity
             },
-            linked_object: {
+            reference_object: {
                 type: undefined,
                 range: undefined,
                 value: this
@@ -170,7 +173,6 @@ class GraphicalObject {
     }
 
     export_animation_effects(self = this) {
-
     }
 
     export_state(self = this) {

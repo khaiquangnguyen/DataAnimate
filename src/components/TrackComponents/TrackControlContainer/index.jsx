@@ -7,15 +7,6 @@ import StopButton from './StopButton'
 
 const TrackControlContainer = function (props) {
     return (
-        // <div class="field is-grouped">
-        //     <p class="control">
-        //         <PlayButton> </PlayButton>
-        //     </p>
-        //     <p class="control">
-        //         <StopButton ></StopButton>
-        //     </p>
-        // </div>
-
         <div class="field has-addons">
             <p class="control">
                 <PlayButton> </PlayButton>

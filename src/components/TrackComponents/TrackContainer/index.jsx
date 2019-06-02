@@ -44,7 +44,6 @@ class TrackContainer extends React.Component {
 
     let content_els = [];
     this.props.objs.forEach(obj => {
-      console.log(obj.name);
       let new_el = (
         <Track obj={obj} />
 

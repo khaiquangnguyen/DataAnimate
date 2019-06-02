@@ -7,6 +7,7 @@ import StringEdit from '../CustomComponents/StringEdit';
 import BooleanEdit from '../CustomComponents/BooleanEdit';
 import SelectEdit from '../CustomComponents/SelectEdit';
 import FileEdit from '../CustomComponents/FileEdit';
+import TextAreaEdit from '../CustomComponents/TextAreaEdit';
 
 const ObjAttrMenuItem = function (props) {
     const content_el = [];
@@ -64,6 +65,15 @@ const ObjAttrMenuItem = function (props) {
                     desc: props.reference_object[key]
                 }
                 input_field = <StringEdit attribute={attribute}
+                />
+                content_el.push(input_field);
+                break;
+            case input_types.TEXT_AREA:
+                attribute = {
+                    key,
+                    desc: props.reference_object[key]
+                }
+                input_field = <TextAreaEdit attribute={attribute}
                 />
                 content_el.push(input_field);
                 break;

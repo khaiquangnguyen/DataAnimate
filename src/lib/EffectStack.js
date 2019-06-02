@@ -92,6 +92,7 @@ class EffectStack {
 
     export_state(self = this) {
         return {
+            reference_object: this,
             duration: this.duration,
             start_time: this.start_time,
             enabled: this.enabled,

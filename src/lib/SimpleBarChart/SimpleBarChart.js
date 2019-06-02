@@ -7,6 +7,9 @@ import EffectStack from '../EffectStack';
 import MoveEffect from './MoveEffect';
 import FadeEffect from './FadeEffect';
 import BarGrowByOne from './BarGrowByOne';
+import { editAttribute, setObject } from '../../actions/index'
+import { store } from '../../index';
+
 class SimpleBarChart extends GraphObject {
     constructor(x, y, width, height, name, bounding_box) {
         super(x, y, width, height, "Simple Bar Chart", name, bounding_box);
@@ -22,16 +25,18 @@ class SimpleBarChart extends GraphObject {
         this.margin = { top: 20, right: 20, bottom: 20, left: 20 };
         this.graph_width = this.total_width - this.margin.left - this.margin.right;
         this.graph_height = this.total_height - this.margin.top - this.margin.bottom;
-        this.data = data;
+        this.raw_data = data;
+        this.data = "";
         this.axis_styling = {};
-        this.bar_styling = { fill: "blue" };
+        this.bar_styling = "";
         this.import_data();
         this.effect_bps = [MoveEffect.get_blueprint(), FadeEffect.get_blueprint(), BarGrowByOne.get_blueprint()];
+        store.dispatch(setObject(this));
         // let's do something fun
     }
 
     import_data(self = this) {
-        d3.csv(this.data)
+        d3.csv(this.raw_data)
             .then(function (data) {
                 self.data = data;
                 self.columns = Object.keys(self.data[0]);
@@ -73,6 +78,48 @@ class SimpleBarChart extends GraphObject {
             .call(d3.axisLeft(self.y_scale));
     }
 
+    select(self = this) {
+        this.bounding_box.draggable().selectize().resize();
+        this.bounding_box.on('dragend', (e) => {
+            store.dispatch(editAttribute('x', this.bounding_box.attr('x')));
+            store.dispatch(editAttribute('y', this.bounding_box.attr('y')));
+
+            // events are still bound e.g. dragend will fire anyway
+        })
+        this.bounding_box.on('resizedone', (e) => {
+            store.dispatch(editAttribute('x', this.bounding_box.attr('x')));
+            store.dispatch(editAttribute('y', this.bounding_box.attr('y')));
+            store.dispatch(editAttribute('width', this.bounding_box.attr('width')));
+            store.dispatch(editAttribute('height', this.bounding_box.attr('height')));
+            this.svg_container.attr('viewBox', `0 0 ${this.total_width} ${this.total_height}`)
+            this.SVG_reference.clear();
+            this.construct_graph();
+
+        })
+
+        this.bounding_box.on('resizing', function (event) {
+            var x = self.bounding_box.attr('x');
+            var y = self.bounding_box.attr('y');
+            var width = self.bounding_box.attr('width');
+            var height = self.bounding_box.attr('height');
+            self.edit_attr({ attribute: 'x', value: x });
+            self.edit_attr({ attribute: 'y', value: y });
+            self.edit_attr({ attribute: 'width', value: width });
+            self.edit_attr({ attribute: 'height', value: height });
+        });
+        this.bounding_box.on('dragmove', function (event) {
+            var x = self.bounding_box.attr('x');
+            var y = self.bounding_box.attr('y');
+            var width = self.bounding_box.attr('width');
+            var height = self.bounding_box.attr('height');
+            self.edit_attr({ attribute: 'x', value: x });
+            self.edit_attr({ attribute: 'y', value: y });
+            self.edit_attr({ attribute: 'width', value: width });
+            self.edit_attr({ attribute: 'height', value: height });
+
+        });
+    }
+
 
     construct_graph(self = this) {
         self.construct_inner_graph();
@@ -90,9 +137,7 @@ class SimpleBarChart extends GraphObject {
                 return self.graph_height - self.y_scale(d[self.y_data]);
             });
 
-        for (let style in self.bar_styling) {
-            self.bars.attr(style, self.bar_styling[style]);
-        }
+        this.apply_bar_string_styling();
     }
 
     get_targetable_components(self = this) {
@@ -147,16 +192,16 @@ class SimpleBarChart extends GraphObject {
     export_attributes(self = this) {
         const new_attr = {
             bar_styling: {
-                type: input_types.STRING,
+                type: input_types.TEXT_AREA,
                 range: "",
                 tooltips: "The name of the graphical object",
-                value: JSON.stringify(this.bar_styling)
+                value: this.bar_styling
             },
-            axis_styling: {
-                type: input_types.STRING,
-                range: "",
-                value: JSON.stringify(this.axis_styling)
-            }
+            // axis_styling: {
+            //     type: input_types.STRING,
+            //     range: "",
+            //     value: JSON.stringify(this.axis_styling)
+            // }
         }
         return { ...this.export_default_attributes(), ...new_attr };
     }
@@ -168,9 +213,9 @@ class SimpleBarChart extends GraphObject {
         const value = d.value;
         switch (attr) {
             case "bar_styling":
-                this.bar_styling = JSON.parse(value);
-                this.SVG_reference.clear();
-                this.construct_graph();
+                this.bar_styling = value;
+                this.apply_bar_string_styling();
+
                 return;
             case "axis_styling":
                 this.axis_styling = JSON.parse(value);
@@ -180,9 +225,21 @@ class SimpleBarChart extends GraphObject {
             default:
                 break;
         }
+        this.graph_width = this.total_width - this.margin.left - this.margin.right;
+        this.graph_height = this.total_height - this.margin.top - this.margin.bottom;
 
-        // this.SVG_reference
-        //     .attr('viewBox', `0 0 ${this.total_width} ${this.total_height}`);
+    }
+
+    apply_bar_string_styling(self = this) {
+        try {
+            let style_dict = JSON.parse("{" + this.bar_styling + "}");
+            for (let style in style_dict) {
+                self.bars.attr(style, style_dict[style]);
+            }
+        }
+        catch (error) {
+            return;
+        }
 
     }
 }
