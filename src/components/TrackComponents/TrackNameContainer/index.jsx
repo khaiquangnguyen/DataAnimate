@@ -3,7 +3,6 @@ import React from 'react';
 import './style.css';
 import TrackControlContainer from '../TrackControlContainer';
 import {BULMA_COLUMNS_OFFSET, TIMELINE_HEIGHT, TRACK_HEIGHT} from "../../../constants";
-import { ScrollSync } from 'react-virtualized';
 import $ from "jquery";
 
 class TrackNameContainer extends React.Component {

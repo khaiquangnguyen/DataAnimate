@@ -8,7 +8,6 @@ import { BULMA_COLUMNS_OFFSET, PIXELS_PER_SECOND, SVG_OFFSET } from "../../../co
 
 import { reachTo } from "../../../actions";
 import Track from '../Track';
-import { ScrollSync } from 'react-virtualized';
 
 class TrackContainer extends React.Component {
   componentDidMount() {
