@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { playpauseresume } from '../../../actions/index';
+import { playpauseresume, editDuration } from '../../../actions/index';
 import { scene_action } from '../../../lib/Scene';
 class PlayButton extends React.Component {
     constructor(props) {
@@ -11,6 +11,7 @@ class PlayButton extends React.Component {
 
     handleClick() {
         this.props.playpauseresume();
+        // this.props.editDuration(this.props.duration + 1000);
     }
     render() {
         switch (this.props.current_action) {
@@ -36,12 +37,12 @@ class PlayButton extends React.Component {
         // This syntax ensures `this` is bound within handleClick
         return (
             <button className="button is-dark" onClick={(e) => this.handleClick(e)}>
-                <span class="icon is-small">
-                    <i class={"fas " + this.icon} ></i>
+                <span className="icon is-small">
+                    <i className={"fas " + this.icon} ></i>
                 </span>
             </button>
         );
     }
 }
-const mapStateToProps = state => ({ current_action: state.current_action });
-export default connect(mapStateToProps, { playpauseresume })(PlayButton);
+const mapStateToProps = state => ({ current_action: state.current_action, duration: state.scene.duration });
+export default connect(mapStateToProps, { playpauseresume, editDuration })(PlayButton);

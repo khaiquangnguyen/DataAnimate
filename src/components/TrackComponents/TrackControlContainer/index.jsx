@@ -1,9 +1,8 @@
-
 import React from 'react';
-import { connect } from 'react-redux';
-import { playpauseresume, stop } from '../../../actions/index'
+
 import PlayButton from './PlayButton'
 import StopButton from './StopButton'
+import {BULMA_COLUMNS_OFFSET, TIMELINE_HEIGHT} from "../../../constants";
 
 const TrackControlContainer = function (props) {
     return (
@@ -12,11 +11,13 @@ const TrackControlContainer = function (props) {
                 <PlayButton> </PlayButton>
 
             </p>
-            <p class="control">
-                <StopButton ></StopButton>
+            <p className="control">
+                <StopButton />
             </p>
         </div>
     )
 };
+
+
 export default TrackControlContainer;
 

@@ -2,7 +2,7 @@ import React from 'react';
 
 import interact from "interactjs";
 
-import { PIXELS_PER_SECOND } from "../../../constants";
+import {PIXELS_PER_SECOND, TRACK_HEIGHT} from "../../../constants";
 import { SVG_OFFSET } from "../../../constants";
 import { connect } from 'react-redux';
 import { edit_effect_stack, setObject } from '../../../actions/index'

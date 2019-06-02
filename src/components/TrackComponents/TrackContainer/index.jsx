@@ -1,18 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import interact from "interactjs";
+import $ from 'jquery';
 
 import './style.css';
 import { BULMA_COLUMNS_OFFSET, PIXELS_PER_SECOND, SVG_OFFSET } from "../../../constants";
 
 import { reachTo } from "../../../actions";
 import Track from '../Track';
-
-
+import { ScrollSync } from 'react-virtualized';
 
 class TrackContainer extends React.Component {
-
-
   componentDidMount() {
     interact('#ruler')
       .draggable({
@@ -26,6 +24,9 @@ class TrackContainer extends React.Component {
           })
         ]
       });
+    $("#scrollSync1").scroll(function () {
+      $("#scrollSync2").scrollTop($(this).scrollTop());
+    });
   }
 
   dragMoveListener = (event) => {
@@ -59,7 +60,12 @@ class TrackContainer extends React.Component {
           <div className="column is-12">
             <svg className="timeline" />
           </div>
-          {content_els}
+
+              <div id="scrollSync1" style={{height: '230px', width: '100%', overflow: 'auto'}}>
+                {content_els}
+              </div>
+
+
         </div>
       </div>
     );
