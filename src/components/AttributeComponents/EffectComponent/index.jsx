@@ -18,14 +18,14 @@ class EffectStackMenuItem extends React.Component {
         var attribute, input_field;
 
         input_field = (
-            <div class="field is-horizontal">
-                <div class="field-label is-small">
-                    <label class="label">duration</label>
+            <div className="field is-horizontal">
+                <div className="field-label is-small">
+                    <label className="label">duration</label>
                 </div>
-                <div class="field-body">
-                    <div class="field">
-                        <div class="control">
-                            <input class="input" value={this.props.reference_object.duration} type="text" pattern="[0-9]*" onChange={(e) => {
+                <div className="field-body">
+                    <div className="field">
+                        <div className="control">
+                            <input className="input" value={this.props.reference_object.duration} type="text" pattern="[0-9]*" onChange={(e) => {
                                 this.props.edit_effect_stack(this.props.reference_object.start_time, e.target.value);
 
                             }} />
@@ -37,14 +37,14 @@ class EffectStackMenuItem extends React.Component {
         );
         content_el.push(input_field);
         input_field = input_field = (
-            <div class="field is-horizontal">
-                <div class="field-label is-small">
-                    <label class="label">start time</label>
+            <div className="field is-horizontal">
+                <div className="field-label is-small">
+                    <label className="label">start time</label>
                 </div>
-                <div class="field-body">
-                    <div class="field">
-                        <div class="control">
-                            <input class="input" value={this.props.reference_object.start_time} type="text" pattern="[0-9]*" onChange={(e) => {
+                <div className="field-body">
+                    <div className="field">
+                        <div className="control">
+                            <input className="input" value={this.props.reference_object.start_time} type="text" pattern="[0-9]*" onChange={(e) => {
                                 this.props.edit_effect_stack(e.target.value, this.props.reference_object.duration);
 
                             }} />
@@ -57,9 +57,9 @@ class EffectStackMenuItem extends React.Component {
         content_el.push(input_field);
         let section = (
             <div>
-                <h3 class="title">Effect Stack</h3>
+                <h3 className="title">Effect Stack</h3>
                 {content_el}
-                <hr></hr>
+                <hr/>
             </div>);
 
         all_effect_contents.push(section);
@@ -108,7 +108,7 @@ class EffectStackMenuItem extends React.Component {
             let section_name = effect.name.value;
             let section = (
                 <div>
-                    <h3 class="title">{section_name}</h3>
+                    <h3 className="title">{section_name}</h3>
                     {content_el}
                     <hr></hr>
                 </div>);
