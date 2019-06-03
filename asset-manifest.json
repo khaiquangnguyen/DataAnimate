@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/DataAnimate/static/css/main.49f75787.chunk.css",
+    "main.js": "/DataAnimate/static/js/main.59953b50.chunk.js",
+    "main.js.map": "/DataAnimate/static/js/main.59953b50.chunk.js.map",
+    "runtime~main.js": "/DataAnimate/static/js/runtime~main.ecaec452.js",
+    "runtime~main.js.map": "/DataAnimate/static/js/runtime~main.ecaec452.js.map",
+    "static/css/2.6b43c782.chunk.css": "/DataAnimate/static/css/2.6b43c782.chunk.css",
+    "static/js/2.4e041128.chunk.js": "/DataAnimate/static/js/2.4e041128.chunk.js",
+    "static/js/2.4e041128.chunk.js.map": "/DataAnimate/static/js/2.4e041128.chunk.js.map",
+    "index.html": "/DataAnimate/index.html",
+    "precache-manifest.ec6e2255f543e4aec49e160db9132b74.js": "/DataAnimate/precache-manifest.ec6e2255f543e4aec49e160db9132b74.js",
+    "service-worker.js": "/DataAnimate/service-worker.js",
+    "static/css/2.6b43c782.chunk.css.map": "/DataAnimate/static/css/2.6b43c782.chunk.css.map",
+    "static/css/main.49f75787.chunk.css.map": "/DataAnimate/static/css/main.49f75787.chunk.css.map",
+    "static/media/all.min.css": "/DataAnimate/static/media/fa-solid-900.f14c3b2f.ttf",
+    "static/media/sales.csv": "/DataAnimate/static/media/sales.ed1a4444.csv"
+  }
+}
