@@ -329,5 +329,5 @@ export const generate_unique_id = (function () {
     return function () { return id++; };  // Return and increment
 })(); // Invoke the outer function after defining it.
 
-export const scene = new Scene(10000);
+export const scene = new Scene(60000);
 

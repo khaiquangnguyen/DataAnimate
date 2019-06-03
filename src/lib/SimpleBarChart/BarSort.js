@@ -11,6 +11,7 @@ class BarSort extends AnimationEffect {
         this.x_scale = this.actor.x_scale;
         this.y_data = this.actor.y_data;
         this.x_data = this.actor.x_data;
+        this.x_axis = this.actor.x_axis;
         this.curr_percent = 0;
         this.DOM_target_components = [this.actor.svg_container.node()];
         this.data = JSON.parse(JSON.stringify(this.actor.data));
@@ -23,15 +24,18 @@ class BarSort extends AnimationEffect {
 
     play(start_timestamp = 0, self = this) {
         if (!self.enabled) return;
-        console.log(this.svg_container);
         self.data.sort((a, b) => a[self.y_data] - b[self.y_data]);
         self.x_scale.domain(self.data.map(d => d[self.x_data]));
         const t = this.actor.svg_container.transition()
             .duration(this.duration - this.data.length * 50)
         this.bars.data(self.data, d => d[self.x_data])
             .transition(t)
-            .delay((d, i) => i * 50)
+            .delay((d, i) => i * 20)
             .attr("x", function (d) { return self.x_scale(d[self.x_data]) + 5; })
+        this.x_axis.transition(t)
+            .call(d3.axisBottom(self.x_scale))
+            .selectAll(".x_axis")
+            .delay((d, i) => i * 20);
     }
 
     pause(self = this) {
