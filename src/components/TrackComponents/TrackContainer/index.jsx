@@ -13,7 +13,7 @@ class TrackContainer extends React.Component {
   componentDidMount() {
     interact('#ruler')
       .draggable({
-        autoScroll: { container: '#yo' },
+        autoScroll: { container: '#scrollSync1' },
         onmove: this.dragMoveListener,
         startAxis: 'x',
         lockAxis: 'x',
@@ -52,7 +52,7 @@ class TrackContainer extends React.Component {
     });
 
     return (
-      <div id="yo" className="column is-10 track-container is-relative">
+      <div id="scrollSync1" className="column is-10 track-container is-relative" style={{ height: "300px", overflow: 'auto' }}>
         <div id="abc" style={{ position: 'absolute', height: '100%', width: '100%', zIndex: '-190', marginLeft: `${SVG_OFFSET}px` }} />
         <div id="ruler" data-x={pixels} style={{ left: `${SVG_OFFSET + BULMA_COLUMNS_OFFSET}px`, transform: translate }} />
         <div className="columns is-multiline">
@@ -60,8 +60,7 @@ class TrackContainer extends React.Component {
             <svg className="timeline" />
           </div>
           {content_els}
-          {/* 
-          <div id="scrollSync1" style={{ height: '230px', width: `${PIXELS_PER_SECOND * this.props.duration / 1000}px`, overflow: 'auto' }}>
+          {/* <div id="scrollSync1" style={{ height: '230px', width: `${PIXELS_PER_SECOND * this.props.duration / 1000}px`, overflow: 'auto' }}>
           </div> */}
         </div>
       </div>
