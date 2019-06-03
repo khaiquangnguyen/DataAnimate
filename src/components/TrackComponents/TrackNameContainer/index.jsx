@@ -30,7 +30,7 @@ class TrackNameContainer extends React.Component {
           <div className="column is-12" style={{ height: `${TIMELINE_HEIGHT + 5.5 + 2 * BULMA_COLUMNS_OFFSET}px` }}>
             <TrackControlContainer />
           </div>
-              <div  id="scrollSync2" style={{height: '230px', width: '100%', overflow: 'auto'}}>
+              <div  id="scrollSync2" style={{height: '200px', width: '100%', overflow: 'auto'}}>
                 {content_els}
               </div>
         </div>

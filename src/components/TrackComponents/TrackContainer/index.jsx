@@ -52,7 +52,7 @@ class TrackContainer extends React.Component {
     });
 
     return (
-      <div id="scrollSync1" className="column is-10 track-container is-relative" style={{ height: "300px", overflow: 'auto' }}>
+      <div id="scrollSync1" className="column is-10 track-container is-relative" style={{ height: "270px", overflow: 'auto' }}>
         <div id="abc" style={{ position: 'absolute', height: '100%', width: '100%', zIndex: '-190', marginLeft: `${SVG_OFFSET}px` }} />
         <div id="ruler" data-x={pixels} style={{ left: `${SVG_OFFSET + BULMA_COLUMNS_OFFSET}px`, transform: translate }} />
         <div className="columns is-multiline">

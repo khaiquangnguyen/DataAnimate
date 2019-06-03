@@ -16,10 +16,10 @@ function App(props) {
         <div className="is-view-element-container is-header-container">
         </div>
 
-        <div className="column is-10 is-view-container">
+        <div className="column is-four-fifths is-view-container">
           <div className="columns is-multiline">
             <div className="column is-12 is-view-element-container is-screen-container is-relative">
-              <svg style={{ position: 'absolute', left: '50px' }} id="canvas" width={1540} height={535} />
+              <svg style={{ position: 'absolute', left: '50px' }} id="canvas" width={'90%'} height={'90%'} />
               <ActionMenu />
             </div>
             <div className="column is-12 is-view-element-container is-timeline-container">

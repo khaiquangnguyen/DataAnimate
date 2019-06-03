@@ -35,12 +35,10 @@ class Timeline extends React.Component {
 
   render() {
     return (
-      <div className="hero" style={{ height: '100%' }}>
-        <div className="hero-body columns is-paddingless" style={{ overflowY: "auto", alignItems: 'start' }}>
+        <div className="columns is-paddingless" style={{ overflowY: "auto", alignItems: 'start' }}>
           <TrackNameContainer objs={this.props.objs} />
           <TrackContainer objs={this.props.objs} />
         </div>
-      </div>
     )
   }
 
