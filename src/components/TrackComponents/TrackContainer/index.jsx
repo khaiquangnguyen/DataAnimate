@@ -32,7 +32,7 @@ class TrackContainer extends React.Component {
     let target = event.target,
       x = Math.max(0, (parseFloat(target.getAttribute('data-x')) || 0) + event.dx),
       y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
-    this.props.reachTo((x + 1) / PIXELS_PER_SECOND * 1000);
+    this.props.reachTo((x) / PIXELS_PER_SECOND * 1000);
     target.setAttribute('data-x', x);
     target.setAttribute('data-y', y);
   };
@@ -59,12 +59,9 @@ class TrackContainer extends React.Component {
           <div className="column is-12">
             <svg className="timeline" />
           </div>
-
-              <div id="scrollSync1" style={{height: '230px', width: '100%', overflow: 'auto'}}>
-                {content_els}
-              </div>
-
-
+          <div id="scrollSync1" style={{ height: '230px', width: '100%', overflow: 'auto' }}>
+            {content_els}
+          </div>
         </div>
       </div>
     );

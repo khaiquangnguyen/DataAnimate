@@ -236,7 +236,6 @@ class Scene {
 
     reachTo(play_time, self = this) {
         if (this.curr_action === scene_action.PLAY) return;
-        this.curr_graphical_object.select();
         this.last_timestamp = null;
         this.curr_timestamp = play_time;
         self.graphical_objects.forEach(obj => {

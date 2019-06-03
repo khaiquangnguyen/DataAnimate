@@ -33,7 +33,46 @@ class SimpleBarChart extends GraphObject {
         this.effect_bps = [BarSort.get_blueprint(), MoveEffect.get_blueprint(), FadeEffect.get_blueprint(), BarGrowByOne.get_blueprint()];
         store.dispatch(addObject(this));
         store.dispatch(setObject(this));
-        // let's do something fun
+        let self = this;
+        this.bounding_box.on('dragend', (e) => {
+            store.dispatch(editAttribute(this, 'x', this.bounding_box.attr('x')));
+            store.dispatch(editAttribute(this, 'y', this.bounding_box.attr('y')));
+            this.svg_container.attr('viewBox', `0 0 ${this.total_width} ${this.total_height}`)
+            this.SVG_reference.clear();
+            this.construct_graph();
+            console.log('a');
+
+        })
+        this.bounding_box.on('resizedone', (e) => {
+            store.dispatch(editAttribute(this, 'x', this.bounding_box.attr('x')));
+            store.dispatch(editAttribute(this, 'y', this.bounding_box.attr('y')));
+            store.dispatch(editAttribute(this, 'width', this.bounding_box.attr('width')));
+            store.dispatch(editAttribute(this, 'height', this.bounding_box.attr('height')));
+            this.svg_container.attr('viewBox', `0 0 ${this.total_width} ${this.total_height}`)
+            this.SVG_reference.clear();
+            this.construct_graph();
+
+        })
+        this.bounding_box.on('resizing', function (event) {
+            var x = self.bounding_box.attr('x');
+            var y = self.bounding_box.attr('y');
+            var width = self.bounding_box.attr('width');
+            var height = self.bounding_box.attr('height');
+            self.edit_attr({ attribute: 'x', value: x });
+            self.edit_attr({ attribute: 'y', value: y });
+            self.edit_attr({ attribute: 'width', value: width });
+            self.edit_attr({ attribute: 'height', value: height });
+        });
+        this.bounding_box.on('dragmove', function (event) {
+            var x = self.bounding_box.attr('x');
+            var y = self.bounding_box.attr('y');
+            var width = self.bounding_box.attr('width');
+            var height = self.bounding_box.attr('height');
+            self.edit_attr({ attribute: 'x', value: x });
+            self.edit_attr({ attribute: 'y', value: y });
+            self.edit_attr({ attribute: 'width', value: width });
+            self.edit_attr({ attribute: 'height', value: height });
+        });
     }
 
     import_data(self = this) {
@@ -81,45 +120,6 @@ class SimpleBarChart extends GraphObject {
 
     select(self = this) {
         this.bounding_box.draggable().selectize().resize();
-        this.bounding_box.on('dragend', (e) => {
-            store.dispatch(editAttribute(this, 'x', this.bounding_box.attr('x')));
-            store.dispatch(editAttribute(this, 'y', this.bounding_box.attr('y')));
-            this.svg_container.attr('viewBox', `0 0 ${this.total_width} ${this.total_height}`)
-            this.SVG_reference.clear();
-            this.construct_graph();
-        })
-        this.bounding_box.on('resizedone', (e) => {
-            store.dispatch(editAttribute(this, 'x', this.bounding_box.attr('x')));
-            store.dispatch(editAttribute(this, 'y', this.bounding_box.attr('y')));
-            store.dispatch(editAttribute(this, 'width', this.bounding_box.attr('width')));
-            store.dispatch(editAttribute(this, 'height', this.bounding_box.attr('height')));
-            this.svg_container.attr('viewBox', `0 0 ${this.total_width} ${this.total_height}`)
-            this.SVG_reference.clear();
-            this.construct_graph();
-
-        })
-
-        this.bounding_box.on('resizing', function (event) {
-            var x = self.bounding_box.attr('x');
-            var y = self.bounding_box.attr('y');
-            var width = self.bounding_box.attr('width');
-            var height = self.bounding_box.attr('height');
-            self.edit_attr({ attribute: 'x', value: x });
-            self.edit_attr({ attribute: 'y', value: y });
-            self.edit_attr({ attribute: 'width', value: width });
-            self.edit_attr({ attribute: 'height', value: height });
-        });
-        this.bounding_box.on('dragmove', function (event) {
-            var x = self.bounding_box.attr('x');
-            var y = self.bounding_box.attr('y');
-            var width = self.bounding_box.attr('width');
-            var height = self.bounding_box.attr('height');
-            self.edit_attr({ attribute: 'x', value: x });
-            self.edit_attr({ attribute: 'y', value: y });
-            self.edit_attr({ attribute: 'width', value: width });
-            self.edit_attr({ attribute: 'height', value: height });
-
-        });
     }
 
 

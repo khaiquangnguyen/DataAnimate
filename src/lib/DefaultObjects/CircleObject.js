@@ -27,12 +27,6 @@ class CircleObject extends GraphicalObject {
         this.styling = '"fill":"#e4f1fe","stroke":"black","stroke-width":"2"';
         store.dispatch(addObject(this));
         store.dispatch(setObject(this));
-
-
-    }
-
-    select(self = this) {
-        this.SVG_reference.draggable().selectize().resize();
         this.SVG_reference.on('dragend', (e) => {
             store.dispatch(editAttribute(this, 'cx', this.SVG_reference.attr('cx')));
             store.dispatch(editAttribute(this, 'cy', this.SVG_reference.attr('cy')));
@@ -43,6 +37,12 @@ class CircleObject extends GraphicalObject {
             store.dispatch(editAttribute(this, 'cy', this.SVG_reference.attr('cy')));
             store.dispatch(editAttribute(this, 'r', this.SVG_reference.attr('r')));
         })
+
+    }
+
+    select(self = this) {
+        this.SVG_reference.draggable().selectize().resize();
+
     }
 
     deselect(self = this) {

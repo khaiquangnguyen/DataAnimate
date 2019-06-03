@@ -24,12 +24,6 @@ class RectObject extends GraphicalObject {
         this.apply_string_style();
         store.dispatch(addObject(this));
         store.dispatch(setObject(this));
-    }
-
-
-
-    select(self = this) {
-        this.SVG_reference.draggable().selectize().resize();
         this.SVG_reference.on('dragend', (e) => {
             store.dispatch(editAttribute(this, 'x', this.SVG_reference.attr('x')));
             store.dispatch(editAttribute(this, 'y', this.SVG_reference.attr('y')));
@@ -41,6 +35,13 @@ class RectObject extends GraphicalObject {
             store.dispatch(editAttribute(this, 'width', this.SVG_reference.attr('width')));
             store.dispatch(editAttribute(this, 'height', this.SVG_reference.attr('height')));
         })
+    }
+
+
+
+    select(self = this) {
+        this.SVG_reference.draggable().selectize().resize();
+
     }
     deselect(self = this) {
         this.SVG_reference.selectize(false).draggable(false).resize(false);;

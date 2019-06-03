@@ -27,11 +27,7 @@ class TextObject extends GraphObject {
         this.apply_string_style();
         store.dispatch(addObject(this));
         store.dispatch(setObject(this));
-
-    }
-
-    select(self = this) {
-        this.bounding_box.draggable().selectize().resize();
+        let self = this;
         this.bounding_box.on('dragend', (e) => {
             store.dispatch(editAttribute(this, 'x', this.bounding_box.attr('x')));
             store.dispatch(editAttribute(this, 'y', this.bounding_box.attr('y')));
@@ -65,6 +61,11 @@ class TextObject extends GraphObject {
             self.edit_attr({ attribute: 'height', value: height });
 
         });
+    }
+
+    select(self = this) {
+        this.bounding_box.draggable().selectize().resize();
+
     }
 
     deselect(self = this) {

@@ -2,7 +2,7 @@ import React from 'react';
 import * as d3 from 'd3';
 
 import './style.css';
-import {PIXELS_PER_SECOND, SVG_OFFSET, TIMELINE_HEIGHT} from '../../../constants';
+import { PIXELS_PER_SECOND, SVG_OFFSET, TIMELINE_HEIGHT } from '../../../constants';
 
 import TrackNameContainer from "../TrackNameContainer";
 import TrackContainer from "../TrackContainer";
@@ -12,7 +12,6 @@ import { connect } from 'react-redux';
 class Timeline extends React.Component {
   renderAxis = () => {
     var formatxAxis = d3.format('.0f');
-
     const svg = d3.select(".timeline")
       .attr("width", PIXELS_PER_SECOND * this.props.duration / 1000 + 4 * SVG_OFFSET)
       .attr("height", TIMELINE_HEIGHT);
@@ -37,7 +36,6 @@ class Timeline extends React.Component {
   render() {
     return (
       <div className="hero" style={{ height: '100%' }}>
-        {this.renderAxis()}
         <div className="hero-body columns is-paddingless" style={{ overflowY: "auto", alignItems: 'start' }}>
           <TrackNameContainer objs={this.props.objs} />
           <TrackContainer objs={this.props.objs} />
