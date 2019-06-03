@@ -2,7 +2,7 @@ import React from 'react';
 
 import interact from "interactjs";
 
-import {PIXELS_PER_SECOND, TRACK_HEIGHT} from "../../../constants";
+import { PIXELS_PER_SECOND, TRACK_HEIGHT } from "../../../constants";
 import { SVG_OFFSET } from "../../../constants";
 import { connect } from 'react-redux';
 import { edit_effect_stack, setObject } from '../../../actions/index'
@@ -102,7 +102,7 @@ class Track extends React.Component {
                 this.props.setObject(this.props.obj.reference_object.value);
             }}>
                 <div className="track-border" style={{ height: `${TRACK_HEIGHT}px`, width: `${PIXELS_PER_SECOND * this.props.duration / 1000}px`, marginLeft: `${SVG_OFFSET}px` }}>
-                    <div className="effect_stack_timeline" id={id} style={{ transform: translate, width: `${PIXELS_PER_SECOND * duration / 1000}px` }} />
+                    <div className="effect_stack_timeline " id={id} style={{ transform: translate, width: `${PIXELS_PER_SECOND * duration / 1000}px` }} />
                 </div>
             </div>
         )

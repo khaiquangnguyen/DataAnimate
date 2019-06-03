@@ -59,15 +59,16 @@ class TrackContainer extends React.Component {
           <div className="column is-12">
             <svg className="timeline" />
           </div>
-          <div id="scrollSync1" style={{ height: '230px', width: '100%', overflow: 'auto' }}>
-            {content_els}
-          </div>
+          {content_els}
+          {/* 
+          <div id="scrollSync1" style={{ height: '230px', width: `${PIXELS_PER_SECOND * this.props.duration / 1000}px`, overflow: 'auto' }}>
+          </div> */}
         </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({ currTimestamp: state.curr_timestamp });
+const mapStateToProps = state => ({ duration: state.duration, currTimestamp: state.curr_timestamp });
 
 export default connect(mapStateToProps, { reachTo })(TrackContainer);
