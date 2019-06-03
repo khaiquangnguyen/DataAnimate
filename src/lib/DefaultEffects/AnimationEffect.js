@@ -84,12 +84,15 @@ class AnimationEffect {
                 return;
             case "enabled":
                 this.enabled = value;
+                this.reconstruct_graph();
                 break;
             default:
                 break;
         }
     }
-
+    reconstruct_graph() {
+        return
+    };
     edit_attr(d) {
         this.edit_default_attr(d);
     }

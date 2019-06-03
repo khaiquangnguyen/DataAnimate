@@ -206,6 +206,7 @@ class Scene {
 
 
     playpauseresume(self = this) {
+        if (this.curr_graphical_object === null || this.curr_graphical_object === undefined) return;
         this.last_timestamp = null;
         if (this.curr_action === scene_action.PLAY) {
             this.curr_graphical_object.select();
@@ -329,4 +330,4 @@ export const generate_unique_id = (function () {
 })(); // Invoke the outer function after defining it.
 
 export const scene = new Scene(10000);
-console.log(scene);
+

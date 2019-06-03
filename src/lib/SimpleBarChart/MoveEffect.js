@@ -38,6 +38,7 @@ class MoveEffect extends AnimationEffect {
     }
 
     play(start_timestamp = 0, self = this) {
+        self.reachTo(0);
         if (!self.enabled) return;
         this.DOM_target_components.forEach(e => {
             var svg_e = SVG.adopt(e);
@@ -46,8 +47,6 @@ class MoveEffect extends AnimationEffect {
     }
 
     pause(self = this) {
-        if (!self.enabled) return;
-
         this.DOM_target_components.forEach(e => {
             var svg_e = SVG.adopt(e);
             svg_e.pause();
@@ -56,7 +55,6 @@ class MoveEffect extends AnimationEffect {
 
     resume(self = this) {
         if (!self.enabled) return;
-
         this.DOM_target_components.forEach(e => {
             var svg_e = SVG.adopt(e);
             svg_e.play();
@@ -65,11 +63,12 @@ class MoveEffect extends AnimationEffect {
 
     stop(self = this) {
         this.reachTo(0);
-        if (!self.enabled) return;
         this.DOM_target_components.forEach(e => {
             var svg_e = SVG.adopt(e);
             svg_e.stop();
         });
+        self.actor.SVG_reference.show();
+
     }
 
 
