@@ -2,6 +2,7 @@
   "name": "data-animate",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://khaiquangnguyen.github.io/DataAnimate/",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.8.2",
     "@svgdotjs/svg.draggable.js": "^3.0.2",
@@ -9,6 +10,7 @@
     "d3": "^5.9.2",
     "d3.js": "0.0.2-security",
     "feather-icons": "^4.21.0",
+    "gh-pages": "^2.0.1",
     "interactjs": "^1.4.4",
     "jquery": "^3.4.1",
     "react": "^16.8.6",
@@ -18,10 +20,13 @@
     "react-scripts": "3.0.1",
     "redux": "^4.0.1",
     "svg.js": "^2.7.1",
-    "webfontloader": "^1.6.28"
+    "webfontloader": "^1.6.28",
+    "yarn": "^1.16.0"
   },
   "scripts": {
     "start": "react-scripts start",
+    "predeploy": "yarn run build",
+    "deploy": "gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
