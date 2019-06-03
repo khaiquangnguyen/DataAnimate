@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "55c55fdd4c0644358f2e3cea6d38a710",
+    "revision": "adf586a7fd17739857e9bdb75bfcf7ed",
     "url": "/DataAnimate/index.html"
   },
   {
@@ -8,16 +8,16 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/DataAnimate/static/css/2.6b43c782.chunk.css"
   },
   {
-    "revision": "60acf6e5581bc60dcf8f",
-    "url": "/DataAnimate/static/css/main.49f75787.chunk.css"
+    "revision": "45c6a22c90d51c1961e2",
+    "url": "/DataAnimate/static/css/main.ba5108a8.chunk.css"
   },
   {
     "revision": "86adc90fb3adebeb0c1b",
     "url": "/DataAnimate/static/js/2.4e041128.chunk.js"
   },
   {
-    "revision": "60acf6e5581bc60dcf8f",
-    "url": "/DataAnimate/static/js/main.59953b50.chunk.js"
+    "revision": "45c6a22c90d51c1961e2",
+    "url": "/DataAnimate/static/js/main.4f699f93.chunk.js"
   },
   {
     "revision": "93c630cde80dd15daf6f",
@@ -84,7 +84,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/DataAnimate/static/media/fa-solid-900.f14c3b2f.ttf"
   },
   {
-    "revision": "ed1a44442c92e82a0902e1cab99b5ecc",
-    "url": "/DataAnimate/static/media/sales.ed1a4444.csv"
+    "revision": "d190930d1aaa32defd875459fd119233",
+    "url": "/DataAnimate/static/media/sales.d190930d.csv"
   }
 ]);
