@@ -23,19 +23,23 @@ class AddEffectButton extends React.Component {
   render() {
     // 
     const options = [];
-    console.log(this.props.blueprints);
     this.props.blueprints.forEach(bp => {
       this.bp_dict[bp.name] = bp;
       let option = <option value={bp.name}>{bp.name}</option>;
       options.push(option);
     });
     this.current_bp = this.bp_dict[Object.keys(this.bp_dict)[0]];
+    let effect_selector = document.getElementById("effect_selector");
+    if (effect_selector !== null) {
+      console.log(effect_selector);
+      document.getElementById("effect_selector").selectedIndex = 0;
+    }
     return (
       <div class="field has-addons">
         <div class="control is-expanded">
           <div class="select is-fullwidth">
-            <select name="effect" onChange={(e) => this.select(e)}>
-              {options};
+            <select id="effect_selector" name="effect" onChange={(e) => this.select(e)}>
+              {options}
             </select>
           </div>
         </div>
@@ -47,7 +51,7 @@ class AddEffectButton extends React.Component {
 
           </button>
         </div>
-      </div>
+      </div >
 
 
     );

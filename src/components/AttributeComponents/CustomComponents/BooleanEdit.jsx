@@ -19,10 +19,9 @@ class BooleanEdit extends React.Component {
     }
 
     handleChange(event) {
-        this.props.editAttribute(this.props.attribute.key, 1 - event.target.value)
+        let target = (this.props.attribute.reference_object);
+        this.props.editAttribute(target, this.props.attribute.key, 1 - event.target.value)
     }
-
-
     render() {
         return (
             <div className="field is-horizontal">

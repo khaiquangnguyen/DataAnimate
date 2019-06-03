@@ -37,7 +37,29 @@ code {
   background: #555;
 }
 
+
+.bounding-box{
+  fill:white;
+  opacity: 0;
+  stroke-width: 1px;
+  stroke:white;
+  stroke-opacity: 0;
+}
+
+.svg_select_points{
+  fill:lightgray;
+  width:7;
+  height:7;
+  stroke:darkgrey;
+}
+
+
 .svg_select_boundingRect{
   fill: none;
+  stroke-width: 1px;
+  stroke:black;
+  opacity:1;
 }
+
+
 

@@ -13,31 +13,35 @@ import { store } from '../../index';
 import { editAttribute, setObject, addObject } from '../../actions/index'
 import { input_types } from "../Scene";
 import SVG from 'svg.js';
+import WebFont from 'webfontloader';
 
 class TextObject extends GraphObject {
     constructor(x, y, width, height, name, text, bounding_box) {
         super(x, y, width, height, 'Text', name, bounding_box);
         const drawing = SVG.adopt(document.getElementById('canvas'));
-        console.log(text);
         this.data = text;
         this.text = drawing.text(text);
         this.SVG_reference.add(this.text);
+        this.font_family = "Lobster";
+        this.font_styling = '"size":"30","style":"normal"';
+        this.apply_string_style();
         store.dispatch(addObject(this));
         store.dispatch(setObject(this));
+
     }
 
     select(self = this) {
         this.bounding_box.draggable().selectize().resize();
         this.bounding_box.on('dragend', (e) => {
-            store.dispatch(editAttribute('x', this.bounding_box.attr('x')));
-            store.dispatch(editAttribute('y', this.bounding_box.attr('y')));
+            store.dispatch(editAttribute(this, 'x', this.bounding_box.attr('x')));
+            store.dispatch(editAttribute(this, 'y', this.bounding_box.attr('y')));
             // events are still bound e.g. dragend will fire anyway
         })
         this.bounding_box.on('resizedone', (e) => {
-            store.dispatch(editAttribute('x', this.bounding_box.attr('x')));
-            store.dispatch(editAttribute('y', this.bounding_box.attr('y')));
-            store.dispatch(editAttribute('width', this.bounding_box.attr('width')));
-            store.dispatch(editAttribute('height', this.bounding_box.attr('height')));
+            store.dispatch(editAttribute(this, 'x', this.bounding_box.attr('x')));
+            store.dispatch(editAttribute(this, 'y', this.bounding_box.attr('y')));
+            store.dispatch(editAttribute(this, 'width', this.bounding_box.attr('width')));
+            store.dispatch(editAttribute(this, 'height', this.bounding_box.attr('height')));
         })
 
         this.bounding_box.on('resizing', function (event) {
@@ -77,6 +81,9 @@ class TextObject extends GraphObject {
         const start_draw = (e) => {
             rect = drawing.rect();
             rect.draw(e);
+            rect.attr("fill", "none");
+            rect.attr("stroke", "black");
+            rect.attr("stroke-width", "2");
         }
         const end_draw = (e) => {
             rect.draw('stop', e);
@@ -86,7 +93,7 @@ class TextObject extends GraphObject {
             var width = rect.attr('width');
             var height = rect.attr('height');
             // should be some sort of dispatch action here
-            rect.attr('fill', 'red');
+            rect.addClass('bounding-box');
             const new_rect = new TextObject(x, y, width, height, "test_rectangle", 'dummy text', rect);
             // unbind the listener
             drawing.off('mousedown', start_draw);
@@ -111,11 +118,19 @@ class TextObject extends GraphObject {
         const attr = d.attribute;
         const value = d.value;
         switch (attr) {
-            case "text":
-
+            case "font_styling":
+                this.font_styling = value;
+                this.apply_string_style();
+                return;
+            case "name":
                 this.text.text(value);
                 this.data = value;
                 return;
+            case "family":
+                this.font_family = value;
+                this.apply_string_style();
+                return;
+
             default:
                 break;
         }
@@ -124,57 +139,45 @@ class TextObject extends GraphObject {
             .attr('viewBox', `0 0 ${this.total_width} ${this.total_height}`);
     }
 
+    apply_string_style(self = this) {
+        WebFont.load({
+            google: {
+                families: [this.font_family]
+            }
+        });
+        try {
+            let style_dict = JSON.parse("{" + this.font_styling + "}");
+            this.text.font(style_dict);
+            this.text.font('family', this.font_family)
+        }
+        catch (error) {
+            return;
+        }
+    }
+
+
     export_attributes(self = this) {
-        console.log(this);
-        return {
-            text: {
+        const new_attr = {
+            name: {
                 type: input_types.STRING,
                 range: "",
                 tooltips: "The name of the graphical object",
                 value: this.text.text()
             },
-            name: {
-                type: "",
+            family: {
+                type: input_types.STRING,
                 range: "",
                 tooltips: "The name of the graphical object",
-                value: this.text.text()
+                value: this.font_family
             },
-            width: {
-                type: input_types.INT,
-                range: [-Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER],
-                value: this.total_width,
+            font_style: {
+                type: input_types.TEXT_AREA,
+                range: "",
+                tooltips: "The name of the graphical object",
+                value: this.font_styling
             },
-            height: {
-                type: input_types.INT,
-                range: [-Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER],
-                value: this.total_height,
-            },
-            x: {
-                type: input_types.INT,
-                range: [-Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER],
-                value: this.x
-            },
-            y: {
-                type: input_types.INT,
-                range: [-Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER],
-                value: this.y
-            },
-            opacity: {
-                type: input_types.FLOAT,
-                range: [0, 1],
-                value: this.opacity
-            },
-            linked_object: {
-                type: undefined,
-                range: undefined,
-                value: this
-            },
-            show: {
-                type: input_types.BOOLEAN,
-                range: [true, false],
-                value: this.show
-            }
         }
+        return { ...this.export_default_attributes(), ...new_attr };
     }
 }
 export default TextObject;

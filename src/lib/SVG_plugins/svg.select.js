@@ -403,13 +403,14 @@ SVG.extend(SVG.Element, {
 
 SVG.Element.prototype.selectize.defaults = {
     points: ['lt', 'rt', 'rb', 'lb', 't', 'r', 'b', 'l'],    // which points to draw, default all
+    // points: ['lt', 'rt', 'rb', 'lb', 't', 'r', 'b', 'l'],    // which points to draw, default all
     pointsExclude: [],                       // easier option if to exclude few than rewrite all
     classRect: 'svg_select_boundingRect',    // Css-class added to the rect
     classPoints: 'svg_select_points',        // Css-class added to the points
     pointSize: 7,                            // size of point
-    rotationPoint: true,                     // If true, rotation point is drawn. Needed for rotation!
+    rotationPoint: false,                     // If true, rotation point is drawn. Needed for rotation!
     deepSelect: false,                       // If true, moving of single points is possible (only line, polyline, polyon)
-    pointType: 'circle',                     // Point type: circle or rect, default circle
+    pointType: 'rect',                     // Point type: circle or rect, default circle
     pointFill: "#000",                       // Point fill color
     pointStroke: { width: 1, color: "#000" } // Point stroke properties
 };

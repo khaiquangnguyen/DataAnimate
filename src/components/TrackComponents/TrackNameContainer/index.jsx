@@ -1,9 +1,13 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import $ from "jquery";
 
 import './style.css';
-import TrackControlContainer from '../TrackControlContainer';
 import {BULMA_COLUMNS_OFFSET, TIMELINE_HEIGHT, TRACK_HEIGHT} from "../../../constants";
-import $ from "jquery";
+
+import TrackControlContainer from '../TrackControlContainer';
+import TrackLabel from "./TrackLabel";
+
 
 class TrackNameContainer extends React.Component {
   componentDidMount() {
@@ -16,20 +20,7 @@ class TrackNameContainer extends React.Component {
     let content_els = [];
     this.props.objs.forEach(obj => {
       let new_el = (
-        <div className="column is-12">
-          <div className="level" style={{ height: `${TRACK_HEIGHT}px`, borderBottom: '1px solid grey', borderTop: '1px solid grey' }}>
-            <div className="level-left">
-              {obj.name.value}
-            </div>
-            <div className="level-right">
-              <a className="delete-button">
-                <span className="icon is-small">
-                  <i className="fas fa-trash" />
-                </span>
-              </a>
-            </div>
-          </div>
-        </div>
+        <TrackLabel obj={obj} />
       );
       content_els.push(new_el);
     });
@@ -39,7 +30,6 @@ class TrackNameContainer extends React.Component {
           <div className="column is-12" style={{ height: `${TIMELINE_HEIGHT + 5.5 + 2 * BULMA_COLUMNS_OFFSET}px` }}>
             <TrackControlContainer />
           </div>
-
               <div  id="scrollSync2" style={{height: '230px', width: '100%', overflow: 'auto'}}>
                 {content_els}
               </div>
@@ -47,6 +37,6 @@ class TrackNameContainer extends React.Component {
       </div >
     )
   }
-};
+}
 
 export default TrackNameContainer;

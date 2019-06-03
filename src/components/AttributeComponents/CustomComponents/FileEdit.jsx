@@ -25,7 +25,8 @@ class FileEdit extends React.Component {
         // if value is not blank, then test the regex
         // check value
         if (parseFloat(event.target.value) < min_value || parseInt(event.target.value) > max_value) return;
-        this.props.editAttribute(this.props.attribute.key, event.target.value)
+        let target = (this.props.attribute.reference_object);
+        this.props.editAttribute(target, this.props.attribute.key, event.target.value)
     }
 
     handleSubmit(event) {

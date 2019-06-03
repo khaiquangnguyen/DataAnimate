@@ -24,7 +24,6 @@ class Track {
     }
 
     play(play_time = 0, self = this) {
-        console.log("playing");
         self.effect_stacks.forEach(effect_stack => {
             effect_stack.play(play_time);
         });
@@ -45,6 +44,8 @@ class Track {
     stop(self = this) {
         self.effect_stacks.forEach(effect_stack => {
             effect_stack.stop();
+            effect_stack.reachTo(0);
+
         });
     }
 

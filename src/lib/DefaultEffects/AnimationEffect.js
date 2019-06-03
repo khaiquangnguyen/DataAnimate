@@ -17,7 +17,7 @@ class AnimationEffect {
         // must be a list of pure DOM 3elements
         this.DOM_target_components = [document.getElementById(this.actor.name)];
         this.exclusive = exclusive;
-        this.enabled = true;
+        this.enabled = 1;
         this.unique_id = "AnimationEffect_" + generate_unique_id();
         this.DOM_target_components = [this.actor.svg_container.node()];
     }
@@ -84,12 +84,15 @@ class AnimationEffect {
                 return;
             case "enabled":
                 this.enabled = value;
+                this.reconstruct_graph();
                 break;
             default:
                 break;
         }
     }
-
+    reconstruct_graph() {
+        return
+    };
     edit_attr(d) {
         this.edit_default_attr(d);
     }
@@ -106,6 +109,11 @@ class AnimationEffect {
                 type: input_types.BOOLEAN,
                 range: [0, 1],
                 value: this.enabled,
+            },
+            reference_object: {
+                type: null,
+                range: null,
+                value: this,
             }
         }
     }

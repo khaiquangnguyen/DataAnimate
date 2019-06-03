@@ -14,6 +14,7 @@ class Track extends React.Component {
         this.editable = false;
     }
     dragMoveListener = (event) => {
+        if (this.props.state.curr_graphical_object.length === 0) return;
         this.editable = (this.props.state.curr_graphical_object.reference_object.value === this.props.obj.reference_object.value);
         if (!this.editable) return;
         let target = event.target,
@@ -25,6 +26,8 @@ class Track extends React.Component {
     }
 
     componentDidMount = () => {
+        if (this.props.state.curr_graphical_object.length === 0) return;
+
         let id = this.props.obj.reference_object.value.unique_id + "effect_stack";
 
         const self = this;
@@ -67,13 +70,12 @@ class Track extends React.Component {
                 // update the element's style
                 target.style.height = event.rect.height + 'px';
                 let duration = event.rect.width / PIXELS_PER_SECOND * 1000;
+                if (self.props.state.curr_graphical_object.length === 0) return;
                 self.editable = (self.props.state.curr_graphical_object.reference_object.value === self.props.obj.reference_object.value);
                 if (self.editable) {
-                    self.props.edit_effect_stack(self.props.obj.effect_stacks[0].start_time, duration);
                     x += event.deltaRect.left;
                     y += event.deltaRect.top;
-                    target.style.webkitTransform = target.style.transform =
-                        'translate(' + x + 'px,' + y + 'px)';
+                    self.props.edit_effect_stack((x) / PIXELS_PER_SECOND * 1000, duration);
                     target.setAttribute('data-x', x);
                     target.setAttribute('data-y', y);
                 }
@@ -83,18 +85,24 @@ class Track extends React.Component {
     }
 
     render() {
-        //TODO add a is-last-track check for bottom border rendering
         let id = this.props.obj.reference_object.value.unique_id + "effect_stack";
         const time_stamp = (this.props.obj.effect_stacks[0].start_time);
         const duration = (this.props.obj.effect_stacks[0].duration);
-        this.editable = (this.props.state.curr_graphical_object.reference_object.value === this.props.obj.reference_object.value);
+        if (this.props.state.curr_graphical_object.length === 0) {
+            this.editable = false;
+        }
+        else {
+            this.editable = (this.props.state.curr_graphical_object.reference_object.value === this.props.obj.reference_object.value);
+        }
         const pixels = time_stamp / 1000 * PIXELS_PER_SECOND - 1;
         const translate = 'translate(' + pixels + 'px, ' + 0 + 'px)';
         return (
-            <div className="column is-12 track">
+
+            <div className="column is-12 track" onClick={() => {
+                this.props.setObject(this.props.obj.reference_object.value);
+            }}>
                 <div className="track-border" style={{ height: `${TRACK_HEIGHT}px`, width: `${PIXELS_PER_SECOND * this.props.duration / 1000}px`, marginLeft: `${SVG_OFFSET}px` }}>
                     <div className="effect_stack_timeline" id={id} style={{ transform: translate, width: `${PIXELS_PER_SECOND * duration / 1000}px` }} />
-
                 </div>
             </div>
         )

@@ -96,9 +96,10 @@ export const setEffectStack = effectStack => ({
 //   payload: graphicalObject,
 // });
 
-export const editAttribute = (attribute, value) => ({
+export const editAttribute = (target, attribute, value) => ({
   type: EDIT_ATTRIBUTE,
   payload: {
+    target,
     attribute,
     value,
   }

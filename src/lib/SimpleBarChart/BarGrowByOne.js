@@ -4,14 +4,17 @@ import AnimationEffect from '../DefaultEffects/AnimationEffect';
 import * as d3 from 'd3';
 class BarGrowByOne extends AnimationEffect {
     constructor(effect_stack) {
-        super("MoveTo", effect_stack, true);
+        super("BarGrowByOne", effect_stack, true);
         this.bars = this.actor.bars;
         this.graph_height = this.actor.graph_height;
         this.y_scale = this.actor.y_scale;
         this.y_data = this.actor.y_data;
+        this.curr_percent = 0;
+        this.reachTo(0);
     }
 
     reachTo(timestamp = 0, self = this) {
+        if (!self.enabled) return;
         self.bars
             .attr("y", function (d, i) {
                 const per = timestamp / self.duration;
@@ -28,37 +31,35 @@ class BarGrowByOne extends AnimationEffect {
     }
 
     play(start_timestamp = 0, self = this) {
+        if (!self.enabled) return;
         self.reachTo(start_timestamp);
+        self.bars.attr("T", 0);
         self.bars.transition()
             .duration(self.duration - start_timestamp)
             .attr("y", function (d) { return self.y_scale(d[self.y_data]); })
+            .attr('T', 1)
             .attr("height", function (d) {
                 return self.graph_height - self.y_scale(d[self.y_data]);
-            });
+            })
     }
 
     pause(self = this) {
-        this.DOM_target_components.forEach(e => {
-            var svg_e = SVG.adopt(e);
-            svg_e.pause();
-        });
+        self.bars.interrupt();
+        this.curr_percent = self.bars.attr('T');
     }
-
     resume(self = this) {
-        this.DOM_target_components.forEach(e => {
-            var svg_e = SVG.adopt(e);
-            svg_e.play();
-        });
+        if (!self.enabled) return;
+        // load the new time stamp
+        let time_stamp = this.curr_percent * this.duration;
+        console.log(time_stamp);
+        this.play(time_stamp);
     }
 
     stop(self = this) {
-        self.start_timestamp = 0;
-        this.DOM_target_components.forEach(e => {
-            var svg_e = SVG.adopt(e);
-            svg_e.stop();
-        });
+        this.reachTo(0);
+        self.bars.interrupt();
+        self.actor.SVG_reference.show();
     }
-
 
     static get_blueprint(self = this) {
         return {
@@ -74,17 +75,27 @@ class BarGrowByOne extends AnimationEffect {
         return effect;
     }
 
+    reconstruct_graph(self = this) {
+        this.bars.attr("y", function (d) { return self.y_scale(d[self.y_data]); })
+            .attr("height", function (d) {
+                return self.graph_height - self.y_scale(d[self.y_data]);
+            });
+        this.reachTo(0);
+    }
+
+
+
     edit_attr(d) {
         if (!d) return;
         this.edit_default_attr(d);
         const attr = d.attribute;
         const value = d.value;
         switch (attr) {
-            case "start_opacity":
-                this.begin_x = value;
+            case "start_per":
+                this.start_per = value;
                 return;
-            case "end_opacity":
-                this.end_x = value;
+            case "end_per":
+                this.end_per = value;
                 return;
             default:
                 break;
@@ -93,18 +104,6 @@ class BarGrowByOne extends AnimationEffect {
 
     export_attributes(self = this) {
         const new_attr = {
-            start_opacity: {
-                type: input_types.INT,
-                range: [-Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER],
-                tooltips: "The beginning opacity",
-                value: this.begin_x
-            },
-            end_opacity: {
-                type: input_types.INT,
-                range: [-Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER],
-                tooltips: "The end opacity",
-                value: this.end_x
-            },
         }
         return { ...self.export_default_attributes(), ...new_attr };
     }

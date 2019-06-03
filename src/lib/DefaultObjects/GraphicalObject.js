@@ -1,7 +1,7 @@
 import Track from '../Track';
 import { input_types, generate_unique_id, scene } from "../Scene";
 import EffectStack from '../EffectStack';
-import { editAttribute, setObject } from '../../actions/index';
+import { editAttribute, setObject, deleteObject } from '../../actions/index';
 import { store } from '../../index';
 
 class GraphicalObject {
@@ -20,7 +20,6 @@ class GraphicalObject {
         this.unique_id = "graphicalObject_" + generate_unique_id();
         this.effect_bps = [];
         this.track.add_effectstack(new EffectStack(this, 0, scene.duration));
-
         // add onclick event
     }
 
@@ -162,7 +161,7 @@ class GraphicalObject {
             },
             show: {
                 type: input_types.BOOLEAN,
-                range: [true, false],
+                range: [0, 1],
                 value: this.show
             }
         }

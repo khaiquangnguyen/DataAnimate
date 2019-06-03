@@ -13,75 +13,44 @@ const ObjAttrMenuItem = function (props) {
     const content_el = [];
     var attribute, input_field;
     const content = Object.keys(props.reference_object).forEach(key => {
+        attribute = {
+            key,
+            desc: props.reference_object[key],
+            reference_object: props.reference_object.reference_object.value
+        }
         switch (props.reference_object[key]['type']) {
             case input_types.INT:
-                attribute = {
-                    key,
-                    desc: props.reference_object[key]
-                }
-                input_field = <IntEdit attribute={attribute}
-                />
+                input_field = <IntEdit attribute={attribute} />
                 content_el.push(input_field);
                 break;
             case input_types.FLOAT:
-                attribute = {
-                    key,
-                    desc: props.reference_object[key]
-                }
-                input_field = <FloatEdit attribute={attribute}
-                />
+                input_field = <FloatEdit attribute={attribute} />
                 content_el.push(input_field);
                 break;
             case input_types.BOOLEAN:
-                attribute = {
-                    key,
-                    desc: props.reference_object[key]
-                }
-                input_field = <BooleanEdit attribute={attribute}
-                />
+                input_field = <BooleanEdit attribute={attribute} />
                 content_el.push(input_field);
                 break;
             case input_types.DROPDOWN:
-                attribute = {
-                    key,
-                    desc: props.reference_object[key]
-                }
-                input_field = <SelectEdit attribute={attribute}
-                />
+                input_field = <SelectEdit attribute={attribute} />
                 content_el.push(input_field);
                 break;
             case input_types.SELECTOR:
-                attribute = {
-                    key,
-                    desc: props.reference_object[key]
-                }
-                input_field = <FileEdit attribute={attribute}
-                />
+                input_field = <FileEdit attribute={attribute} />
                 content_el.push(input_field);
                 break;
             case input_types.STRING:
-                attribute = {
-                    key,
-                    desc: props.reference_object[key]
-                }
-                input_field = <StringEdit attribute={attribute}
-                />
+                input_field = <StringEdit attribute={attribute} />
                 content_el.push(input_field);
                 break;
             case input_types.TEXT_AREA:
-                attribute = {
-                    key,
-                    desc: props.reference_object[key]
-                }
-                input_field = <TextAreaEdit attribute={attribute}
-                />
+                input_field = <TextAreaEdit attribute={attribute} />
                 content_el.push(input_field);
                 break;
             case undefined:
                 break;
             default:
                 break;
-
         }
 
         // content_el.push(<div> {key}</div>);

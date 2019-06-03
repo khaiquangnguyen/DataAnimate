@@ -14,7 +14,6 @@ function App(props) {
     <section className="hero is-fullheight is-relative">
       <div className="columns is-paddingless is-marginless is-multiline is-background-div">
         <div className="is-view-element-container is-header-container">
-          <button className="button is-dark" onClick={() => props.createObject()}>Library</button>
         </div>
 
         <div className="column is-10 is-view-container">

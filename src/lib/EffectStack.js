@@ -8,14 +8,24 @@ class EffectStack {
         this.start_time = start_time;
         this.effects = [];
         this.enabled = true;
+        this.scheduled = [];
     }
 
     set_duration(duration, self = this) {
+        if (parseFloat(duration) + parseFloat(self.start_time) > this.track.duration) {
+            return;
+        }
         self.duration = duration;
+        self.effects.forEach(effect => {
+            effect.duration = self.duration;
+        });
     }
 
     set_start_time(start_time, self = this) {
         self.start_time = start_time;
+        self.effects.forEach(effect => {
+            effect.start_time = self.start_time;
+        });
     }
 
     add_effect(effect_bp, self = this) {
@@ -49,16 +59,27 @@ class EffectStack {
     }
 
     play(play_time = 0, self = this) {
+        if (self.start_time !== 0) self.actor.SVG_reference.hide();
+        let schedule = setTimeout(() => {
+            self.actor.SVG_reference.show();
+        }, self.start_time);
+        self.scheduled.push(schedule);
+
+        schedule = setTimeout(() => {
+            self.actor.SVG_reference.hide();
+        }, self.start_time + self.duration);
+        self.scheduled.push(schedule);
+
         self.effects.forEach(effect => {
             if (play_time < self.start_time + self.duration) {
                 if (self.start_time >= play_time) {
-                    setTimeout(() => {
+                    let schedule = setTimeout(() => {
                         effect.play();
                     }, self.start_time - play_time);
+                    self.scheduled.push(schedule);
                 }
                 else {
                     effect.play(play_time - self.start_time);
-
                 }
             }
         });
@@ -75,11 +96,15 @@ class EffectStack {
             effect.resume();
         });
     }
-
     stop(self = this) {
+        self.actor.SVG_reference.show();
         self.effects.forEach(effect => {
             effect.stop();
         });
+        self.scheduled.forEach(schedule => {
+            clearTimeout(schedule);;
+        });
+        self.scheduled = [];
     }
 
     reachTo(play_time, self = this) {

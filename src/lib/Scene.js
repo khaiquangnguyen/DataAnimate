@@ -117,6 +117,7 @@ class Scene {
     add_graphical_object(graphical_object, self = this) {
         self.graphical_objects.push(graphical_object);
         self.set_curr_graphical_object(graphical_object);
+        self.set_duration();
     }
 
     create_graphical_object(blueprint, self = this) {
@@ -124,6 +125,7 @@ class Scene {
     }
 
     remove_graphical_object(graphical_object, self = this) {
+        // remove its data from the scene
         for (var i = 0; i < self.graphical_objects.length; i++) {
             if (self.graphical_objects[i] === graphical_object) {
                 self.graphical_objects.splice(i, 1);
@@ -131,6 +133,13 @@ class Scene {
         }
         self.curr_graphical_object = null;
         self.curr_effectstack = null;
+        this.effect_bp_lib.load_new_bps([]);
+        // let's deselect it first to remove the bounding box
+        graphical_object.deselect();
+        // then remove the one on canvas
+        var to_remove_el = document.getElementById(graphical_object.unique_id);
+        to_remove_el.parentNode.removeChild(to_remove_el);
+
     }
 
     set_curr_graphical_object(graphical_object, self = this) {
@@ -167,11 +176,13 @@ class Scene {
     // }
 
     edit_effectstack(stack_attrs) {
+
         const duration = stack_attrs.duration;
         const start_time = stack_attrs.start_time;
         this.curr_effectstack.set_start_time(start_time);
         this.curr_effectstack.set_duration(duration);
     }
+
     add_effect(effect_bp, self = this) {
         if (this.curr_effectstack === null || this.curr_effectstack === undefined) return;
         this.curr_effectstack.add_effect(effect_bp);
@@ -195,8 +206,10 @@ class Scene {
 
 
     playpauseresume(self = this) {
+        if (this.curr_graphical_object === null || this.curr_graphical_object === undefined) return;
         this.last_timestamp = null;
         if (this.curr_action === scene_action.PLAY) {
+            this.curr_graphical_object.select();
             this.curr_action = scene_action.PAUSE;
             self.graphical_objects.forEach(obj => {
                 obj.pause();
@@ -204,6 +217,7 @@ class Scene {
             cancelAnimationFrame(this.curr_animation_frame_req);
         }
         else if (this.curr_action === scene_action.PAUSE) {
+            this.curr_graphical_object.deselect();
             this.curr_action = scene_action.PLAY;
             this.curr_animation_frame_req = requestAnimationFrame(this.show_time);
             self.graphical_objects.forEach(obj => {
@@ -211,6 +225,7 @@ class Scene {
             });
         }
         else if (this.curr_action === scene_action.STOP) {
+            this.curr_graphical_object.deselect();
             this.curr_action = scene_action.PLAY;
             this.curr_animation_frame_req = requestAnimationFrame(this.show_time);
             self.graphical_objects.forEach(obj => {
@@ -221,6 +236,7 @@ class Scene {
 
     reachTo(play_time, self = this) {
         if (this.curr_action === scene_action.PLAY) return;
+        this.curr_graphical_object.select();
         this.last_timestamp = null;
         this.curr_timestamp = play_time;
         self.graphical_objects.forEach(obj => {
@@ -229,7 +245,14 @@ class Scene {
         cancelAnimationFrame(this.curr_animation_frame_req);
     }
 
+    set_duration(self = this) {
+        self.graphical_objects.forEach(obj => {
+            obj.track.set_duration(this.duration);
+        });
+    }
+
     stop(self = this) {
+        this.curr_graphical_object.select();
         self.graphical_objects.forEach(obj => {
             obj.stop();
         });
@@ -251,7 +274,6 @@ class Scene {
             return;
         }
         store.dispatch(playing());
-        console.log(this.curr_timestamp);
         this.curr_animation_frame_req = requestAnimationFrame(this.show_time);
     }.bind(this);
 
@@ -262,10 +284,9 @@ class Scene {
         })
     }
 
-    edit_attr(d, self = this) {
-        this.curr_graphical_object.edit_attr(d)
+    edit_attr(payload, self = this) {
+        payload.target.edit_attr(payload);
     }
-
     toggle_effect_bps() {
         this.show_effect_bps = !this.show_effect_bps;
     }
@@ -309,4 +330,4 @@ export const generate_unique_id = (function () {
 })(); // Invoke the outer function after defining it.
 
 export const scene = new Scene(10000);
-console.log(scene);
+

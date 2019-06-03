@@ -68,59 +68,34 @@ class EffectStackMenuItem extends React.Component {
         effects.forEach(effect => {
             content_el = [];
             Object.keys(effect).forEach(key => {
+                attribute = {
+                    key,
+                    desc: effect[key],
+                    reference_object: effect.reference_object.value
+                }
                 switch (effect[key]['type']) {
                     case input_types.INT:
-                        attribute = {
-                            key,
-                            desc: effect[key]
-                        }
-                        input_field = <IntEdit attribute={attribute}
-                        />
+                        input_field = <IntEdit attribute={attribute} />
                         content_el.push(input_field);
                         break;
                     case input_types.FLOAT:
-                        attribute = {
-                            key,
-                            desc: effect[key]
-                        }
-                        input_field = <FloatEdit attribute={attribute}
-                        />
+                        input_field = <FloatEdit attribute={attribute} />
                         content_el.push(input_field);
                         break;
                     case input_types.BOOLEAN:
-                        attribute = {
-                            key,
-                            desc: effect[key]
-                        }
-                        input_field = <BooleanEdit attribute={attribute}
-                        />
+                        input_field = <BooleanEdit attribute={attribute} />
                         content_el.push(input_field);
                         break;
                     case input_types.DROPDOWN:
-                        attribute = {
-                            key,
-                            desc: effect[key]
-                        }
-                        input_field = <SelectEdit attribute={attribute}
-                        />
+                        input_field = <SelectEdit attribute={attribute} />
                         content_el.push(input_field);
                         break;
                     case input_types.SELECTOR:
-                        attribute = {
-                            key,
-                            desc: effect[key]
-                        }
-                        input_field = <FileEdit attribute={attribute}
-                        />
+                        input_field = <FileEdit attribute={attribute} />
                         content_el.push(input_field);
                         break;
                     case input_types.STRING:
-                        attribute = {
-                            key,
-                            desc: effect[key]
-                        }
-                        input_field = <StringEdit attribute={attribute}
-                        />
+                        input_field = <StringEdit attribute={attribute} />
                         content_el.push(input_field);
                         break;
                     case undefined:
@@ -131,7 +106,6 @@ class EffectStackMenuItem extends React.Component {
 
             });
             let section_name = effect.name.value;
-            console.log(section_name);
             let section = (
                 <div>
                     <h3 class="title">{section_name}</h3>

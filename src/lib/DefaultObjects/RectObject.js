@@ -20,25 +20,26 @@ class RectObject extends GraphicalObject {
         this.SVG_reference = rect;
         this.SVG_reference.attr("id", this.unique_id);
         this.set_on_click();
-        this.styling = "";
+        this.styling = '"fill":"#e4f1fe","stroke":"black","stroke-width":"2"';
+        this.apply_string_style();
         store.dispatch(addObject(this));
         store.dispatch(setObject(this));
-
-
     }
+
+
 
     select(self = this) {
         this.SVG_reference.draggable().selectize().resize();
         this.SVG_reference.on('dragend', (e) => {
-            store.dispatch(editAttribute('x', this.SVG_reference.attr('x')));
-            store.dispatch(editAttribute('y', this.SVG_reference.attr('y')));
+            store.dispatch(editAttribute(this, 'x', this.SVG_reference.attr('x')));
+            store.dispatch(editAttribute(this, 'y', this.SVG_reference.attr('y')));
             // events are still bound e.g. dragend will fire anyway
         })
         this.SVG_reference.on('resizedone', (e) => {
-            store.dispatch(editAttribute('x', this.SVG_reference.attr('x')));
-            store.dispatch(editAttribute('y', this.SVG_reference.attr('y')));
-            store.dispatch(editAttribute('width', this.SVG_reference.attr('width')));
-            store.dispatch(editAttribute('height', this.SVG_reference.attr('height')));
+            store.dispatch(editAttribute(this, 'x', this.SVG_reference.attr('x')));
+            store.dispatch(editAttribute(this, 'y', this.SVG_reference.attr('y')));
+            store.dispatch(editAttribute(this, 'width', this.SVG_reference.attr('width')));
+            store.dispatch(editAttribute(this, 'height', this.SVG_reference.attr('height')));
         })
     }
     deselect(self = this) {
@@ -54,6 +55,9 @@ class RectObject extends GraphicalObject {
         var rect;
         const start_draw = (e) => {
             rect = drawing.rect();
+            rect.attr("fill", "#e4f1fe");
+            rect.attr("stroke", "black");
+            rect.attr("stroke-width", "2");
             rect.draw(e);
         }
         const end_draw = (e) => {

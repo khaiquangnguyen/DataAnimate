@@ -22,6 +22,7 @@ class MoveEffect extends AnimationEffect {
     }
 
     reachTo(timestamp = 0, self = this) {
+        if (!self.enabled) return;
         if (timestamp < 0 || timestamp >= self.duration) return;
         this.DOM_target_components.forEach(e => {
             var svg_e = SVG.adopt(e);
@@ -37,13 +38,10 @@ class MoveEffect extends AnimationEffect {
     }
 
     play(start_timestamp = 0, self = this) {
-        console.log('why not run');
-        this.reachTo(start_timestamp);
+        self.reachTo(0);
+        if (!self.enabled) return;
         this.DOM_target_components.forEach(e => {
             var svg_e = SVG.adopt(e);
-            // clear out all animations
-            svg_e.play();
-            svg_e.stop();
             svg_e.animate(self.duration - start_timestamp).move(self.end_x, self.end_y);
         });
     }
@@ -56,6 +54,7 @@ class MoveEffect extends AnimationEffect {
     }
 
     resume(self = this) {
+        if (!self.enabled) return;
         this.DOM_target_components.forEach(e => {
             var svg_e = SVG.adopt(e);
             svg_e.play();
@@ -63,10 +62,13 @@ class MoveEffect extends AnimationEffect {
     }
 
     stop(self = this) {
+        this.reachTo(0);
         this.DOM_target_components.forEach(e => {
             var svg_e = SVG.adopt(e);
             svg_e.stop();
         });
+        self.actor.SVG_reference.show();
+
     }
 
 
@@ -90,14 +92,14 @@ class MoveEffect extends AnimationEffect {
         const attr = d.attribute;
         const value = d.value;
         switch (attr) {
-            case "begin_x":
-                this.begin_x = value;
+            case "start_x":
+                this.start_x = value;
                 return;
             case "end_x":
                 this.end_x = value;
                 return;
-            case "begin_y":
-                this.begin_y = value;
+            case "start_y":
+                this.start_y = value;
                 return;
             case "end_y":
                 this.end_y = value;
@@ -109,11 +111,11 @@ class MoveEffect extends AnimationEffect {
 
     export_attributes(self = this) {
         const new_attr = {
-            begin_x: {
-                type: input_types.INT,
+            start_x: {
+                type: input_types.CONST,
                 range: [-Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER],
                 tooltips: "The beginning x position",
-                value: this.begin_x
+                value: this.start_x
             },
             end_x: {
                 type: input_types.INT,
@@ -121,11 +123,11 @@ class MoveEffect extends AnimationEffect {
                 tooltips: "The beginning x position",
                 value: this.end_x
             },
-            begin_y: {
-                type: input_types.INT,
+            start_y: {
+                type: input_types.CONST,
                 range: [-Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER],
                 tooltips: "The beginning x position",
-                value: this.begin_y
+                value: this.start_y
             },
             end_y: {
                 type: input_types.INT,

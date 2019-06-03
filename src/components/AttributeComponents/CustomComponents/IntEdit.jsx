@@ -24,9 +24,13 @@ class IntEdit extends React.Component {
         const re = /^[0-9\b]+$/;
         // if value is not blank, then test the regex
         // check value
+        if (event.target.value === "" || event.target.value === null || event.target.value === undefined) {
+            event.target.value = 0
+        }
         if (parseInt(event.target.value) < min_value || parseInt(event.target.value) > max_value) return;
         if (re.test(event.target.value)) {
-            this.props.editAttribute(this.props.attribute.key, event.target.value)
+            let target = (this.props.attribute.reference_object);
+            this.props.editAttribute(target, this.props.attribute.key, event.target.value)
         }
     }
 

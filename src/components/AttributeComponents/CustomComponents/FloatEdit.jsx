@@ -21,13 +21,14 @@ class FloatEdit extends React.Component {
     handleChange(event) {
         const min_value = this.props.attribute.desc.range[0];
         const max_value = this.props.attribute.desc.range[1];
-        console.log(min_value, max_value);
-        // if value is not blank, then test the regex
+        if (event.target.value === "" || event.target.value === null || event.target.value === undefined) {
+            event.target.value = min_value;
+        }        // if value is not blank, then test the regex
         // check value
         if (parseFloat(event.target.value) < min_value || parseInt(event.target.value) > max_value) return;
-        this.props.editAttribute(this.props.attribute.key, event.target.value)
+        let target = (this.props.attribute.reference_object);
+        this.props.editAttribute(target, this.props.attribute.key, event.target.value);
     }
-
     render() {
 
         return (
