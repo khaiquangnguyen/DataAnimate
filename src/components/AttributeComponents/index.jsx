@@ -18,51 +18,50 @@ class AttributeMenu extends React.Component {
     render() {
         if (this.component === 'attributes') {
             return (
-                <div>
-                    <div class="tabs is-toggle is-fullwidth">
-                        <ul>
-                            <li class="is-active" onClick={(e) => this.handleClick('attributes')} >
-                                <a >
-                                    <span>Attributes</span>
-                                </a>
-                            </li>
-                            <li onClick={(e) => this.handleClick('effects')} >
-                                <a>
-                                    <span>Effects</span>
-                                </a>
-                            </li>
+              <div>
+                  <div className="tabs is-toggle is-fullwidth ">
+                      <ul>
+                          <li className="is-active" onClick={(e) => this.handleClick('attributes')} >
+                              <a >
+                                  <span>Attributes</span>
+                              </a>
+                          </li>
+                          <li onClick={(e) => this.handleClick('effects')} >
+                              <a>
+                                  <span>Effects</span>
+                              </a>
+                          </li>
 
-                        </ul>
-                    </div>
-                    <ObjAttrMenuItem />
-                </div>
+                      </ul>
+                  </div>
+                  <ObjAttrMenuItem />
+              </div>
             )
         }
         else {
             return (
-                <div>
-                    <div class="tabs is-toggle is-fullwidth">
-                        <ul>
-                            <li onClick={(e) => this.handleClick('attributes')} >
-                                <a >
-                                    <span>Attributes</span>
-                                </a>
-                            </li>
-                            <li class="is-active" onClick={(e) => this.handleClick('effects')} >
-                                <a>
-                                    <span>Effects</span>
-                                </a>
-                            </li>
+              <div>
+                  <div className="tabs is-toggle is-fullwidth">
+                      <ul>
+                          <li onClick={(e) => this.handleClick('attributes')} >
+                              <a >
+                                  <span>Attributes</span>
+                              </a>
+                          </li>
+                          <li className="is-active" onClick={(e) => this.handleClick('effects')} >
+                              <a>
+                                  <span>Effects</span>
+                              </a>
+                          </li>
 
-                        </ul>
-                    </div>
-                    <EffectStackMenuItem />
-                </div>
+                      </ul>
+                  </div>
+                  <EffectStackMenuItem />
+              </div>
             )
         }
 
     }
-
 
 
 };

@@ -2,7 +2,7 @@ import React from 'react';
 
 import interact from "interactjs";
 
-import { PIXELS_PER_SECOND } from "../../../constants";
+import {PIXELS_PER_SECOND, TRACK_HEIGHT} from "../../../constants";
 import { SVG_OFFSET } from "../../../constants";
 import { connect } from 'react-redux';
 import { edit_effect_stack, setObject } from '../../../actions/index'
@@ -85,7 +85,6 @@ class Track extends React.Component {
     }
 
     render() {
-        //TODO add a is-last-track check for bottom border rendering
         let id = this.props.obj.reference_object.value.unique_id + "effect_stack";
         const time_stamp = (this.props.obj.effect_stacks[0].start_time);
         const duration = (this.props.obj.effect_stacks[0].duration);
@@ -98,11 +97,12 @@ class Track extends React.Component {
         const pixels = time_stamp / 1000 * PIXELS_PER_SECOND - 1;
         const translate = 'translate(' + pixels + 'px, ' + 0 + 'px)';
         return (
+
             <div className="column is-12 track" onClick={() => {
                 this.props.setObject(this.props.obj.reference_object.value);
             }}>
-                <div className="track-border" style={{ height: '1em', width: `${PIXELS_PER_SECOND * this.props.duration / 1000}px`, marginLeft: `${SVG_OFFSET}px` }}>
-                    <div class="effect_stack_timeline" id={id} style={{ transform: translate, width: `${PIXELS_PER_SECOND * duration / 1000}px` }} />
+                <div className="track-border" style={{ height: `${TRACK_HEIGHT}px`, width: `${PIXELS_PER_SECOND * this.props.duration / 1000}px`, marginLeft: `${SVG_OFFSET}px` }}>
+                    <div className="effect_stack_timeline" id={id} style={{ transform: translate, width: `${PIXELS_PER_SECOND * duration / 1000}px` }} />
                 </div>
             </div>
         )

@@ -7,16 +7,17 @@ const ActionMenu = function (props) {
     const content_el = [];
     var new_el;
     // generate the generic objects, such empty selection
-    new_el = <SelectionIcon />
+    new_el = <SelectionIcon />;
     content_el.push(new_el);
 
     Object.keys(props.blueprints).forEach(key => {
         console.log(props.blueprints);
-        new_el = <DefaultObjIcon blueprint={props.blueprints[key]}></DefaultObjIcon>
+        new_el = <DefaultObjIcon blueprint={props.blueprints[key]} />;
         content_el.push(new_el);
     });
-    // new_el = <MoreObjIcon />
-    // content_el.push(new_el);
+    new_el = <MoreObjIcon />;
+    content_el.push(new_el);
+
     return (
         <div className="panel" style={{ position: 'absolute', left: '0', top: '10%' }}>
             {content_el}

@@ -1,6 +1,7 @@
 .track-container {
     height: 100%;
-    overflow: auto;
+    overflow-y: hidden;
+    overflow-x: auto;
 }
 
 #ruler {
@@ -13,4 +14,9 @@
     width: 1px;
     height: 100%;
     box-sizing: border-box;
+}
+
+.delete-button {
+    text-decoration: none;
+    color: #b0b0b0;
 }

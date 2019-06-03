@@ -26,9 +26,9 @@ class StringEdit extends React.Component {
     render() {
 
         return (
-            <div class="field is-horizontal">
-                <div class="field-label is-small">
-                    <label class="label">{this.props.attribute.key}</label>
+            <div className="field is-horizontal">
+                <div className="field-label is-small">
+                    <label className="label">{this.props.attribute.key}</label>
                 </div>
                 <div class="field-body">
                     <div class="field">

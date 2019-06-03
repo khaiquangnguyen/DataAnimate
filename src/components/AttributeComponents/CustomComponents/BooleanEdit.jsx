@@ -24,15 +24,15 @@ class BooleanEdit extends React.Component {
     }
     render() {
         return (
-            <div class="field is-horizontal">
-                <div class="field-label is-small">
-                    <label class="label">{this.props.attribute.key}</label>
+            <div className="field is-horizontal">
+                <div className="field-label is-small">
+                    <label className="label">{this.props.attribute.key}</label>
                 </div>
-                <div class="field-body">
-                    <div class="field">
-                        <div class="control">
-                            <label class="checkbox">
-                                <input class="checkbox" type="checkbox" value={this.props.attribute.desc.value} checked={this.props.attribute.desc.value === 1} onChange={this.handleChange} />
+                <div className="field-body">
+                    <div className="field">
+                        <div className="control">
+                            <label className="checkbox">
+                                <input className="checkbox" type="checkbox" value={this.props.attribute.desc.value} checked={this.props.attribute.desc.value === 1} onChange={this.handleChange} />
 
                             </label>
                         </div>

@@ -38,7 +38,7 @@ class IntEdit extends React.Component {
     render() {
 
         return (
-            <div class="field is-horizontal">
+            <div class="field is-horizontal" >
                 <div class="field-label is-small">
                     <label class="label">{this.props.attribute.key}</label>
                 </div>

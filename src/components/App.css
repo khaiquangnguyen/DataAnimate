@@ -33,6 +33,28 @@
 .is-menu-container {
     height: calc(95vh - 7.5px);
     margin: 2.5px 5px 5px 2.5px;
+    overflow: auto;
+}
+
+.is-menu-container label{
+    color: #b0b0b0 !important;
+    font-weight: normal;
+}
+
+.is-menu-container .tabs.is-toggle li.is-active a {
+    background-color: #313131;
+    border-color: #313131;
+    color: ghostwhite;
+}
+
+.tabs.is-toggle h3 {
+    color: ghostwhite !important;
+}
+
+.is-menu-container .tabs.is-toggle li a {
+    background-color: #232323;
+    border-color: #161616;
+    color: #b0b0b0;
 }
 
 #canvas{

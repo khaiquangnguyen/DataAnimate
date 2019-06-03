@@ -19,8 +19,7 @@ function App(props) {
         <div className="column is-10 is-view-container">
           <div className="columns is-multiline">
             <div className="column is-12 is-view-element-container is-screen-container is-relative">
-              <svg style={{ position: 'absolute', left: '50px' }} id="canvas" width={1516} height={485} />
-
+              <svg style={{ position: 'absolute', left: '50px' }} id="canvas" width={1540} height={535} />
               <ActionMenu />
             </div>
             <div className="column is-12 is-view-element-container is-timeline-container">
