@@ -1,68 +1,12 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Khai Nguyen
 
-## Available Scripts
+## Workload
+This is an individual project, so I don't work with anyone else. 
 
-In the project directory, you can run:
+Even though I only intended this project to be a prototype, the amount of code required for this protoype is still immense. I regularly spend 6 to 10 hours on this project every single day.The entire process takes about 100 hours of work, excluding time spent on the paper and the poster. 
 
-### `npm start`
+## Working process
+The development process wasn't smooth. It's quite difficult to build a large web application, and it's tricky to get D3 and React to work together. Furthermore, along the way, I have to make a lot of trade-offs. I don't intend this to be a software developement project, so I had to decide on the visualizations that I want to so and work on them, and what I really wanted to demonstrate. At the same time, I don't want to hardcode every single thing, so I invested quite a bit of time to develop the underlying application. 
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+## What I learned along the way
+During the development of the project, I learned quite a few new technologies, and I also got a much deeper understanding of how D3 and D3 transition works. Using the prototype, I get to evaluate the value of my idea, and whether this idea is actually feasible. 
