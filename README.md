@@ -1,5 +1,7 @@
-### Khai Nguyen
+### Data Animate
+# Khai Nguyen
 
+-------------------------------------
 ## Workload
 This is an individual project, so I don't work with anyone else. 
 
